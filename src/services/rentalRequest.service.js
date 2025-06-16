@@ -12,7 +12,7 @@ import {
   NOTIFICATION_MESSAGES,
   PLATFORM_MESSAGES,
 } from '../constants/messages.js';
-import { getProductById } from '../repositories/product.repository.js';
+import { getProductByIdRepo } from '../repositories/product.repository.js';
 import CustomError from '../utils/customError.js';
 import { createNotification } from './notification.service.js';
 import { RENTAL_DISCOUNT } from '../constants/rentalDiscount.js';
@@ -79,7 +79,7 @@ export const createRentalRequestWithPayment = async (
         RENTAL_REQUEST_MESSAGES.RECEIVE_METHOD_REQUIRED,
       );
 
-    const product = await getProductById(productId);
+    const product = await getProductByIdRepo(productId);
     if (!product)
       throw new CustomError(
         404,

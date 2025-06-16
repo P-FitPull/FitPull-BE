@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import {
   findProductByIdRepo,
-  getAllProducts,
+  getAllProductsRepo,
 } from '../repositories/product.repository.js';
 import {
   saveAiPriceEstimation,
@@ -160,7 +160,7 @@ export const recommendProducts = async ({ prompt, userId }) => {
   if (!prompt) {
     throw new CustomError(400, 'PROMPT_REQUIRED', AI_MESSAGES.PROMPT_REQUIRED);
   }
-  const { products } = await getAllProducts({ take: 20 });
+  const { products } = await getAllProductsRepo({ take: 20 });
   if (products.length === 0) {
     throw new CustomError(404, 'NO_PRODUCTS', AI_MESSAGES.NO_PRODUCTS);
   }
