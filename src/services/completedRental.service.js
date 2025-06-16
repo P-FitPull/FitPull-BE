@@ -1,7 +1,6 @@
 import {
   findCompletedRentalsByUser,
   findAllCompletedRentals,
-  findCompletedRentalByRequestId,
 } from '../repositories/completedRental.repository.js';
 import { getRentalRequestById } from '../repositories/rentalRequest.repository.js';
 import { getProductById } from '../repositories/product.repository.js';
@@ -9,9 +8,10 @@ import CustomError from '../utils/customError.js';
 import {
   COMPLETED_RENTAL_MESSAGES,
   PLATFORM_MESSAGES,
+  NOTIFICATION_MESSAGES,
 } from '../constants/messages.js';
 import { createNotification } from './notification.service.js';
-import { NOTIFICATION_MESSAGES } from '../constants/messages.js';
+import { PLATFORM_COMMISSION_RATE } from '../constants/commission.js';
 import prisma from '../data-source.js';
 
 export const completeRental = async (rentalRequestId) => {
@@ -37,14 +37,18 @@ export const completeRental = async (rentalRequestId) => {
     (rental.endDate - rental.startDate) / (1000 * 60 * 60 * 24),
   );
   const totalPrice = pricePerDay * days;
-
-  const alreadyCompleted =
-    await findCompletedRentalByRequestId(rentalRequestId);
-  if (alreadyCompleted) {
-    return { message: COMPLETED_RENTAL_MESSAGES.ALREADY_COMPLETED };
-  }
+  const platformCommission = Math.floor(totalPrice * PLATFORM_COMMISSION_RATE);
+  const ownerProfit = totalPrice - platformCommission;
 
   const completedRental = await prisma.$transaction(async (tx) => {
+    const alreadyCompleted = await tx.completedRental.findUnique({
+      where: { rentalRequestId },
+    });
+
+    if (alreadyCompleted) {
+      return { message: COMPLETED_RENTAL_MESSAGES.ALREADY_COMPLETED };
+    }
+
     // 1. CompletedRental 생성
     const created = await tx.completedRental.create({
       data: {
@@ -57,10 +61,10 @@ export const completeRental = async (rentalRequestId) => {
       },
     });
 
-    // 2. 소유주 잔액 증가
+    // 2. 소유주 잔액 증가 (수수료 제외 금액)
     const updatedOwner = await tx.user.update({
       where: { id: owner.id },
-      data: { balance: { increment: totalPrice } },
+      data: { balance: { increment: ownerProfit } },
       select: { balance: true },
     });
 
@@ -69,16 +73,16 @@ export const completeRental = async (rentalRequestId) => {
       data: {
         userId: owner.id,
         rentalRequestId,
-        amount: totalPrice,
-        paymentType: 'OWNER_PROFIT',
-        memo: `[자동] ${product.title} 대여 수익`,
+        amount: ownerProfit,
+        paymentType: 'OWNER_PAYOUT',
+        memo: `[자동] ${product.title} 대여 수익 (플랫폼 수수료 ${platformCommission}원 제외)`,
         balanceBefore: owner.balance,
         balanceAfter: updatedOwner.balance,
         paidAt: new Date(),
       },
     });
 
-    // 4. 플랫폼 계정 조회 + 잔액 감소
+    // 4. 플랫폼 계정 조회 + 잔액 감소 (수수료 제외 금액만큼만 차감)
     const platform = await tx.platformAccount.findFirst();
     if (!platform)
       throw new CustomError(
@@ -88,19 +92,19 @@ export const completeRental = async (rentalRequestId) => {
       );
 
     const platformBalanceBefore = platform.balance;
-    const platformBalanceAfter = platformBalanceBefore - totalPrice;
+    const platformBalanceAfter = platformBalanceBefore - ownerProfit;
 
     if (platformBalanceAfter < 0) {
       throw new CustomError(
         422,
         'INSUFFICIENT_PLATFORM_BALANCE',
-        '플랫폼 잔액이 부족합니다.',
+        PLATFORM_MESSAGES.INSUFFICIENT_PLATFORM_BALANCE,
       );
     }
 
     await tx.platformAccount.update({
       where: { id: platform.id },
-      data: { balance: { decrement: totalPrice } },
+      data: { balance: { decrement: ownerProfit } },
     });
 
     // 5. 플랫폼 지출 로그
@@ -108,12 +112,26 @@ export const completeRental = async (rentalRequestId) => {
       data: {
         platformAccountId: platform.id,
         type: 'OWNER_PAYOUT',
-        amount: totalPrice,
-        memo: `[자동] 소유주 정산: ${product.title}`,
+        amount: ownerProfit,
+        memo: `[자동] 소유주 정산: ${product.title} (수수료 ${platformCommission}원 제외)`,
         balanceBefore: platformBalanceBefore,
         balanceAfter: platformBalanceAfter,
         rentalRequestId,
         userId: owner.id,
+      },
+    });
+
+    // 6. 플랫폼 수수료 수입 로그
+    await tx.platformPaymentLog.create({
+      data: {
+        platformAccountId: platform.id,
+        type: 'INCOME',
+        amount: platformCommission,
+        memo: `[자동] 플랫폼 수수료 수입: ${product.title}`,
+        balanceBefore: platformBalanceAfter,
+        balanceAfter: platformBalanceAfter + platformCommission,
+        rentalRequestId,
+        userId: rental.userId,
       },
     });
 
@@ -138,6 +156,8 @@ export const completeRental = async (rentalRequestId) => {
     userPhone: rental.user.phone,
     rentalPeriod: `${rental.startDate.toISOString().slice(0, 10)} ~ ${rental.endDate.toISOString().slice(0, 10)}`,
     totalPrice: Number(totalPrice),
+    platformCommission: Number(platformCommission),
+    ownerProfit: Number(ownerProfit),
   };
 };
 

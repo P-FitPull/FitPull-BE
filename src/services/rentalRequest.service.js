@@ -448,7 +448,7 @@ export const rejectRentalRequestByAdmin = async (
     throw new CustomError(
       400,
       'ALREADY_PROCESSED',
-      '이미 처리된 대여요청입니다.',
+      RENTAL_REQUEST_MESSAGES.ALREADY_PROCESSED,
     );
   }
 
@@ -468,7 +468,7 @@ export const rejectRentalRequestByAdmin = async (
       throw new CustomError(
         400,
         'ALREADY_PROCESSED',
-        '이미 처리된 대여요청입니다.',
+        RENTAL_REQUEST_MESSAGES.ALREADY_PROCESSED,
       );
     }
 
