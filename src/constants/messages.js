@@ -199,6 +199,7 @@ export const PRODUCT_MESSAGES = {
   PRODUCT_RENTAL_ACTIVE: '현재 대여중인 상품은 수정/삭제할 수 없습니다.',
   PRODUCT_REJECTED_OR_CANCELED:
     '거절되었거나 취소된 상품은 수정할 수 없습니다.',
+  DUPLICATE_PRODUCT: '이미 같은 상품을 등록하셨습니다.',
 };
 
 export const CATEGORY_MESSAGES = {

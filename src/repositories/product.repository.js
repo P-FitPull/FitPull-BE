@@ -3,7 +3,7 @@ import { DEFAULT_CATEGORY_NAME } from '../constants/category.js';
 import { PRODUCT_STATUS } from '../constants/status.js';
 
 // 상품 생성
-export const createProduct = async (data, ownerId) => {
+export const createProductRepo = async (data, ownerId) => {
   if (!ownerId) {
     throw new Error('상품 소유자 ID가 필요합니다.');
   }
@@ -20,7 +20,11 @@ export const createProduct = async (data, ownerId) => {
 };
 
 // 승인된 상품 목록조회 // 페이징 + 카테고리 필터
-export const getAllProducts = async ({ skip = 0, take = 10, categoryId }) => {
+export const getAllProductsRepo = async ({
+  skip = 0,
+  take = 10,
+  categoryId,
+}) => {
   const where = {
     status: PRODUCT_STATUS.APPROVED,
     deletedAt: null,
@@ -44,7 +48,7 @@ export const getAllProducts = async ({ skip = 0, take = 10, categoryId }) => {
 };
 
 // 단일 상품 상세
-export const getProductById = async (id) => {
+export const getProductByIdRepo = async (id) => {
   return await prisma.product.findFirst({
     where: { id, deletedAt: null },
     include: {
@@ -62,7 +66,7 @@ export const findProductByIdRepo = async (id) => {
 };
 
 // 특정 유저가 등록한 모든 상품
-export const getProductsByUser = async (ownerId) => {
+export const getProductsByUserRepo = async (ownerId) => {
   return await prisma.product.findMany({
     where: { ownerId, deletedAt: null },
     include: {
@@ -82,8 +86,8 @@ export const findEtcCategoryId = async () => {
   return category.id;
 };
 
-export const updateProduct = async (id, productData) => {
-  const product = await getProductById(id);
+export const updateProductRepo = async (id, productData) => {
+  const product = await getProductByIdRepo(id);
   if (!product) throw new Error('상품을 찾을 수 없습니다.');
 
   return await prisma.product.update({
@@ -96,8 +100,8 @@ export const updateProduct = async (id, productData) => {
   });
 };
 
-export const deleteProduct = async (id) => {
-  const product = await getProductById(id);
+export const deleteProductRepo = async (id) => {
+  const product = await getProductByIdRepo(id);
   if (!product) throw new Error('상품을 찾을 수 없습니다.');
 
   return await prisma.product.update({
@@ -108,7 +112,7 @@ export const deleteProduct = async (id) => {
   });
 };
 
-export const findWaitingProducts = async () => {
+export const findWaitingProductsRepo = async () => {
   return await prisma.product.findMany({
     where: {
       status: PRODUCT_STATUS.PENDING,
@@ -132,13 +136,29 @@ export const findWaitingProducts = async () => {
   });
 };
 
-export const updateProductStatus = async (id, status) => {
+export const updateProductStatusRepo = async (id, status) => {
   return await prisma.product.update({
     where: { id },
     data: { status },
     include: {
       owner: true,
       category: true,
+    },
+  });
+};
+
+export const findDuplicateProductRepo = async (
+  title,
+  description,
+  price,
+  ownerId,
+) => {
+  return await prisma.product.findFirst({
+    where: {
+      title,
+      description,
+      price: Number(price),
+      ownerId,
     },
   });
 };

@@ -3,7 +3,7 @@ import {
   findAllCompletedRentals,
 } from '../repositories/completedRental.repository.js';
 import { getRentalRequestById } from '../repositories/rentalRequest.repository.js';
-import { getProductById } from '../repositories/product.repository.js';
+import { getProductByIdRepo } from '../repositories/product.repository.js';
 import CustomError from '../utils/customError.js';
 import {
   COMPLETED_RENTAL_MESSAGES,
@@ -29,7 +29,7 @@ export const completeRental = async (rentalRequestId) => {
       COMPLETED_RENTAL_MESSAGES.RENTAL_NOT_APPROVED,
     );
 
-  const product = await getProductById(rental.productId);
+  const product = await getProductByIdRepo(rental.productId);
   const pricePerDay = Number(product.price);
   const owner = product.owner;
 

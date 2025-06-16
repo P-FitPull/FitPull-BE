@@ -9,7 +9,7 @@ import {
 } from '../repositories/message.repository.js';
 import CustomError from '../utils/customError.js';
 import { MESSAGE_RESPONSES } from '../constants/messages.js';
-import { getProductById } from '../repositories/product.repository.js';
+import { getProductByIdRepo } from '../repositories/product.repository.js';
 import { createNotification } from './notification.service.js';
 import { NOTIFICATION_MESSAGES } from '../constants/messages.js';
 import { findUserById } from '../repositories/user.repository.js';
@@ -32,7 +32,7 @@ export const sendMessage = async ({
 
   // productId 유효성 체크
   if (productId) {
-    const product = await getProductById(productId);
+    const product = await getProductByIdRepo(productId);
     if (!product) {
       throw new CustomError(
         400,
