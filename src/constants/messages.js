@@ -200,6 +200,11 @@ export const PRODUCT_MESSAGES = {
   PRODUCT_REJECTED_OR_CANCELED:
     '거절되었거나 취소된 상품은 수정할 수 없습니다.',
   DUPLICATE_PRODUCT: '이미 같은 상품을 등록하셨습니다.',
+  INVALID_PURCHASE_PRICE:
+    '판매 가격은 일일 대여 가격의 100배를 초과할 수 없습니다.',
+  PURCHASE_PRICE_REQUIRED: '판매 가능 상품은 판매 가격을 입력해야 합니다.',
+  PRODUCT_PURCHASE_RESERVED: '해당 상품은 구매 예약된 상품입니다.',
+  PRODUCT_SOLD: '해당 상품은 이미 판매된 상품입니다.',
 };
 
 export const CATEGORY_MESSAGES = {

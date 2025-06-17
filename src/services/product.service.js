@@ -27,6 +27,17 @@ import CustomError from '../utils/customError.js';
 import { MAX_PRODUCT_IMAGES, MAX_INT_32 } from '../constants/limits.js';
 import { createNotification } from './notification.service.js';
 
+const validatePurchasePrice = (price, purchasePrice) => {
+  const maxPurchasePrice = price * 100; // 일일 대여가격의 100배가 최대 판매가격
+  if (purchasePrice > maxPurchasePrice) {
+    throw new CustomError(
+      400,
+      'INVALID_PURCHASE_PRICE',
+      PRODUCT_MESSAGES.INVALID_PURCHASE_PRICE,
+    );
+  }
+};
+
 export const createProduct = async (productData, user) => {
   if (!user || !user.id) {
     throw new CustomError(401, 'AUTH_REQUIRED', PRODUCT_MESSAGES.AUTH_REQUIRED);
@@ -34,6 +45,18 @@ export const createProduct = async (productData, user) => {
 
   if (productData.price < 0 || productData.price > MAX_INT_32) {
     throw new CustomError(400, 'INVALID_PRICE', PRODUCT_MESSAGES.INVALID_PRICE);
+  }
+
+  // allowPurchase가 true인 경우 purchasePrice 검증
+  if (productData.allowPurchase) {
+    if (!productData.purchasePrice) {
+      throw new CustomError(
+        400,
+        'PURCHASE_PRICE_REQUIRED',
+        PRODUCT_MESSAGES.PURCHASE_PRICE_REQUIRED,
+      );
+    }
+    validatePurchasePrice(productData.price, productData.purchasePrice);
   }
 
   if (
@@ -79,6 +102,9 @@ export const createProduct = async (productData, user) => {
       title: productData.title,
       description: productData.description,
       price: Number(productData.price),
+      purchasePrice: productData.purchasePrice
+        ? Number(productData.purchasePrice)
+        : null,
       imageUrls: productData.imageUrls || [],
       allowPurchase: productData.allowPurchase || false,
       categoryId,
@@ -180,6 +206,45 @@ export const updateProduct = async (id, productData, user) => {
       'PRODUCT_NOT_FOUND',
       PRODUCT_MESSAGES.PRODUCT_NOT_FOUND,
     );
+  }
+
+  // 판매 예약 또는 판매 완료된 상품은 수정 불가
+  if (product.status === PRODUCT_STATUS.PURCHASE_RESERVED) {
+    throw new CustomError(
+      400,
+      'PRODUCT_PURCHASE_RESERVED',
+      PRODUCT_MESSAGES.PRODUCT_PURCHASE_RESERVED,
+    );
+  }
+
+  if (product.status === PRODUCT_STATUS.SOLD) {
+    throw new CustomError(400, 'PRODUCT_SOLD', PRODUCT_MESSAGES.PRODUCT_SOLD);
+  }
+
+  // allowPurchase 변경 시 purchasePrice 검증
+  if (productData.allowPurchase !== undefined) {
+    if (productData.allowPurchase) {
+      const price =
+        productData.price !== undefined ? productData.price : product.price;
+      const purchasePrice =
+        productData.purchasePrice !== undefined
+          ? productData.purchasePrice
+          : product.purchasePrice;
+
+      if (!purchasePrice) {
+        throw new CustomError(
+          400,
+          'PURCHASE_PRICE_REQUIRED',
+          PRODUCT_MESSAGES.PURCHASE_PRICE_REQUIRED,
+        );
+      }
+      validatePurchasePrice(price, purchasePrice);
+    }
+  } else if (productData.purchasePrice !== undefined && product.allowPurchase) {
+    // purchasePrice만 변경할 경우에도 검증
+    const price =
+      productData.price !== undefined ? productData.price : product.price;
+    validatePurchasePrice(price, productData.purchasePrice);
   }
 
   // 본인 상품이거나 관리자만 수정 가능
