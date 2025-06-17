@@ -29,21 +29,22 @@ model User {
   accountHolder       String?
   verifiedBankAccount Boolean   @default(false)
 
-  accounts                Account[]
-  products                Product[]
-  rentalRequests          RentalRequest[]
-  completedRentals        CompletedRental[]
-  paymentLogs             PaymentLog[]
-  notifications           Notification[]
-  rentalReviews           RentalReview[]
-  productStatusLogs       ProductStatusLog[]
-  aiPriceEstimation       AiPriceEstimation[]
-  aiProductRecommendation AiProductRecommendation[]
-  sentMessages            Message[]                 @relation("SentMessages")
-  receivedMessages        Message[]                 @relation("ReceivedMessages")
-  packages                Package[]
-  influencerPromos        InfluencerPromo[]
-  PlatformPaymentLog      PlatformPaymentLog[]
+  accounts                 Account[]
+  products                 Product[]
+  rentalRequests           RentalRequest[]
+  completedRentals         CompletedRental[]
+  paymentLogs              PaymentLog[]
+  notifications            Notification[]
+  rentalReviews            RentalReview[]
+  productStatusLogs        ProductStatusLog[]
+  aiPriceEstimation        AiPriceEstimation[]
+  aiProductRecommendation  AiProductRecommendation[]
+  sentMessages             Message[]                 @relation("SentMessages")
+  receivedMessages         Message[]                 @relation("ReceivedMessages")
+  packages                 Package[]
+  influencerPromos         InfluencerPromo[]
+  PlatformPaymentLog       PlatformPaymentLog[]
+  purchaseReservedProducts Product[]                 @relation("PurchaseReservedProducts")
 }
 
 model Account {
@@ -81,6 +82,9 @@ model Product {
   title                   String
   description             String?                   @db.Text
   price                   Int
+  purchasePrice           Int?                      @map("purchase_price")
+  purchaseReservedAt      DateTime?                 @map("purchase_reserved_at")
+  purchaseReservedUserId  String?                   @map("purchase_reserved_user_id")
   status                  ProductStatus
   imageUrls               String[]                  @map("image_urls")
   allowPurchase           Boolean                   @default(false) @map("allow_purchase")
@@ -90,6 +94,7 @@ model Product {
   ownerId                 String                    @map("user_id")
   categoryId              String                    @map("category_id")
   owner                   User                      @relation(fields: [ownerId], references: [id])
+  purchaseReservedUser    User?                     @relation("PurchaseReservedProducts", fields: [purchaseReservedUserId], references: [id])
   category                Category                  @relation(fields: [categoryId], references: [id])
   rentalRequests          RentalRequest[]
   statusLogs              ProductStatusLog[]
@@ -370,6 +375,8 @@ enum ProductStatus {
   APPROVED
   REJECTED
   CANCELED
+  PURCHASE_RESERVED
+  SOLD
 }
 
 enum RequestStatus {
