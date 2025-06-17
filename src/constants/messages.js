@@ -183,28 +183,34 @@ export const USER_MESSAGES = {
 
 export const PRODUCT_MESSAGES = {
   PRODUCT_CREATED: '상품이 등록되었습니다.',
-  PRODUCT_UPDATED:
-    '상품이 수정되었습니다. 수정된상품은 승인 대기상태로 변경됩니다.',
+  PRODUCT_UPDATED: '상품이 수정되었습니다.',
   PRODUCT_DELETED: '상품이 삭제되었습니다.',
   PRODUCT_APPROVED: '상품이 승인되었습니다.',
   PRODUCT_REJECTED: '상품이 거절되었습니다.',
-  PRODUCT_LISTED: '상품 목록 조회 성공',
-  PRODUCT_DETAIL: '상품 상세 조회 성공',
+  PRODUCT_LISTED: '상품 목록을 조회했습니다.',
+  PRODUCT_DETAIL: '상품 상세정보를 조회했습니다.',
   AUTH_REQUIRED: '인증이 필요합니다.',
   PRODUCT_NOT_FOUND: '상품을 찾을 수 없습니다.',
-  PRODUCT_WAITING_LISTED: '대기 상품 목록 조회 성공',
+  PRODUCT_WAITING_LISTED: '승인 대기중인 상품 목록을 조회했습니다.',
   INVALID_PRICE: '정상적인 가격을 입력해주세요 (price: 0 ~ 2147483647)',
   IMAGE_LIMIT_EXCEEDED: '이미지는 최대 5개까지 첨부할 수 있습니다.',
   NO_PERMISSION: '권한이 없습니다.',
   PRODUCT_RENTAL_ACTIVE: '현재 대여중인 상품은 수정/삭제할 수 없습니다.',
   PRODUCT_REJECTED_OR_CANCELED:
     '거절되었거나 취소된 상품은 수정할 수 없습니다.',
-  DUPLICATE_PRODUCT: '이미 같은 상품을 등록하셨습니다.',
+  DUPLICATE_PRODUCT: '동일한 상품이 이미 등록되어 있습니다.',
   INVALID_PURCHASE_PRICE:
-    '판매 가격은 일일 대여 가격의 100배를 초과할 수 없습니다.',
-  PURCHASE_PRICE_REQUIRED: '판매 가능 상품은 판매 가격을 입력해야 합니다.',
-  PRODUCT_PURCHASE_RESERVED: '해당 상품은 구매 예약된 상품입니다.',
-  PRODUCT_SOLD: '해당 상품은 이미 판매된 상품입니다.',
+    '판매 가격은 일일 대여가격의 100배를 초과할 수 없습니다.',
+  PURCHASE_RESERVED: '상품 구매가 예약되었습니다.',
+  PURCHASE_COMPLETED: '상품 구매가 완료되었습니다.',
+  PURCHASE_CANCELED: '상품 구매 예약이 취소되었습니다.',
+  ALREADY_PURCHASE_RESERVED: '이미 구매 예약된 상품입니다.',
+  ALREADY_SOLD: '이미 판매된 상품입니다.',
+  PURCHASE_NOT_ALLOWED: '판매가 허용되지 않은 상품입니다.',
+  INSUFFICIENT_BALANCE: '잔액이 부족합니다.',
+  RENTAL_IN_PROGRESS: '대여 중인 상품은 구매할 수 없습니다.',
+  INVALID_PURCHASE_RESERVATION: '유효하지 않은 구매 예약입니다.',
+  NOT_PURCHASE_RESERVED_USER: '구매 예약자가 아닙니다.',
 };
 
 export const CATEGORY_MESSAGES = {
