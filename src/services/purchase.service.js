@@ -3,6 +3,7 @@ import {
   getProductByIdForPurchase,
   getCompletedRentalTotalByUser,
 } from '../repositories/purchase.repository.js';
+import { getLastApprovedRentalEndDate } from '../repositories/rentalRequest.repository.js';
 import { PRODUCT_MESSAGES, PLATFORM_MESSAGES } from '../constants/messages.js';
 import CustomError from '../utils/customError.js';
 import { PURCHASE_COMMISSION_RATE } from '../constants/commission.js';
@@ -89,15 +90,19 @@ export const purchaseProduct = async (productId, userId) => {
     });
 
     // 상품 상태 변경
+    const latestEndDate = await getLastApprovedRentalEndDate(tx, product.id);
+    const now = new Date();
+
+    const isReservation = latestEndDate.getTime() > now.getTime();
+
     await tx.product.update({
       where: { id: product.id },
       data: {
-        status: 'SOLD',
+        status: isReservation ? 'PURCHASE_RESERVED' : 'SOLD',
         purchaseReservedUserId: userId,
-        purchaseReservedAt: new Date(),
+        purchaseReservedAt: latestEndDate,
       },
     });
-
     // 플랫폼 계정 조회
     const platformAccount = await tx.platformAccount.findFirst();
     if (!platformAccount) {
@@ -146,7 +151,7 @@ export const purchaseProduct = async (productId, userId) => {
       purchasePrice,
       discount: totalRentalAmount,
       finalPrice,
-      status: 'SOLD',
+      status: isReservation ? 'PURCHASE_RESERVED' : 'SOLD',
       sellerProfit,
       commission,
     };

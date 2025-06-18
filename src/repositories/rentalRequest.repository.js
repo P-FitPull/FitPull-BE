@@ -129,8 +129,8 @@ export const updateRentalRequestStatusRepoTx = async (tx, id, status) => {
   });
 };
 
-export const getLastApprovedRentalEndDate = async (productId) => {
-  const latestRental = await prisma.rentalRequest.findFirst({
+export const getLastApprovedRentalEndDate = async (tx, productId) => {
+  const latestRental = await tx.rentalRequest.findFirst({
     where: {
       productId,
       status: 'APPROVED',

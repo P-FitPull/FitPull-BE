@@ -27,6 +27,7 @@ import { findLogsByProductRepo } from '../repositories/productStatusLog.reposito
 import CustomError from '../utils/customError.js';
 import { MAX_PRODUCT_IMAGES, MAX_INT_32 } from '../constants/limits.js';
 import { createNotification } from './notification.service.js';
+import prisma from '../data-source.js';
 
 const validatePurchasePrice = (price, purchasePrice) => {
   const maxPurchasePrice = price * 100; // 일일 대여가격의 100배가 최대 판매가격
@@ -173,7 +174,7 @@ export const getProductById = async (id) => {
   }));
   //소유권 이전 날짜
   const ownershipTransferDate = product.allowPurchase
-    ? await getLastApprovedRentalEndDate(product.id)
+    ? await getLastApprovedRentalEndDate(prisma, product.id)
     : null;
 
   return {
