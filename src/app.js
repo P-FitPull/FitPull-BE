@@ -62,7 +62,7 @@ app.use('/api/notifications', notificationRouter);
 app.use('/api/ai', aiRouter);
 app.use('/api/payments', paymentRouter);
 app.use('/api/admin/platform', platformRouter);
-app.use('/api/purchases', purchaseRouter);
+app.use('/api', purchaseRouter);
 
 // 기본 라우트
 app.get('/', (_, res) => {

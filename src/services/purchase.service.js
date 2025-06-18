@@ -3,7 +3,7 @@ import {
   getProductByIdForPurchase,
   getCompletedRentalTotalByUser,
 } from '../repositories/purchase.repository.js';
-import { PRODUCT_MESSAGES } from '../constants/messages.js';
+import { PRODUCT_MESSAGES, PLATFORM_MESSAGES } from '../constants/messages.js';
 import CustomError from '../utils/customError.js';
 import { PURCHASE_COMMISSION_RATE } from '../constants/commission.js';
 import { createNotification } from './notification.service.js';
@@ -95,6 +95,38 @@ export const purchaseProduct = async (productId, userId) => {
         status: 'SOLD',
         purchaseReservedUserId: userId,
         purchaseReservedAt: new Date(),
+      },
+    });
+
+    // 플랫폼 계정 조회
+    const platformAccount = await tx.platformAccount.findFirst();
+    if (!platformAccount) {
+      throw new CustomError(
+        500,
+        'PLATFORM_ACCOUNT_NOT_FOUND',
+        PLATFORM_MESSAGES.PLATFORM_ACCOUNT_NOT_FOUND,
+      );
+    }
+
+    // 플랫폼 잔액 증가 (수수료만큼)
+    const platformBalanceBefore = platformAccount.balance;
+    const platformBalanceAfter = platformBalanceBefore + commission;
+
+    await tx.platformAccount.update({
+      where: { id: platformAccount.id },
+      data: { balance: { increment: commission } },
+    });
+
+    // 플랫폼 수익 로그 생성
+    await tx.platformPaymentLog.create({
+      data: {
+        platformAccountId: platformAccount.id,
+        type: 'INCOME',
+        amount: commission,
+        memo: `[자동] 구매 수수료 수입: ${product.title}`,
+        balanceBefore: platformBalanceBefore,
+        balanceAfter: platformBalanceAfter,
+        userId,
       },
     });
 

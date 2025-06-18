@@ -159,16 +159,16 @@ model CompletedRental {
 }
 
 model PaymentLog {
-  id              String        @id @default(uuid())
+  id              String         @id @default(uuid())
   amount          Int
   paymentType     PaymentType
   paidAt          DateTime?
   memo            String?
-  createdAt       DateTime      @default(now()) @map("created_at")
-  rentalRequestId String        @map("rental_request_id")
-  rentalRequest   RentalRequest @relation(fields: [rentalRequestId], references: [id])
-  userId          String        @map("user_id")
-  user            User          @relation(fields: [userId], references: [id])
+  createdAt       DateTime       @default(now()) @map("created_at")
+  rentalRequestId String?        @map("rental_request_id")
+  rentalRequest   RentalRequest? @relation(fields: [rentalRequestId], references: [id])
+  userId          String         @map("user_id")
+  user            User           @relation(fields: [userId], references: [id])
   balanceBefore   Int?
   balanceAfter    Int?
 
@@ -398,6 +398,7 @@ enum PaymentType {
   DAMAGE_COMPENSATION
   OWNER_PAYOUT
   REFUND
+  PURCHASE
   ETC
 }
 
@@ -408,6 +409,7 @@ enum NotificationType {
   CHAT
   FEE
   REVIEW
+  PURCHASE
   ETC
 }
 

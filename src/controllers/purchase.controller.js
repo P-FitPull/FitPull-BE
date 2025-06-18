@@ -11,6 +11,7 @@ export const purchaseProductController = async (req, res, next) => {
 
     return success(res, PRODUCT_MESSAGES.PURCHASE_COMPLETED, result);
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };

@@ -6,11 +6,10 @@ import requireVerifiedPhone from '../middlewares/requireVerifiedPhone.js';
 const router = express.Router();
 
 router.post(
-  '/:productId',
+  '/products/:id/purchase',
   authenticate,
   requireVerifiedPhone,
   purchaseProductController,
 );
-// 추후 구매 취소, 구매 내역 등도 여기에 추가
 
 export default router;
