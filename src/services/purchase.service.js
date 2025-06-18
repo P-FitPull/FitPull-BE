@@ -13,6 +13,7 @@ export const purchaseProduct = async (productId, userId) => {
   return await prisma.$transaction(async (tx) => {
     // 상품 조회 및 검증
     const product = await getProductByIdForPurchase(tx, productId);
+
     if (!product?.allowPurchase) {
       throw new CustomError(
         400,
@@ -20,9 +21,15 @@ export const purchaseProduct = async (productId, userId) => {
         PRODUCT_MESSAGES.PURCHASE_NOT_ALLOWED,
       );
     }
-    if (product.status === 'SOLD') {
-      throw new CustomError(400, 'ALREADY_SOLD', PRODUCT_MESSAGES.ALREADY_SOLD);
+    // 구매 예약 or 판매 상태면 구매 차단
+    if (['SOLD', 'PURCHASE_RESERVED'].includes(product.status)) {
+      throw new CustomError(
+        400,
+        'PURCHASE_NOT_ALLOWED',
+        PRODUCT_MESSAGES.PURCHASE_NOT_ALLOWED,
+      );
     }
+
     if (product.ownerId === userId) {
       throw new CustomError(
         400,
