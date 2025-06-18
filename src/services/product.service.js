@@ -21,6 +21,7 @@ import {
 import {
   findActiveRentalByProductId,
   findActiveRentalForDelete,
+  getLastApprovedRentalEndDate,
 } from '../repositories/rentalRequest.repository.js';
 import { findLogsByProductRepo } from '../repositories/productStatusLog.repository.js';
 import CustomError from '../utils/customError.js';
@@ -170,12 +171,21 @@ export const getProductById = async (id) => {
     notes: log.notes,
     photoUrls: log.photoUrls,
   }));
+  //소유권 이전 날짜
+  const ownershipTransferDate = product.allowPurchase
+    ? await getLastApprovedRentalEndDate(product.id)
+    : null;
 
   return {
+    id: product.id,
     title: product.title,
     description: product.description,
     price: product.price,
     allowPurchase: product.allowPurchase,
+    purchasePrice: product.allowPurchase ? product.purchasePrice : undefined,
+    reservedUntil: ownershipTransferDate
+      ? ownershipTransferDate.toISOString().slice(0, 10)
+      : undefined,
     imageUrls: product.imageUrls,
     category: { name: product.category?.name ?? DEFAULT_CATEGORY_NAME },
     statusLogs,
