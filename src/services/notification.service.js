@@ -17,6 +17,7 @@ const VALID_TYPES = [
   'CHAT',
   'FEE',
   'REVIEW',
+  'PURCHASE',
   'ETC',
 ];
 
