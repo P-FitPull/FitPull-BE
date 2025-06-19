@@ -65,6 +65,7 @@ export const purchaseProduct = async (productId, userId) => {
     await tx.paymentLog.create({
       data: {
         userId,
+        productId: product.id,
         amount: finalPrice,
         paymentType: 'PURCHASE',
         memo: `[구매] ${product.title} (할인: ${totalRentalAmount}원)`,
@@ -161,6 +162,168 @@ export const purchaseProduct = async (productId, userId) => {
       status: isReservation ? 'PURCHASE_RESERVED' : 'SOLD',
       sellerProfit,
       commission,
+    };
+  });
+};
+
+export const cancelPurchase = async (productId, userId) => {
+  return await prisma.$transaction(async (tx) => {
+    // 상품 조회 및 검증
+    const product = await tx.product.findUnique({
+      where: { id: productId },
+      include: {
+        purchaseReservedUser: true,
+      },
+    });
+
+    if (!product) {
+      throw new CustomError(
+        404,
+        'PRODUCT_NOT_FOUND',
+        PRODUCT_MESSAGES.NOT_FOUND,
+      );
+    }
+
+    if (product.status !== 'PURCHASE_RESERVED') {
+      throw new CustomError(
+        400,
+        'INVALID_STATUS',
+        PRODUCT_MESSAGES.INVALID_STATUS,
+      );
+    }
+
+    if (product.purchaseReservedUserId !== userId) {
+      throw new CustomError(
+        403,
+        'NO_PERMISSION',
+        PRODUCT_MESSAGES.NO_PERMISSION,
+      );
+    }
+
+    // 구매자의 마지막 결제 로그 조회
+    const lastPaymentLog = await tx.paymentLog.findFirst({
+      where: {
+        userId,
+        productId,
+        paymentType: 'PURCHASE',
+      },
+      orderBy: {
+        paidAt: 'desc',
+      },
+    });
+
+    if (!lastPaymentLog) {
+      throw new CustomError(
+        404,
+        'PAYMENT_LOG_NOT_FOUND',
+        PRODUCT_MESSAGES.PAYMENT_LOG_NOT_FOUND,
+      );
+    }
+
+    const purchaseAmount = lastPaymentLog.amount;
+
+    // 구매자 잔액 복원
+    const buyer = await tx.user.findUnique({ where: { id: userId } });
+    const updatedBuyer = await tx.user.update({
+      where: { id: userId },
+      data: { balance: { increment: purchaseAmount } },
+    });
+
+    // 구매 취소 결제 로그 생성
+    await tx.paymentLog.create({
+      data: {
+        userId,
+        productId: product.id,
+        amount: purchaseAmount,
+        paymentType: 'PURCHASE_CANCEL',
+        memo: `[구매취소] ${product.title}`,
+        paidAt: new Date(),
+        balanceBefore: buyer.balance,
+        balanceAfter: updatedBuyer.balance,
+      },
+    });
+
+    // 판매자 잔액 차감
+    const commission = Math.floor(purchaseAmount * PURCHASE_COMMISSION_RATE);
+    const sellerProfit = purchaseAmount - commission;
+
+    const seller = await tx.user.findUnique({ where: { id: product.ownerId } });
+    const updatedSeller = await tx.user.update({
+      where: { id: product.ownerId },
+      data: { balance: { decrement: sellerProfit } },
+    });
+
+    // 판매자 결제 로그 생성
+    await tx.paymentLog.create({
+      data: {
+        userId: product.ownerId,
+        productId,
+        amount: -sellerProfit,
+        paymentType: 'OWNER_PAYOUT_CANCEL',
+        memo: `[판매취소] ${product.title}`,
+        paidAt: new Date(),
+        balanceBefore: seller.balance,
+        balanceAfter: updatedSeller.balance,
+      },
+    });
+
+    // 플랫폼 계정 조회
+    const platformAccount = await tx.platformAccount.findFirst();
+    if (!platformAccount) {
+      throw new CustomError(
+        500,
+        'PLATFORM_ACCOUNT_NOT_FOUND',
+        PLATFORM_MESSAGES.PLATFORM_ACCOUNT_NOT_FOUND,
+      );
+    }
+
+    // 플랫폼 잔액 차감 (수수료만큼)
+    const platformBalanceBefore = platformAccount.balance;
+    const platformBalanceAfter = platformBalanceBefore - commission;
+
+    await tx.platformAccount.update({
+      where: { id: platformAccount.id },
+      data: { balance: { decrement: commission } },
+    });
+
+    // 플랫폼 수수료 차감 로그 생성
+    await tx.platformPaymentLog.create({
+      data: {
+        platformAccountId: platformAccount.id,
+        type: 'REFUND',
+        amount: -commission,
+        memo: `[자동] 구매 취소 수수료 환불: ${product.title}`,
+        balanceBefore: platformBalanceBefore,
+        balanceAfter: platformBalanceAfter,
+        userId,
+      },
+    });
+
+    // 상품 상태 APPROVED로 변경
+    await tx.product.update({
+      where: { id: product.id },
+      data: {
+        status: 'APPROVED',
+        purchaseReservedUserId: null,
+        purchaseReservedAt: null,
+      },
+    });
+
+    // 알림 전송
+    await createNotification({
+      userId: product.ownerId,
+      type: 'PURCHASE_CANCEL',
+      message: `[판매취소] ${product.title} 상품의 판매가 취소되었습니다.`,
+      url: `/products/${product.id}`,
+      productId: product.id,
+    });
+
+    // 응답
+    return {
+      productId: product.id,
+      title: product.title,
+      status: 'APPROVED',
+      refundAmount: purchaseAmount,
     };
   });
 };
