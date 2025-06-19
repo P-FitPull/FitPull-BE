@@ -98,19 +98,32 @@ export const purchaseProduct = async (productId, userId) => {
     });
 
     // 상품 상태 변경
+    // 상품 상태 변경 전 현재 상태 재확인
     const latestEndDate = await getLastApprovedRentalEndDate(tx, product.id);
     const now = new Date();
-
     const isReservation = latestEndDate.getTime() > now.getTime();
 
-    await tx.product.update({
-      where: { id: product.id },
+    // 조건부 상태 업데이트 (status가 여전히 APPROVED인 경우에만 업데이트)
+    const updatedProduct = await tx.product.updateMany({
+      where: {
+        id: product.id,
+        status: 'APPROVED', // 현재 상태가 APPROVED인 경우에만 업데이트
+      },
       data: {
         status: isReservation ? 'PURCHASE_RESERVED' : 'SOLD',
         purchaseReservedUserId: userId,
         purchaseReservedAt: latestEndDate,
       },
     });
+
+    // 업데이트된 row가 없다면 동시성 문제 발생
+    if (updatedProduct.count === 0) {
+      throw new CustomError(
+        400,
+        'PURCHASE_FAILED',
+        PRODUCT_MESSAGES.PURCHASE_NOT_ALLOWED,
+      );
+    }
     // 플랫폼 계정 조회
     const platformAccount = await tx.platformAccount.findFirst();
     if (!platformAccount) {
