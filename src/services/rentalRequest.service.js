@@ -87,6 +87,15 @@ export const createRentalRequestWithPayment = async (
         RENTAL_REQUEST_MESSAGES.PRODUCT_NOT_FOUND,
       );
 
+    // 구매 예약 or 판매 상태면 대여 차단
+    if (['PURCHASE_RESERVED', 'SOLD'].includes(product.status)) {
+      throw new CustomError(
+        400,
+        'RENTAL_NOT_ALLOWED',
+        RENTAL_REQUEST_MESSAGES.RENTAL_NOT_ALLOWED,
+      );
+    }
+
     const user = await findUserById(userId);
     if (!user)
       throw new CustomError(

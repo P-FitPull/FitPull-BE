@@ -122,6 +122,7 @@ export const RENTAL_REQUEST_MESSAGES = {
   ALREADY_REQUESTED: '이미 대여요청이 존재합니다.',
   INVALID_DATE_FORMAT: '날짜 형식이 올바르지 않습니다.',
   ALREADY_PROCESSED: '이미 처리된 대여요청입니다.',
+  RENTAL_NOT_ALLOWED: '대여가 허용되지 않은 상태입니다.',
 };
 
 export const MESSAGE_RESPONSES = {
@@ -211,6 +212,8 @@ export const PRODUCT_MESSAGES = {
   RENTAL_IN_PROGRESS: '대여 중인 상품은 구매할 수 없습니다.',
   INVALID_PURCHASE_RESERVATION: '유효하지 않은 구매 예약입니다.',
   NOT_PURCHASE_RESERVED_USER: '구매 예약자가 아닙니다.',
+  INVALID_STATUS: '유효하지 않은 상태입니다.',
+  PAYMENT_LOG_NOT_FOUND: '결제 로그를 찾을 수 없습니다.',
 };
 
 export const CATEGORY_MESSAGES = {

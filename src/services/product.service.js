@@ -21,11 +21,13 @@ import {
 import {
   findActiveRentalByProductId,
   findActiveRentalForDelete,
+  getLastApprovedRentalEndDate,
 } from '../repositories/rentalRequest.repository.js';
 import { findLogsByProductRepo } from '../repositories/productStatusLog.repository.js';
 import CustomError from '../utils/customError.js';
 import { MAX_PRODUCT_IMAGES, MAX_INT_32 } from '../constants/limits.js';
 import { createNotification } from './notification.service.js';
+import prisma from '../data-source.js';
 
 const validatePurchasePrice = (price, purchasePrice) => {
   const maxPurchasePrice = price * 100; // 일일 대여가격의 100배가 최대 판매가격
@@ -170,12 +172,21 @@ export const getProductById = async (id) => {
     notes: log.notes,
     photoUrls: log.photoUrls,
   }));
+  //소유권 이전 날짜
+  const ownershipTransferDate = product.allowPurchase
+    ? await getLastApprovedRentalEndDate(prisma, product.id)
+    : null;
 
   return {
+    id: product.id,
     title: product.title,
     description: product.description,
     price: product.price,
     allowPurchase: product.allowPurchase,
+    purchasePrice: product.allowPurchase ? product.purchasePrice : undefined,
+    reservedUntil: ownershipTransferDate
+      ? ownershipTransferDate.toISOString().slice(0, 10)
+      : undefined,
     imageUrls: product.imageUrls,
     category: { name: product.category?.name ?? DEFAULT_CATEGORY_NAME },
     statusLogs,
