@@ -415,6 +415,7 @@ enum NotificationType {
   FEE
   REVIEW
   PURCHASE
+  PURCHASE_CANCEL
   ETC
 }
 
