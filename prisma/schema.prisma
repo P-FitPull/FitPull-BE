@@ -107,6 +107,7 @@ model Product {
   packageItems            PackageItem[]
   Notification            Notification[]
   RentalReview            RentalReview[]
+  PaymentLog              PaymentLog[]
 
   @@map("products")
 }
@@ -167,6 +168,8 @@ model PaymentLog {
   createdAt       DateTime       @default(now()) @map("created_at")
   rentalRequestId String?        @map("rental_request_id")
   rentalRequest   RentalRequest? @relation(fields: [rentalRequestId], references: [id])
+  productId       String?        @map("product_id")
+  product         Product?       @relation(fields: [productId], references: [id])
   userId          String         @map("user_id")
   user            User           @relation(fields: [userId], references: [id])
   balanceBefore   Int?
