@@ -32,7 +32,7 @@ FitPull Overflow는 "자신에게 꼭 맞는 모든 것을 대여한다"는 컨�
 
 ## ERD
 
-![FOF ERD 전체](./docs/erd/FOFSIXTHERD.png)
+![FOF ERD 전체](./docs/erd/FOFSEVENTHERD.png)
 [ERD 원본 보기 (ERDCloud)](https://www.erdcloud.com/d/waj7NZ2NAPBamqBPM)
 
 ## 파일구조
