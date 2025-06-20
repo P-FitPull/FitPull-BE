@@ -215,6 +215,7 @@ export const PRODUCT_MESSAGES = {
   INVALID_STATUS: '유효하지 않은 상태입니다.',
   PAYMENT_LOG_NOT_FOUND: '결제 로그를 찾을 수 없습니다.',
   PURCHASE_FAILED: '해당 상품은 이미 처리 중입니다. 다시 확인해주세요.',
+  ALREADY_CANCELED_OR_INVALID: '이미 취소되었거나 구매 예약 상태가 아닙니다.',
 };
 
 export const CATEGORY_MESSAGES = {

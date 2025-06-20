@@ -197,19 +197,25 @@ export const cancelPurchase = async (productId, userId) => {
       );
     }
 
-    if (product.status !== 'PURCHASE_RESERVED') {
+    // 조건부로 상태 변경 시도 (낙관적 제어)
+    const updated = await tx.product.updateMany({
+      where: {
+        id: productId,
+        status: 'PURCHASE_RESERVED',
+        purchaseReservedUserId: userId,
+      },
+      data: {
+        status: 'APPROVED',
+        purchaseReservedUserId: null,
+        purchaseReservedAt: null,
+      },
+    });
+
+    if (updated.count === 0) {
       throw new CustomError(
         400,
-        'INVALID_STATUS',
-        PRODUCT_MESSAGES.INVALID_STATUS,
-      );
-    }
-
-    if (product.purchaseReservedUserId !== userId) {
-      throw new CustomError(
-        403,
-        'NO_PERMISSION',
-        PRODUCT_MESSAGES.NO_PERMISSION,
+        'ALREADY_CANCELED_OR_INVALID',
+        PRODUCT_MESSAGES.ALREADY_CANCELED_OR_INVALID,
       );
     }
 
@@ -309,16 +315,6 @@ export const cancelPurchase = async (productId, userId) => {
         balanceBefore: platformBalanceBefore,
         balanceAfter: platformBalanceAfter,
         userId,
-      },
-    });
-
-    // 상품 상태 APPROVED로 변경
-    await tx.product.update({
-      where: { id: product.id },
-      data: {
-        status: 'APPROVED',
-        purchaseReservedUserId: null,
-        purchaseReservedAt: null,
       },
     });
 
