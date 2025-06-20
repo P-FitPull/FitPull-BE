@@ -27,7 +27,6 @@ export const cancelPurchaseController = async (req, res, next) => {
 
     return success(res, PRODUCT_MESSAGES.PURCHASE_CANCELED, result);
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };

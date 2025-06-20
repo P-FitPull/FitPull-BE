@@ -98,19 +98,32 @@ export const purchaseProduct = async (productId, userId) => {
     });
 
     // 상품 상태 변경
+    // 상품 상태 변경 전 현재 상태 재확인
     const latestEndDate = await getLastApprovedRentalEndDate(tx, product.id);
     const now = new Date();
-
     const isReservation = latestEndDate.getTime() > now.getTime();
 
-    await tx.product.update({
-      where: { id: product.id },
+    // 조건부 상태 업데이트 (status가 여전히 APPROVED인 경우에만 업데이트)
+    const updatedProduct = await tx.product.updateMany({
+      where: {
+        id: product.id,
+        status: 'APPROVED', // 현재 상태가 APPROVED인 경우에만 업데이트
+      },
       data: {
         status: isReservation ? 'PURCHASE_RESERVED' : 'SOLD',
         purchaseReservedUserId: userId,
         purchaseReservedAt: latestEndDate,
       },
     });
+
+    // 업데이트된 row가 없다면 동시성 문제 발생
+    if (updatedProduct.count === 0) {
+      throw new CustomError(
+        400,
+        'PURCHASE_FAILED',
+        PRODUCT_MESSAGES.PURCHASE_NOT_ALLOWED,
+      );
+    }
     // 플랫폼 계정 조회
     const platformAccount = await tx.platformAccount.findFirst();
     if (!platformAccount) {
@@ -184,19 +197,25 @@ export const cancelPurchase = async (productId, userId) => {
       );
     }
 
-    if (product.status !== 'PURCHASE_RESERVED') {
+    // 조건부로 상태 변경 시도 (낙관적 제어)
+    const updated = await tx.product.updateMany({
+      where: {
+        id: productId,
+        status: 'PURCHASE_RESERVED',
+        purchaseReservedUserId: userId,
+      },
+      data: {
+        status: 'APPROVED',
+        purchaseReservedUserId: null,
+        purchaseReservedAt: null,
+      },
+    });
+
+    if (updated.count === 0) {
       throw new CustomError(
         400,
-        'INVALID_STATUS',
-        PRODUCT_MESSAGES.INVALID_STATUS,
-      );
-    }
-
-    if (product.purchaseReservedUserId !== userId) {
-      throw new CustomError(
-        403,
-        'NO_PERMISSION',
-        PRODUCT_MESSAGES.NO_PERMISSION,
+        'ALREADY_CANCELED_OR_INVALID',
+        PRODUCT_MESSAGES.ALREADY_CANCELED_OR_INVALID,
       );
     }
 
@@ -296,16 +315,6 @@ export const cancelPurchase = async (productId, userId) => {
         balanceBefore: platformBalanceBefore,
         balanceAfter: platformBalanceAfter,
         userId,
-      },
-    });
-
-    // 상품 상태 APPROVED로 변경
-    await tx.product.update({
-      where: { id: product.id },
-      data: {
-        status: 'APPROVED',
-        purchaseReservedUserId: null,
-        purchaseReservedAt: null,
       },
     });
 
