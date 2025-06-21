@@ -1,19 +1,19 @@
-import express from "express";
+import express from 'express';
 import {
-	createProductController,
-	getAllProductsController,
-	getProductByIdController,
-	getProductsMeController,
-	updateProductController,
-	deleteProductController,
-	getWaitingProductsController,
-	approveProductController,
-	rejectProductController,
-} from "../controllers/product.controller.js";
-import { authenticate } from "../middlewares/auth.js";
-import { adminOnly } from "../middlewares/adminOnly.js";
-import { s3ImageUpload } from "../middlewares/s3ImageUpload.js";
-import requireVerifiedPhone from "../middlewares/requireVerifiedPhone.js";
+  createProductController,
+  getAllProductsController,
+  getProductByIdController,
+  getProductsMeController,
+  updateProductController,
+  deleteProductController,
+  getWaitingProductsController,
+  approveProductController,
+  rejectProductController,
+} from '../controllers/product.controller.js';
+import { authenticate } from '../middlewares/auth.js';
+import { adminOnly } from '../middlewares/adminOnly.js';
+import { s3ImageUpload } from '../middlewares/s3ImageUpload.js';
+import requireVerifiedPhone from '../middlewares/requireVerifiedPhone.js';
 
 /**
  * @swagger
@@ -230,6 +230,20 @@ import requireVerifiedPhone from "../middlewares/requireVerifiedPhone.js";
  *                             type: array
  *                             items:
  *                               type: string
+ *                     reservedDates:
+ *                       type: array
+ *                       description: 상품에 대한 예약 날짜 목록
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           startDate:
+ *                             type: string
+ *                             format: date
+ *                             description: 대여 시작일
+ *                           endDate:
+ *                             type: string
+ *                             format: date
+ *                             description: 대여 종료일
  *       404:
  *         description: 상품을 찾을 수 없음
  */
@@ -599,41 +613,41 @@ import requireVerifiedPhone from "../middlewares/requireVerifiedPhone.js";
 const router = express.Router();
 //상품등록 (이미지 업로드 및 S3 연동)
 router.post(
-	"/",
-	authenticate,
-	requireVerifiedPhone,
-	...s3ImageUpload,
-	createProductController
+  '/',
+  authenticate,
+  requireVerifiedPhone,
+  ...s3ImageUpload,
+  createProductController,
 );
 //상품조회전체
-router.get("/", getAllProductsController);
+router.get('/', getAllProductsController);
 //내상품조회
-router.get("/me", authenticate, getProductsMeController);
+router.get('/me', authenticate, getProductsMeController);
 //상품상세조회
-router.get("/:id", getProductByIdController);
+router.get('/:id', getProductByIdController);
 // 상품 수정
-router.patch("/:id", authenticate, s3ImageUpload, updateProductController);
+router.patch('/:id', authenticate, s3ImageUpload, updateProductController);
 // 상품 삭제
-router.delete("/:id", authenticate, deleteProductController);
+router.delete('/:id', authenticate, deleteProductController);
 // 어드민 대기중상품 조회
 router.get(
-	"/admin/waiting",
-	authenticate,
-	adminOnly,
-	getWaitingProductsController,
+  '/admin/waiting',
+  authenticate,
+  adminOnly,
+  getWaitingProductsController,
 );
 // 어드민 상품 승인
 router.patch(
-	"/admin/:id/approve",
-	authenticate,
-	adminOnly,
-	approveProductController,
+  '/admin/:id/approve',
+  authenticate,
+  adminOnly,
+  approveProductController,
 );
 // 어드민 상품 거절
 router.patch(
-	"/admin/:id/reject",
-	authenticate,
-	adminOnly,
-	rejectProductController,
+  '/admin/:id/reject',
+  authenticate,
+  adminOnly,
+  rejectProductController,
 );
 export default router;
