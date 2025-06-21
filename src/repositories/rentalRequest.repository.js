@@ -145,3 +145,22 @@ export const getLastApprovedRentalEndDate = async (tx, productId) => {
 
   return latestRental?.endDate ?? new Date(); // 없으면 now 리턴
 };
+
+export const findRentalRequestDatesByProductId = async (productId) => {
+  return await prisma.rentalRequest.findMany({
+    where: {
+      productId,
+      status: RENTAL_STATUS.APPROVED,
+      endDate: {
+        gte: new Date(),
+      },
+    },
+    select: {
+      startDate: true,
+      endDate: true,
+    },
+    orderBy: {
+      startDate: 'asc',
+    },
+  });
+};
