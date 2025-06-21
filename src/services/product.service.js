@@ -22,6 +22,7 @@ import {
   findActiveRentalByProductId,
   findActiveRentalForDelete,
   getLastApprovedRentalEndDate,
+  findRentalRequestDatesByProductId,
 } from '../repositories/rentalRequest.repository.js';
 import { findLogsByProductRepo } from '../repositories/productStatusLog.repository.js';
 import CustomError from '../utils/customError.js';
@@ -177,6 +178,8 @@ export const getProductById = async (id) => {
     ? await getLastApprovedRentalEndDate(prisma, product.id)
     : null;
 
+  const reservedDates = await findRentalRequestDatesByProductId(id);
+
   return {
     id: product.id,
     title: product.title,
@@ -190,6 +193,10 @@ export const getProductById = async (id) => {
     imageUrls: product.imageUrls,
     category: { name: product.category?.name ?? DEFAULT_CATEGORY_NAME },
     statusLogs,
+    reservedDates: reservedDates.map((rental) => ({
+      startDate: rental.startDate.toISOString().slice(0, 10),
+      endDate: rental.endDate.toISOString().slice(0, 10),
+    })),
   };
 };
 
