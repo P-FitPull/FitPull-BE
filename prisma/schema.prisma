@@ -86,6 +86,8 @@ model Product {
   purchaseReservedAt      DateTime?                 @map("purchase_reserved_at")
   purchaseReservedUserId  String?                   @map("purchase_reserved_user_id")
   status                  ProductStatus
+  approvedAt              DateTime?                 @map("approved_at")
+  lastRentalCompletedAt   DateTime?                 @map("last_rental_completed_at")
   imageUrls               String[]                  @map("image_urls")
   allowPurchase           Boolean                   @default(false) @map("allow_purchase")
   createdAt               DateTime                  @default(now()) @map("created_at")
@@ -412,7 +414,7 @@ enum NotificationType {
   APPROVAL
   RENTAL_STATUS
   CHAT
-  FEE
+  STORAGE_FEE
   REVIEW
   PURCHASE
   PURCHASE_CANCEL
