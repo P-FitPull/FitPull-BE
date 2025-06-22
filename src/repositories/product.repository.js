@@ -162,3 +162,39 @@ export const findDuplicateProductRepo = async (
     },
   });
 };
+
+export const findProductsForStorageFeeRepo = async (days) => {
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - days);
+
+  return await prisma.product.findMany({
+    where: {
+      status: PRODUCT_STATUS.APPROVED,
+      deletedAt: null,
+      OR: [
+        {
+          // 대여가 한 번도 없었던 경우: 승인일 기준
+          lastRentalCompletedAt: null,
+          approvedAt: {
+            lt: startDate,
+          },
+        },
+        {
+          // 대여 이력이 있는 경우: 마지막 대여 완료일 기준
+          lastRentalCompletedAt: {
+            lt: startDate,
+          },
+        },
+      ],
+    },
+    include: {
+      owner: {
+        select: {
+          id: true,
+          name: true,
+          phone: true,
+        },
+      },
+    },
+  });
+};

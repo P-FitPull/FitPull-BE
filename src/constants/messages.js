@@ -57,6 +57,7 @@ export const NOTIFICATION_MESSAGES = {
   MARK_READ: '읽음 처리 완료',
   MARK_READ_SUCCESS:
     '읽음 처리 완료. 읽음 처리된 알림은 3일 후 자동 삭제됩니다.',
+  STORAGE_FEE_CHARGED: '보관료가 부과되었습니다.',
 };
 
 export const REVIEW_MESSAGES = {
@@ -216,6 +217,8 @@ export const PRODUCT_MESSAGES = {
   PAYMENT_LOG_NOT_FOUND: '결제 로그를 찾을 수 없습니다.',
   PURCHASE_FAILED: '해당 상품은 이미 처리 중입니다. 다시 확인해주세요.',
   ALREADY_CANCELED_OR_INVALID: '이미 취소되었거나 구매 예약 상태가 아닙니다.',
+  INVALID_DAYS: '유효한 날짜를 입력해주세요.',
+  PRODUCT_STORAGE_FEE_LISTED: '보관료 부과 대상 상품 조회 성공',
 };
 
 export const CATEGORY_MESSAGES = {

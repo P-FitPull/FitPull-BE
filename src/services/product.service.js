@@ -10,6 +10,7 @@ import {
   findEtcCategoryId,
   findCategoryById,
   findDuplicateProductRepo,
+  findProductsForStorageFeeRepo,
 } from '../repositories/product.repository.js';
 import { deleteFromS3 } from '../utils/s3.js';
 import { DEFAULT_CATEGORY_NAME } from '../constants/category.js';
@@ -427,10 +428,13 @@ export const getWaitingProducts = async () => {
 
 export const approveProduct = async (id) => {
   try {
-    const product = await updateProductStatusRepo(id, PRODUCT_STATUS.APPROVED);
+    const product = await updateProductRepo(id, {
+      status: PRODUCT_STATUS.APPROVED,
+      approvedAt: new Date(),
+    });
 
     const notificationParams = {
-      userId: product.owner.id,
+      userId: product.ownerId,
       type: 'APPROVAL',
       message: `${NOTIFICATION_MESSAGES.PRODUCT_APPROVED} [${product.title}]`,
       url: `/products/${product.id}`,
@@ -439,20 +443,24 @@ export const approveProduct = async (id) => {
 
     await createNotification(notificationParams);
 
+    const updatedProduct = await getProductByIdRepo(id);
+
     return {
       message: PRODUCT_STATUS.APPROVED,
-      id: product.id,
-      title: product.title,
-      price: product.price,
-      status: product.status,
-      imageUrl: product.imageUrls?.[0] ?? null,
-      category: { name: product.category?.name ?? DEFAULT_CATEGORY_NAME },
-      owner: {
-        id: product.owner?.id,
-        name: product.owner?.name,
-        phone: product.owner?.phone,
+      id: updatedProduct.id,
+      title: updatedProduct.title,
+      price: updatedProduct.price,
+      status: updatedProduct.status,
+      imageUrl: updatedProduct.imageUrls?.[0] ?? null,
+      category: {
+        name: updatedProduct.category?.name ?? DEFAULT_CATEGORY_NAME,
       },
-      createdAt: product.createdAt,
+      owner: {
+        id: updatedProduct.owner?.id,
+        name: updatedProduct.owner?.name,
+        phone: updatedProduct.owner?.phone,
+      },
+      createdAt: updatedProduct.createdAt,
     };
   } catch (err) {
     if (err.code === 'P2025') {
@@ -503,4 +511,25 @@ export const rejectProduct = async (id, rejectReason = '') => {
     }
     throw err;
   }
+};
+
+export const findProductsForStorageFee = async (days) => {
+  if (!days || days <= 0) {
+    throw new CustomError(400, 'INVALID_DAYS', PRODUCT_MESSAGES.INVALID_DAYS);
+  }
+
+  const products = await findProductsForStorageFeeRepo(days);
+
+  return products.map((product) => ({
+    id: product.id,
+    title: product.title,
+    price: product.price,
+    approvedAt: product.approvedAt,
+    lastRentalCompletedAt: product.lastRentalCompletedAt,
+    owner: {
+      id: product.owner?.id,
+      name: product.owner?.name,
+      phone: product.owner?.phone,
+    },
+  }));
 };

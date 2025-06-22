@@ -8,6 +8,7 @@ import {
   getWaitingProducts,
   approveProduct,
   rejectProduct,
+  findProductsForStorageFee,
 } from '../services/product.service.js';
 import { PRODUCT_MESSAGES } from '../constants/messages.js';
 import { success } from '../utils/responseHandler.js';
@@ -157,6 +158,18 @@ export const rejectProductController = async (req, res, next) => {
   try {
     const result = await rejectProduct(req.params.id);
     return success(res, PRODUCT_MESSAGES.PRODUCT_REJECTED, result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const findProductsForStorageFeeController = async (req, res, next) => {
+  try {
+    const { days } = req.query;
+    const products = await findProductsForStorageFee(Number(days));
+    return success(res, PRODUCT_MESSAGES.PRODUCT_STORAGE_FEE_LISTED, {
+      products,
+    });
   } catch (error) {
     next(error);
   }
