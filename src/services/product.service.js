@@ -10,6 +10,7 @@ import {
   findEtcCategoryId,
   findCategoryById,
   findDuplicateProductRepo,
+  findProductsForStorageFeeRepo,
 } from '../repositories/product.repository.js';
 import { deleteFromS3 } from '../utils/s3.js';
 import { DEFAULT_CATEGORY_NAME } from '../constants/category.js';
@@ -510,4 +511,25 @@ export const rejectProduct = async (id, rejectReason = '') => {
     }
     throw err;
   }
+};
+
+export const findProductsForStorageFee = async (days) => {
+  if (!days || days <= 0) {
+    throw new CustomError(400, 'INVALID_DAYS', PRODUCT_MESSAGES.INVALID_DAYS);
+  }
+
+  const products = await findProductsForStorageFeeRepo(days);
+
+  return products.map((product) => ({
+    id: product.id,
+    title: product.title,
+    price: product.price,
+    approvedAt: product.approvedAt,
+    lastRentalCompletedAt: product.lastRentalCompletedAt,
+    owner: {
+      id: product.owner?.id,
+      name: product.owner?.name,
+      phone: product.owner?.phone,
+    },
+  }));
 };

@@ -216,6 +216,8 @@ export const PRODUCT_MESSAGES = {
   PAYMENT_LOG_NOT_FOUND: '결제 로그를 찾을 수 없습니다.',
   PURCHASE_FAILED: '해당 상품은 이미 처리 중입니다. 다시 확인해주세요.',
   ALREADY_CANCELED_OR_INVALID: '이미 취소되었거나 구매 예약 상태가 아닙니다.',
+  INVALID_DAYS: '유효한 날짜를 입력해주세요.',
+  PRODUCT_STORAGE_FEE_LISTED: '보관료 부과 대상 상품 조회 성공',
 };
 
 export const CATEGORY_MESSAGES = {

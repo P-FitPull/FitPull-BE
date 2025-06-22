@@ -9,6 +9,7 @@ import {
   getWaitingProductsController,
   approveProductController,
   rejectProductController,
+  findProductsForStorageFeeController,
 } from '../controllers/product.controller.js';
 import { authenticate } from '../middlewares/auth.js';
 import { adminOnly } from '../middlewares/adminOnly.js';
@@ -610,6 +611,31 @@ import requireVerifiedPhone from '../middlewares/requireVerifiedPhone.js';
  *         description: 상품을 찾을 수 없음
  */
 
+/**
+ * @swagger
+ * /api/products/admin/storage-fee:
+ *   get:
+ *     summary: (관리자) 보관료 부과 대상 상품 조회
+ *     tags: [Product]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: days
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           default: 60
+ *         description: 대여가 발생하지 않은 기간 (일)
+ *     responses:
+ *       200:
+ *         description: 보관료 부과 대상 상품 목록 반환
+ *       400:
+ *         description: 잘못된 날짜 입력
+ *       401:
+ *         description: 관리자 권한 없음
+ */
+
 const router = express.Router();
 //상품등록 (이미지 업로드 및 S3 연동)
 router.post(
@@ -650,4 +676,12 @@ router.patch(
   adminOnly,
   rejectProductController,
 );
+// 어드민 보관료 부과 대상 상품 조회
+router.get(
+  '/admin/storage-fee',
+  authenticate,
+  adminOnly,
+  findProductsForStorageFeeController,
+);
+
 export default router;
