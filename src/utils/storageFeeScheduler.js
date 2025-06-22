@@ -5,7 +5,7 @@ import { createNotification } from '../services/notification.service.js';
 import { NOTIFICATION_MESSAGES } from '../constants/messages.js';
 import { STORAGE_FEE_CHECK_DAYS } from '../constants/policy.js';
 
-cron.schedule('0 0 * * *', async () => {
+cron.schedule('0 2 * * *', async () => {
   console.log('보관료 정산 스케줄러 실행');
   try {
     const products = await findProductsForStorageFee(STORAGE_FEE_CHECK_DAYS);
