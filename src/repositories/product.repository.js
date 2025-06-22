@@ -173,19 +173,22 @@ export const findProductsForStorageFeeRepo = async (days) => {
       deletedAt: null,
       OR: [
         {
-          // 대여가 한 번도 없었던 경우: 승인일 기준
           lastRentalCompletedAt: null,
-          approvedAt: {
-            lt: startDate,
-          },
+          approvedAt: { lt: startDate },
         },
         {
-          // 대여 이력이 있는 경우: 마지막 대여 완료일 기준
-          lastRentalCompletedAt: {
-            lt: startDate,
-          },
+          lastRentalCompletedAt: { lt: startDate },
         },
       ],
+      // 최근 N일 이내에 보관료가 부과된 기록이 없는 상품만 조회
+      PaymentLog: {
+        none: {
+          paymentType: 'STORAGE_FEE',
+          createdAt: {
+            gte: startDate,
+          },
+        },
+      },
     },
     include: {
       owner: {

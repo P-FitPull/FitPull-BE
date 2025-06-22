@@ -5,17 +5,20 @@ import { createNotification } from '../services/notification.service.js';
 import { NOTIFICATION_MESSAGES } from '../constants/messages.js';
 import { STORAGE_FEE_CHECK_DAYS } from '../constants/policy.js';
 
-cron.schedule('0 2 * * *', async () => {
+export const runStorageFeeJob = async () => {
   console.log('보관료 정산 스케줄러 실행');
   try {
     const products = await findProductsForStorageFee(STORAGE_FEE_CHECK_DAYS);
 
     if (products.length === 0) {
-      console.log('보관료 부과 대상 상품이 없습니다.');
-      return;
+      const message = '보관료 부과 대상 상품이 없습니다.';
+      console.log(message);
+      return { message, count: 0, successCount: 0, failureCount: 0 };
     }
 
     console.log(`보관료 부과 대상 상품 ${products.length}건 처리 시작`);
+    let successCount = 0;
+    let failureCount = 0;
 
     for (const product of products) {
       try {
@@ -33,19 +36,30 @@ cron.schedule('0 2 * * *', async () => {
           url: `/products/${product.id}`,
           productId: product.id,
         });
-
+        successCount++;
         console.log(
           `'${product.title}' (ID: ${product.id}) 상품 보관료 정산 완료.`,
         );
       } catch (error) {
+        failureCount++;
         console.error(
           `'${product.title}' (ID: ${product.id}) 상품 보관료 정산 실패:`,
           error,
         );
       }
     }
-    console.log('보관료 정산 스케줄러 실행 완료');
+    const resultMessage = `보관료 정산 스케줄러 실행 완료: 성공 ${successCount}건, 실패 ${failureCount}건`;
+    console.log(resultMessage);
+    return {
+      message: resultMessage,
+      count: products.length,
+      successCount,
+      failureCount,
+    };
   } catch (error) {
     console.error('보관료 정산 스케줄러 실행 중 오류 발생:', error);
+    throw error;
   }
-});
+};
+
+cron.schedule('0 0 * * *', runStorageFeeJob);
