@@ -24,6 +24,7 @@ import passport from './configs/passport.js';
 import http from 'http';
 import { initSocket } from './sockets/socket.js';
 import './utils/notificationCleaner.js';
+import './utils/storageFeeScheduler.js';
 
 dotenv.config();
 

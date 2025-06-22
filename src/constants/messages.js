@@ -57,6 +57,7 @@ export const NOTIFICATION_MESSAGES = {
   MARK_READ: '읽음 처리 완료',
   MARK_READ_SUCCESS:
     '읽음 처리 완료. 읽음 처리된 알림은 3일 후 자동 삭제됩니다.',
+  STORAGE_FEE_CHARGED: '보관료가 부과되었습니다.',
 };
 
 export const REVIEW_MESSAGES = {
