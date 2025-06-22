@@ -13,6 +13,7 @@ import {
 import { PRODUCT_MESSAGES } from '../constants/messages.js';
 import { success } from '../utils/responseHandler.js';
 import CustomError from '../utils/customError.js';
+import { runStorageFeeJob } from '../utils/storageFeeScheduler.js';
 
 export const createProductController = async (req, res, next) => {
   try {
@@ -169,6 +170,20 @@ export const findProductsForStorageFeeController = async (req, res, next) => {
     const products = await findProductsForStorageFee(Number(days));
     return success(res, PRODUCT_MESSAGES.PRODUCT_STORAGE_FEE_LISTED, {
       products,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const triggerStorageFeeController = async (req, res, next) => {
+  try {
+    console.log('API 요청으로 보관료 정산 스케줄러를 수동 실행합니다.');
+    const result = await runStorageFeeJob();
+    return success(res, result.message, {
+      total: result.count,
+      success: result.successCount,
+      failure: result.failureCount,
     });
   } catch (error) {
     next(error);

@@ -10,6 +10,7 @@ import {
   approveProductController,
   rejectProductController,
   findProductsForStorageFeeController,
+  triggerStorageFeeController,
 } from '../controllers/product.controller.js';
 import { authenticate } from '../middlewares/auth.js';
 import { adminOnly } from '../middlewares/adminOnly.js';
@@ -636,6 +637,41 @@ import requireVerifiedPhone from '../middlewares/requireVerifiedPhone.js';
  *         description: 관리자 권한 없음
  */
 
+/**
+ * @swagger
+ * /api/products/admin/trigger-storage-fee:
+ *   post:
+ *     summary: (관리자-테스트용) 보관료 정산 수동 실행
+ *     tags: [Product]
+ *     security:
+ *       - bearerAuth: []
+ *     description: 보관료 정산 스케줄러 작업을 수동으로 즉시 실행하고 결과를 반환합니다.
+ *     responses:
+ *       200:
+ *         description: 실행 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     total:
+ *                       type: integer
+ *                       description: 처리 대상 상품 수
+ *                     success:
+ *                       type: integer
+ *                       description: 성공 건수
+ *                     failure:
+ *                       type: integer
+ *                       description: 실패 건수
+ */
+
 const router = express.Router();
 //상품등록 (이미지 업로드 및 S3 연동)
 router.post(
@@ -682,6 +718,14 @@ router.get(
   authenticate,
   adminOnly,
   findProductsForStorageFeeController,
+);
+
+// (관리자-테스트용) 보관료 정산 수동 실행
+router.post(
+  '/admin/trigger-storage-fee',
+  authenticate,
+  adminOnly,
+  triggerStorageFeeController,
 );
 
 export default router;
