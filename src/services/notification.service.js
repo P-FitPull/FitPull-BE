@@ -19,6 +19,7 @@ const VALID_TYPES = [
   'REVIEW',
   'PURCHASE',
   'PURCHASE_CANCEL',
+  'STORAGE_FEE',
   'ETC',
 ];
 
