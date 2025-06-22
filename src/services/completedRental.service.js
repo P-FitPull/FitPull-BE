@@ -49,7 +49,7 @@ export const completeRental = async (rentalRequestId) => {
       return { message: COMPLETED_RENTAL_MESSAGES.ALREADY_COMPLETED };
     }
 
-    // 1. CompletedRental 생성
+    // CompletedRental 생성
     const created = await tx.completedRental.create({
       data: {
         rentalRequestId,
@@ -61,14 +61,20 @@ export const completeRental = async (rentalRequestId) => {
       },
     });
 
-    // 2. 소유주 잔액 증가 (수수료 제외 금액)
+    // 상품의 마지막 대여 완료일 업데이트
+    await tx.product.update({
+      where: { id: rental.productId },
+      data: { lastRentalCompletedAt: new Date() },
+    });
+
+    // 소유주 잔액 증가 (수수료 제외 금액)
     const updatedOwner = await tx.user.update({
       where: { id: owner.id },
       data: { balance: { increment: ownerProfit } },
       select: { balance: true },
     });
 
-    // 3. 유저 수익 로그
+    // 유저 수익 로그
     await tx.paymentLog.create({
       data: {
         userId: owner.id,
@@ -82,7 +88,7 @@ export const completeRental = async (rentalRequestId) => {
       },
     });
 
-    // 4. 플랫폼 계정 조회 + 잔액 감소 (수수료 제외 금액만큼만 차감)
+    // 플랫폼 계정 조회 + 잔액 감소 (수수료 제외 금액만큼만 차감)
     const platform = await tx.platformAccount.findFirst();
     if (!platform)
       throw new CustomError(
@@ -107,7 +113,7 @@ export const completeRental = async (rentalRequestId) => {
       data: { balance: { decrement: ownerProfit } },
     });
 
-    // 5. 플랫폼 지출 로그
+    // 플랫폼 지출 로그
     await tx.platformPaymentLog.create({
       data: {
         platformAccountId: platform.id,
@@ -121,7 +127,7 @@ export const completeRental = async (rentalRequestId) => {
       },
     });
 
-    // 6. 플랫폼 수수료 수입 로그
+    // 플랫폼 수수료 수입 로그
     await tx.platformPaymentLog.create({
       data: {
         platformAccountId: platform.id,
@@ -138,7 +144,7 @@ export const completeRental = async (rentalRequestId) => {
     return created;
   });
 
-  // === 리뷰 작성 요청 알림 ===
+  // 리뷰 작성 요청 알림
   await createNotification({
     userId: rental.userId,
     type: 'REVIEW',
