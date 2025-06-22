@@ -440,5 +440,6 @@ enum PlatformLogType {
   OUTCOME
   OWNER_PAYOUT
   REFUND
+  STORAGE_FEE_INCOME
   ETC
 }

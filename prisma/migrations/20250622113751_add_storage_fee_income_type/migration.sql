@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "PlatformLogType" ADD VALUE 'STORAGE_FEE_INCOME';
