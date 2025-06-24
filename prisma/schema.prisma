@@ -366,6 +366,7 @@ model PlatformPaymentLog {
 enum Role {
   USER
   ADMIN
+  INFLUENCER
 }
 
 enum Provider {
