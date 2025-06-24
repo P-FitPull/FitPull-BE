@@ -16,6 +16,7 @@ import aiRouter from './routes/ai.routes.js';
 import paymentRouter from './routes/payment.routes.js';
 import platformRouter from './routes/platform.routes.js';
 import purchaseRouter from './routes/purchase.routes.js';
+import influencerPromoRouter from './routes/influencerPromo.routes.js';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './docs/swagger.js';
 import cookieParser from 'cookie-parser';
@@ -64,6 +65,7 @@ app.use('/api/ai', aiRouter);
 app.use('/api/payments', paymentRouter);
 app.use('/api/admin/platform', platformRouter);
 app.use('/api', purchaseRouter);
+app.use('/api/influencer-promos', influencerPromoRouter);
 
 // 기본 라우트
 app.get('/', (_, res) => {

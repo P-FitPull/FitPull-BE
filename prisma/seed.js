@@ -9,10 +9,10 @@ const prisma = new PrismaClient();
 const ADMIN_EMAIL = 'admin@fitpull.com';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const ADMIN_NAME = '김어드민';
-const ADMIN_PHONE = '010-2667-8832';
+const ADMIN_PHONE = '01026678832';
 
 const INFLUENCER_NAME = '김인플루언서';
-const INFLUENCER_PHONE = '010-2667-8832';
+const INFLUENCER_PHONE = '01026678832';
 const INFLUENCER_EMAIL = 'influencer@fitpull.com';
 const INFLUENCER_PASSWORD = process.env.ADMIN_PASSWORD;
 
