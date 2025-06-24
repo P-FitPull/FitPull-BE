@@ -10,7 +10,9 @@ import {
   USER_PURCHASE_COMMISSION_RATE,
   INFLUENCER_PURCHASE_COMMISSION_RATE,
 } from '../constants/commission.js';
+import { INFLUENCER_PROMO_PURCHASE_DISCOUNT_RATE } from '../constants/discount.js';
 import { createNotification } from './notification.service.js';
+import { findInfluencerPromoByProductId } from '../repositories/influencerPromo.repository.js';
 
 export const purchaseProduct = async (productId, userId) => {
   return await prisma.$transaction(async (tx) => {
@@ -48,10 +50,18 @@ export const purchaseProduct = async (productId, userId) => {
       userId,
     );
     const purchasePrice = product.purchasePrice;
-    const finalPrice = Math.max(purchasePrice - totalRentalAmount, 0);
+    let finalPrice = Math.max(purchasePrice - totalRentalAmount, 0);
+
+    // 인플루언서 홍보관 할인 추가
+    const influencerPromo = await findInfluencerPromoByProductId(productId);
+    const buyer = await tx.user.findUnique({ where: { id: userId } });
+    if (influencerPromo) {
+      finalPrice = Math.round(
+        finalPrice * (1 - INFLUENCER_PROMO_PURCHASE_DISCOUNT_RATE),
+      );
+    }
 
     // 유저 잔액 확인 및 차감
-    const buyer = await tx.user.findUnique({ where: { id: userId } });
     if (buyer.balance < finalPrice) {
       throw new CustomError(
         400,

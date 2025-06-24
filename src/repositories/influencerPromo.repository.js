@@ -47,3 +47,9 @@ export const findFeaturedHomeInfluencerPromoRepo = async () => {
     },
   });
 };
+
+export const findInfluencerPromoByProductId = async (productId) => {
+  return prisma.influencerPromo.findFirst({
+    where: { productId, deletedAt: null },
+  });
+};
