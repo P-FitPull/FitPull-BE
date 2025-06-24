@@ -101,6 +101,12 @@ export const createProduct = async (productData, user) => {
     }
   }
 
+  // 인플루언서면 바로 APPROVED, 아니면 PENDING
+  const status =
+    user.role === 'INFLUENCER'
+      ? PRODUCT_STATUS.APPROVED
+      : PRODUCT_STATUS.PENDING;
+
   const product = await createProductRepo(
     {
       title: productData.title,
@@ -112,7 +118,7 @@ export const createProduct = async (productData, user) => {
       imageUrls: productData.imageUrls || [],
       allowPurchase: productData.allowPurchase || false,
       categoryId,
-      status: PRODUCT_STATUS.PENDING,
+      status,
     },
     user.id,
   );
