@@ -6,7 +6,7 @@ export const findAllInfluencerPromosRepo = async () => {
     select: {
       id: true,
       title: true,
-      videoUrl: true,
+      imageUrls: true,
     },
     orderBy: { createdAt: 'desc' },
   });
@@ -34,5 +34,16 @@ export const deleteInfluencerPromoRepo = async (id) => {
   return prisma.influencerPromo.update({
     where: { id },
     data: { deletedAt: new Date() },
+  });
+};
+
+export const findFeaturedHomeInfluencerPromoRepo = async () => {
+  return prisma.influencerPromo.findFirst({
+    where: { deletedAt: null, isFeaturedHome: true },
+    select: {
+      id: true,
+      title: true,
+      videoUrl: true,
+    },
   });
 };

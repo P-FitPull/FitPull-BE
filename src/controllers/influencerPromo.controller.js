@@ -4,6 +4,7 @@ import {
   createInfluencerPromo,
   updateInfluencerPromo,
   deleteInfluencerPromo,
+  findFeaturedHomeInfluencerPromo,
 } from '../services/influencerPromo.service.js';
 
 export const findAllInfluencerPromosController = async (req, res, next) => {
@@ -49,6 +50,19 @@ export const deleteInfluencerPromoController = async (req, res, next) => {
     const { id } = req.params;
     await deleteInfluencerPromo(id);
     res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const findFeaturedHomeInfluencerPromoController = async (
+  req,
+  res,
+  next,
+) => {
+  try {
+    const promo = await findFeaturedHomeInfluencerPromo();
+    res.json(promo);
   } catch (err) {
     next(err);
   }

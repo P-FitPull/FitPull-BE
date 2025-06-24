@@ -8,11 +8,12 @@ import {
   createInfluencerPromoController,
   updateInfluencerPromoController,
   deleteInfluencerPromoController,
+  findFeaturedHomeInfluencerPromoController,
 } from '../controllers/influencerPromo.controller.js';
 
 const router = express.Router();
 
-// 홈화면or리스트
+// 전체보기 인플루언서 홍보 리스트
 router.get('/', findAllInfluencerPromosController);
 
 // 상세보기
@@ -38,5 +39,13 @@ router.patch(
 
 // admin 삭제
 router.delete('/:id', authenticate, adminOnly, deleteInfluencerPromoController);
+
+// 홈화면 홍보
+router.get(
+  '/featured-home',
+  authenticate,
+  adminOnly,
+  findFeaturedHomeInfluencerPromoController,
+);
 
 export default router;

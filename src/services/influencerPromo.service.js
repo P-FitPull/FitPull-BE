@@ -4,6 +4,7 @@ import {
   createInfluencerPromoRepo,
   updateInfluencerPromoRepo,
   deleteInfluencerPromoRepo,
+  findFeaturedHomeInfluencerPromoRepo,
 } from '../repositories/influencerPromo.repository.js';
 
 export const findAllInfluencerPromos = async () => {
@@ -24,4 +25,8 @@ export const updateInfluencerPromo = async (id, data) => {
 
 export const deleteInfluencerPromo = async (id) => {
   return await deleteInfluencerPromoRepo(id);
+};
+
+export const findFeaturedHomeInfluencerPromo = async () => {
+  return await findFeaturedHomeInfluencerPromoRepo();
 };
