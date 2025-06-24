@@ -1,5 +1,6 @@
 import express from 'express';
 import { adminOnly } from '../middlewares/adminOnly.js';
+import { influencerOnly } from '../middlewares/influencerOnly.js';
 import { authenticate } from '../middlewares/auth.js';
 import { s3ImageUpload } from '../middlewares/s3ImageUpload.js';
 import {
@@ -23,7 +24,7 @@ router.get('/:id', findInfluencerPromoDetailController);
 router.post(
   '/',
   authenticate,
-  adminOnly,
+  influencerOnly,
   s3ImageUpload,
   createInfluencerPromoController,
 );
@@ -32,13 +33,18 @@ router.post(
 router.patch(
   '/:id',
   authenticate,
-  adminOnly,
+  influencerOnly,
   s3ImageUpload,
   updateInfluencerPromoController,
 );
 
 // admin 삭제
-router.delete('/:id', authenticate, adminOnly, deleteInfluencerPromoController);
+router.delete(
+  '/:id',
+  authenticate,
+  influencerOnly,
+  deleteInfluencerPromoController,
+);
 
 // 홈화면 홍보
 router.get(
