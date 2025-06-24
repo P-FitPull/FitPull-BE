@@ -6,7 +6,10 @@ import {
 import { getLastApprovedRentalEndDate } from '../repositories/rentalRequest.repository.js';
 import { PRODUCT_MESSAGES, PLATFORM_MESSAGES } from '../constants/messages.js';
 import CustomError from '../utils/customError.js';
-import { PURCHASE_COMMISSION_RATE } from '../constants/commission.js';
+import {
+  USER_PURCHASE_COMMISSION_RATE,
+  INFLUENCER_PURCHASE_COMMISSION_RATE,
+} from '../constants/commission.js';
 import { createNotification } from './notification.service.js';
 
 export const purchaseProduct = async (productId, userId) => {
@@ -76,10 +79,14 @@ export const purchaseProduct = async (productId, userId) => {
     });
 
     // 판매자 정산 및 수익 로그 기록
-    const commission = Math.floor(finalPrice * PURCHASE_COMMISSION_RATE);
+    const seller = await tx.user.findUnique({ where: { id: product.ownerId } });
+    const commissionRate =
+      seller.role === 'INFLUENCER'
+        ? INFLUENCER_PURCHASE_COMMISSION_RATE
+        : USER_PURCHASE_COMMISSION_RATE;
+    const commission = Math.floor(finalPrice * commissionRate);
     const sellerProfit = finalPrice - commission;
 
-    const seller = await tx.user.findUnique({ where: { id: product.ownerId } });
     const updatedSeller = await tx.user.update({
       where: { id: product.ownerId },
       data: { balance: { increment: sellerProfit } },
@@ -263,7 +270,11 @@ export const cancelPurchase = async (productId, userId) => {
     });
 
     // 판매자 잔액 차감
-    const commission = Math.floor(purchaseAmount * PURCHASE_COMMISSION_RATE);
+    const commissionRate =
+      product.owner.role === 'INFLUENCER'
+        ? INFLUENCER_PURCHASE_COMMISSION_RATE
+        : USER_PURCHASE_COMMISSION_RATE;
+    const commission = Math.floor(purchaseAmount * commissionRate);
     const sellerProfit = purchaseAmount - commission;
 
     const seller = await tx.user.findUnique({ where: { id: product.ownerId } });

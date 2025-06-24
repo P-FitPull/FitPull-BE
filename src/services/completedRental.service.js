@@ -11,7 +11,10 @@ import {
   NOTIFICATION_MESSAGES,
 } from '../constants/messages.js';
 import { createNotification } from './notification.service.js';
-import { PLATFORM_COMMISSION_RATE } from '../constants/commission.js';
+import {
+  USER_RENTAL_COMMISSION_RATE,
+  INFLUENCER_RENTAL_COMMISSION_RATE,
+} from '../constants/commission.js';
 import prisma from '../data-source.js';
 
 export const completeRental = async (rentalRequestId) => {
@@ -37,7 +40,11 @@ export const completeRental = async (rentalRequestId) => {
     (rental.endDate - rental.startDate) / (1000 * 60 * 60 * 24),
   );
   const totalPrice = pricePerDay * days;
-  const platformCommission = Math.floor(totalPrice * PLATFORM_COMMISSION_RATE);
+  const commissionRate =
+    owner.role === 'INFLUENCER'
+      ? INFLUENCER_RENTAL_COMMISSION_RATE
+      : USER_RENTAL_COMMISSION_RATE;
+  const platformCommission = Math.floor(totalPrice * commissionRate);
   const ownerProfit = totalPrice - platformCommission;
 
   const completedRental = await prisma.$transaction(async (tx) => {
