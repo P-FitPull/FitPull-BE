@@ -9,6 +9,7 @@ import {
   socialCallbackController,
   requestPhoneCodeController,
   verifyPhoneCodeController,
+  passwordResetRequestController,
 } from '../controllers/auth.controller.js';
 import passport from '../configs/passport.js';
 
@@ -473,6 +474,41 @@ import passport from '../configs/passport.js';
  *         description: 인증 실패(만료, 불일치, 잘못된 입력 등)
  */
 
+/**
+ * @swagger
+ * /api/auth/password/reset/request:
+ *   post:
+ *     summary: 비밀번호 재설정 인증코드 요청
+ *     description: 비밀번호 재설정을 위해 인증코드를 전송합니다.
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@example.com
+ *     responses:
+ *       200:
+ *         description: 인증 코드 전송 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *       404:
+ *         description: 존재하지 않는 계정
+ */
+
 const router = express.Router();
 //회원가입
 router.post('/signup', signupController);
@@ -528,5 +564,8 @@ router.post('/phone/request', requestPhoneCodeController);
 
 // 인증번호 검증
 router.post('/phone/verify', verifyPhoneCodeController);
+
+// 비밀번호 재설정 인증코드 요청
+router.post('/password/reset/request', passwordResetRequestController);
 
 export default router;

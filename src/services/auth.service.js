@@ -21,7 +21,10 @@ import {
 } from '../utils/redis.js';
 import CustomError from '../utils/customError.js';
 import { AUTH_MESSAGES } from '../constants/messages.js';
-import { sendRecoveryEmail } from '../utils/nodemailer.js';
+import {
+  sendRecoveryEmail,
+  sendPasswordResetEmail,
+} from '../utils/nodemailer.js';
 
 export const signup = async ({
   email,
@@ -307,4 +310,21 @@ export const logout = async (userId) => {
   if (userId) {
     await deleteRefreshToken(userId);
   }
+};
+
+export const sendPasswordResetCode = async (email) => {
+  if (
+    !email ||
+    typeof email !== 'string' ||
+    !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
+  ) {
+    throw new CustomError(400, 'INVALID_EMAIL', AUTH_MESSAGES.INVALID_EMAIL);
+  }
+  const account = await findAnyByEmail(email);
+  if (!account || account.deletedAt) {
+    throw new CustomError(404, 'USER_NOT_FOUND', AUTH_MESSAGES.USER_NOT_FOUND);
+  }
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  await setEmailCode(email, code);
+  await sendPasswordResetEmail(email, code);
 };

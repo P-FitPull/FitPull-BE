@@ -7,6 +7,7 @@ import {
   verifyPhoneAndUpdateUser,
   ensurePhoneExistsForVerification,
   logout,
+  sendPasswordResetCode,
 } from '../services/auth.service.js';
 import { getRefreshToken, setRefreshToken } from '../utils/redis.js';
 import { verifyRefreshToken } from '../utils/jwt.js';
@@ -231,5 +232,15 @@ export const verifyPhoneCodeController = async (req, res, next) => {
     res.status(200).json({ message: '인증이 완료되었습니다.' });
   } catch (err) {
     next(err);
+  }
+};
+
+export const passwordResetRequestController = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    await sendPasswordResetCode(email);
+    return success(res, AUTH_MESSAGES.PASSWORD_RESET_CODE_SENT);
+  } catch (error) {
+    next(error);
   }
 };
