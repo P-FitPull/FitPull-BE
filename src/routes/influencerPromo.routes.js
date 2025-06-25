@@ -10,6 +10,7 @@ import {
   updateInfluencerPromoController,
   deleteInfluencerPromoController,
   findFeaturedHomeInfluencerPromoController,
+  setFeaturedHomeInfluencerPromoController,
 } from '../controllers/influencerPromo.controller.js';
 
 const router = express.Router();
@@ -46,12 +47,20 @@ router.delete(
   deleteInfluencerPromoController,
 );
 
-// 홈화면 홍보
+// 홈화면 홍보물 조회
 router.get(
   '/featured-home',
   authenticate,
   adminOnly,
   findFeaturedHomeInfluencerPromoController,
+);
+
+// 홈화면 대표 홍보물 지정
+router.patch(
+  '/:id/featured-home',
+  authenticate,
+  adminOnly,
+  setFeaturedHomeInfluencerPromoController,
 );
 
 export default router;

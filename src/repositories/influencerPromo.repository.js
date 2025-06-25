@@ -17,7 +17,6 @@ export const findInfluencerPromoDetailRepo = async (id) => {
     where: { id },
     include: {
       product: true,
-      user: true,
     },
   });
 };
@@ -37,19 +36,19 @@ export const deleteInfluencerPromoRepo = async (id) => {
   });
 };
 
-export const findFeaturedHomeInfluencerPromoRepo = async () => {
+export const findInfluencerPromoByProductId = async (productId) => {
   return prisma.influencerPromo.findFirst({
+    where: { productId, deletedAt: null },
+  });
+};
+
+export const findAllFeaturedHomeInfluencerPromosRepo = async () => {
+  return prisma.influencerPromo.findMany({
     where: { deletedAt: null, isFeaturedHome: true },
     select: {
       id: true,
       title: true,
       videoUrl: true,
     },
-  });
-};
-
-export const findInfluencerPromoByProductId = async (productId) => {
-  return prisma.influencerPromo.findFirst({
-    where: { productId, deletedAt: null },
   });
 };
