@@ -46,6 +46,7 @@ export const createUser = async ({
     include: { user: true },
   });
 };
+
 export const restoreAccountByEmail = async (email, passwordHash) => {
   const account = await prisma.account.findFirst({
     where: { email },
@@ -76,5 +77,12 @@ export const findAccountByProvider = async (provider, providerId) => {
       },
     },
     include: { user: true },
+  });
+};
+
+export const updatePasswordByEmail = async (id, passwordHash) => {
+  return await prisma.account.update({
+    where: { id },
+    data: { passwordHash },
   });
 };
