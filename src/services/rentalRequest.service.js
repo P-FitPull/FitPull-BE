@@ -15,9 +15,13 @@ import {
 import { getProductByIdRepo } from '../repositories/product.repository.js';
 import CustomError from '../utils/customError.js';
 import { createNotification } from './notification.service.js';
-import { RENTAL_DISCOUNT } from '../constants/rentalDiscount.js';
+import {
+  RENTAL_DISCOUNT,
+  INFLUENCER_PROMO_RENTAL_DISCOUNT_RATE,
+} from '../constants/discount.js';
 import { findUserById } from '../repositories/user.repository.js';
 import prisma from '../data-source.js';
+import { findInfluencerPromoByProductId } from '../repositories/influencerPromo.repository.js';
 
 export const createRentalRequestWithPayment = async (
   productId,
@@ -116,6 +120,13 @@ export const createRentalRequestWithPayment = async (
     if (discountPolicy) {
       totalPrice *= discountPolicy.rate;
     }
+
+    // 인플루언서 홍보관 할인 추가
+    const influencerPromo = await findInfluencerPromoByProductId(productId);
+    if (influencerPromo) {
+      totalPrice *= 1 - INFLUENCER_PROMO_RENTAL_DISCOUNT_RATE;
+    }
+
     totalPrice = Math.round(totalPrice);
 
     if (user.balance < totalPrice) {

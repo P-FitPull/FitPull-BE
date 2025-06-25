@@ -1,0 +1,58 @@
+import prisma from '../data-source.js';
+
+export const findAllInfluencerPromosRepo = async () => {
+  return prisma.influencerPromo.findMany({
+    where: { deletedAt: null },
+    select: {
+      id: true,
+      title: true,
+      imageUrls: true,
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+};
+
+export const findInfluencerPromoDetailRepo = async (id) => {
+  return prisma.influencerPromo.findUnique({
+    where: { id },
+    include: {
+      product: true,
+    },
+  });
+};
+
+export const createInfluencerPromoRepo = async (data) => {
+  return prisma.influencerPromo.create({ data });
+};
+
+export const updateInfluencerPromoRepo = async (id, data) => {
+  return prisma.influencerPromo.update({ where: { id }, data });
+};
+
+export const deleteInfluencerPromoRepo = async (id) => {
+  return prisma.influencerPromo.update({
+    where: { id },
+    data: { deletedAt: new Date() },
+  });
+};
+
+export const findInfluencerPromoByProductId = async (productId) => {
+  return prisma.influencerPromo.findFirst({
+    where: { productId, deletedAt: null },
+  });
+};
+
+export const findAllFeaturedHomeInfluencerPromosRepo = async () => {
+  return prisma.influencerPromo.findMany({
+    where: { deletedAt: null, isFeaturedHome: true },
+    select: {
+      id: true,
+      title: true,
+      videoUrl: true,
+    },
+  });
+};
+
+export const updateManyInfluencerPromoRepo = async (where, data) => {
+  return prisma.influencerPromo.updateMany({ where, data });
+};

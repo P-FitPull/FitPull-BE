@@ -12,6 +12,33 @@ export const PLATFORM_MESSAGES = {
   INSUFFICIENT_PLATFORM_BALANCE: '플랫폼 잔액이 부족합니다.',
 };
 
+export const INFLUENCER_PROMO_MESSAGES = {
+  GET_ALL_SUCCESS: '인플루언서 홍보 목록 조회 성공',
+  CREATE_SUCCESS: '인플루언서 홍보 등록 성공',
+  GET_DETAIL_SUCCESS: '인플루언서 홍보 상세 조회 성공',
+  UPDATE_SUCCESS: '인플루언서 홍보 수정 성공',
+  DELETE_SUCCESS: '인플루언서 홍보 삭제 성공',
+  GEATURED_HOME_SUCCESS: '홈화면 홍보 조회 성공',
+  MISSING_TITLE: '제목을 입력해주세요.',
+  MISSING_VIDEO_URL: '영상 링크를 입력해주세요.',
+  MISSING_PRODUCT_ID: '상품ID는 필수 입력 항목입니다.',
+  MISSING_USER_ID: '인플루언서ID는 필수 입력 항목입니다.',
+  NOT_INFLUENCER: '인플루언서만 등록할 수 있습니다.',
+  NOT_PRODUCT_OWNER: '해당 상품의 소유주가 아닙니다.',
+  PRODUCT_NOT_FOUND: '상품을 찾을 수 없습니다.',
+  IMAGE_LIMIT_EXCEEDED: '이미지는 최대 5개까지 첨부할 수 있습니다.',
+  NOT_FOUND: '해당 인플루언서 홍보물을 찾을 수 없습니다.',
+  EMPTY_LIST: '등록된 인플루언서 홍보가 없습니다.',
+  NO_PERMISSION: '권한이 없습니다.',
+  INVALID_TITLE: '제목을 입력해주세요.',
+  INVALID_VIDEO_URL: '영상 링크를 입력해주세요.',
+  INVALID_SNS_LINKS: 'SNS 링크를 입력해주세요.',
+  GET_FEATURED_HOME_SUCCESS: '홈화면 홍보물 조회 성공',
+  SET_FEATURED_HOME_SUCCESS: '홈화면 홍보물 설정 성공',
+  FEATURED_HOME_NOT_FOUND: '홈에 노출할 인플루언서 홍보물이 없습니다.',
+  MULTIPLE_FEATURED_HOME: 'isFeaturedHome=true인 홍보물이 여러 개 존재합니다.',
+};
+
 export const AI_MESSAGES = {
   INVALID_PRODUCT_STATUS: 'AI 분석은 대기 중(PENDING) 상품만 가능합니다.',
   AI_PARSE_ERROR: 'AI 응답 파싱 오류',

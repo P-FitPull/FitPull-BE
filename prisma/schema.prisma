@@ -321,15 +321,20 @@ model PackageItem {
 }
 
 model InfluencerPromo {
-  id          String   @id @default(uuid())
-  name        String
-  description String?  @db.Text
-  videoUrl    String?  @map("video_url")
-  createdAt   DateTime @default(now()) @map("created_at")
-  productId   String   @map("product_id")
-  product     Product  @relation(fields: [productId], references: [id])
-  user        User?    @relation(fields: [userId], references: [id])
-  userId      String?
+  id             String    @id @default(uuid())
+  title          String
+  description    String?   @db.Text
+  videoUrl       String?   @map("video_url")
+  imageUrls      String[]  @map("image_urls")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+  deletedAt      DateTime? @map("deleted_at")
+  productId      String    @map("product_id")
+  product        Product   @relation(fields: [productId], references: [id])
+  user           User?     @relation(fields: [userId], references: [id])
+  userId         String?
+  snsLinks       String[]
+  isFeaturedHome Boolean   @default(false)
 
   @@map("influencer_promos")
 }
@@ -366,6 +371,7 @@ model PlatformPaymentLog {
 enum Role {
   USER
   ADMIN
+  INFLUENCER
 }
 
 enum Provider {
