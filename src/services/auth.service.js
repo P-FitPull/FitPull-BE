@@ -4,6 +4,7 @@ import {
   findAnyByEmail,
   restoreAccountByEmail,
   findAccountByProvider,
+  updatePasswordByEmail,
 } from '../repositories/auth.repository.js';
 import {
   findUserByPhone,
@@ -313,18 +314,74 @@ export const logout = async (userId) => {
 };
 
 export const sendPasswordResetCode = async (email) => {
+  const normalizedEmail = email.trim().toLowerCase();
   if (
-    !email ||
-    typeof email !== 'string' ||
-    !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
+    !normalizedEmail ||
+    typeof normalizedEmail !== 'string' ||
+    !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(normalizedEmail)
   ) {
     throw new CustomError(400, 'INVALID_EMAIL', AUTH_MESSAGES.INVALID_EMAIL);
   }
-  const account = await findAnyByEmail(email);
+  const account = await findAnyByEmail(normalizedEmail);
   if (!account || account.deletedAt) {
     throw new CustomError(404, 'USER_NOT_FOUND', AUTH_MESSAGES.USER_NOT_FOUND);
   }
+  if (account.provider !== 'LOCAL') {
+    throw new CustomError(400, 'SOCIAL_ONLY', AUTH_MESSAGES.SOCIAL_ONLY);
+  }
   const code = Math.floor(100000 + Math.random() * 900000).toString();
-  await setEmailCode(email, code);
-  await sendPasswordResetEmail(email, code);
+  await setEmailCode(normalizedEmail, code);
+  await sendPasswordResetEmail(normalizedEmail, code);
+};
+
+export const verifyCodeAndChangePassword = async ({
+  email,
+  code,
+  newPassword,
+  newPasswordCheck,
+}) => {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  // 필수 입력값 누락
+  if (!normalizedEmail || !code || !newPassword || !newPasswordCheck) {
+    throw new CustomError(400, 'MISSING_FIELDS', AUTH_MESSAGES.MISSING_FIELDS);
+  }
+  // 비밀번호 최소 길이
+  if (newPassword.length < 6) {
+    throw new CustomError(
+      400,
+      'INVALID_PASSWORD',
+      AUTH_MESSAGES.INVALID_PASSWORD,
+    );
+  }
+  // 비밀번호/비밀번호확인 불일치
+  if (newPassword !== newPasswordCheck) {
+    throw new CustomError(
+      400,
+      'PASSWORD_MISMATCH',
+      AUTH_MESSAGES.PASSWORD_MISMATCH,
+    );
+  }
+  // 인증코드 존재 여부
+  const savedCode = await getEmailCode(normalizedEmail);
+  if (!savedCode) {
+    throw new CustomError(400, 'NO_CODE', AUTH_MESSAGES.NO_CODE);
+  }
+  // 인증코드 일치 여부
+  if (String(savedCode) !== String(code)) {
+    throw new CustomError(400, 'INVALID_CODE', AUTH_MESSAGES.INVALID_CODE);
+  }
+  // 실제 계정 존재 여부 체크
+  const account = await findAnyByEmail(normalizedEmail);
+  if (!account || account.deletedAt) {
+    throw new CustomError(404, 'USER_NOT_FOUND', AUTH_MESSAGES.USER_NOT_FOUND);
+  }
+  if (account.provider !== 'LOCAL') {
+    throw new CustomError(400, 'SOCIAL_ONLY', AUTH_MESSAGES.SOCIAL_ONLY);
+  }
+  // 인증코드 삭제
+  await deleteEmailCode(normalizedEmail);
+  // 비밀번호 변경
+  const hash = await bcrypt.hash(newPassword, 10);
+  await updatePasswordByEmail(account.id, hash);
 };

@@ -202,6 +202,7 @@ export const AUTH_MESSAGES = {
   LOCAL_ONLY: '일반 계정이 존재합니다. 일반 로그인을 이용해 주세요.',
   PASSWORD_RESET_CODE_SENT:
     '비밀번호 재설정 인증코드가 이메일로 전송되었습니다.',
+  PASSWORD_RESET_SUCCESS: '비밀번호가 성공적으로 변경되었습니다.',
 };
 
 export const USER_MESSAGES = {

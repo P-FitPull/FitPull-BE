@@ -8,6 +8,7 @@ import {
   ensurePhoneExistsForVerification,
   logout,
   sendPasswordResetCode,
+  verifyCodeAndChangePassword,
 } from '../services/auth.service.js';
 import { getRefreshToken, setRefreshToken } from '../utils/redis.js';
 import { verifyRefreshToken } from '../utils/jwt.js';
@@ -241,6 +242,22 @@ export const passwordResetRequestController = async (req, res, next) => {
     await sendPasswordResetCode(email);
     return success(res, AUTH_MESSAGES.PASSWORD_RESET_CODE_SENT);
   } catch (error) {
+    next(error);
+  }
+};
+
+export const passwordResetVerifyController = async (req, res, next) => {
+  try {
+    const { email, code, newPassword, newPasswordCheck } = req.body;
+    await verifyCodeAndChangePassword({
+      email,
+      code,
+      newPassword,
+      newPasswordCheck,
+    });
+    return success(res, AUTH_MESSAGES.PASSWORD_RESET_SUCCESS);
+  } catch (error) {
+    console.log(error);
     next(error);
   }
 };
