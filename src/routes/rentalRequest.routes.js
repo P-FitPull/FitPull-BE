@@ -1,15 +1,15 @@
-import express from "express";
+import express from 'express';
 import {
-	getMyRentalRequestsController,
-	getPendingRequestsController,
-	approveRentalRequestController,
-	rejectRentalRequestController,
-	cancelRentalRequestController,
-	createRentalRequestWithPaymentController,
-} from "../controllers/rentalRequest.controller.js";
-import { authenticate } from "../middlewares/auth.js";
-import { adminOnly } from "../middlewares/adminOnly.js";
-import requireVerifiedPhone from "../middlewares/requireVerifiedPhone.js";
+  getMyRentalRequestsController,
+  getPendingRequestsController,
+  approveRentalRequestController,
+  rejectRentalRequestController,
+  cancelRentalRequestController,
+  createRentalRequestWithPaymentController,
+} from '../controllers/rentalRequest.controller.js';
+import { authenticate } from '../middlewares/auth.js';
+import { adminOnly } from '../middlewares/adminOnly.js';
+import requireVerifiedPhone from '../middlewares/requireVerifiedPhone.js';
 
 /**
  * @swagger
@@ -284,35 +284,36 @@ import requireVerifiedPhone from "../middlewares/requireVerifiedPhone.js";
 const router = express.Router();
 
 // 대여 요청
-router.post("/", authenticate, requireVerifiedPhone, createRentalRequestWithPaymentController);
+router.post(
+  '/',
+  authenticate,
+  requireVerifiedPhone,
+  createRentalRequestWithPaymentController,
+);
 
 // 본인 대여요청 목록 조회
-router.get("/me", authenticate, getMyRentalRequestsController);
+router.get('/me', authenticate, getMyRentalRequestsController);
 
 // 대기 요청 전체조회
-router.get("/pending", authenticate, adminOnly, getPendingRequestsController);
+router.get('/pending', authenticate, adminOnly, getPendingRequestsController);
 
 // 대여요청수락
 router.patch(
-	"/:id/approve",
-	authenticate,
-	adminOnly,
-	approveRentalRequestController,
+  '/:id/approve',
+  authenticate,
+  adminOnly,
+  approveRentalRequestController,
 );
 
 // 대여요청거절
 router.patch(
-	"/:id/reject",
-	authenticate,
-	adminOnly,
-	rejectRentalRequestController,
+  '/:id/reject',
+  authenticate,
+  adminOnly,
+  rejectRentalRequestController,
 );
 
 // 대여요청취소 (본인만)
-router.patch(
-	"/:id/cancel",
-	authenticate,
-	cancelRentalRequestController,
-);
+router.patch('/:id/cancel', authenticate, cancelRentalRequestController);
 
 export default router;

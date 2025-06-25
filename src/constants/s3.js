@@ -1,1 +1,1 @@
-export const S3_PREFIX = "products/"; 
+export const S3_PREFIX = 'products/';

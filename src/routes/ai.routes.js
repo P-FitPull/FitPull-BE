@@ -1,7 +1,11 @@
-import express from "express";
-import { authenticate } from "../middlewares/auth.js";
-import { adminOnly } from "../middlewares/adminOnly.js";
-import { requestAiPriceEstimationController, summarizeReviewsController, recommendProductsController } from "../controllers/ai.controller.js";
+import express from 'express';
+import { authenticate } from '../middlewares/auth.js';
+import { adminOnly } from '../middlewares/adminOnly.js';
+import {
+  requestAiPriceEstimationController,
+  summarizeReviewsController,
+  recommendProductsController,
+} from '../controllers/ai.controller.js';
 
 const router = express.Router();
 
@@ -95,7 +99,6 @@ const router = express.Router();
  *         description: 상품 또는 리뷰 없음
  */
 
-
 /**
  * @swagger
  * /api/ai/recommend:
@@ -141,12 +144,17 @@ const router = express.Router();
  *         description: 추천할 상품 없음
  */
 // 적정가 분석
-router.post("/price-estimation/:productId", authenticate, adminOnly, requestAiPriceEstimationController);
+router.post(
+  '/price-estimation/:productId',
+  authenticate,
+  adminOnly,
+  requestAiPriceEstimationController,
+);
 
 // 리뷰 요약
-router.post("/summary/:productId", summarizeReviewsController);
+router.post('/summary/:productId', summarizeReviewsController);
 
 // 상품 추천
-router.post("/recommend", recommendProductsController);
+router.post('/recommend', recommendProductsController);
 
 export default router;

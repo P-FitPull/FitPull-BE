@@ -1,6 +1,11 @@
-import { getPlatformBalance, getPlatformSummary, getPlatformLogs, addPlatformDeposit } from "../services/platform.service.js";
-import { success } from "../utils/responseHandler.js";
-import { PLATFORM_MESSAGES } from "../constants/messages.js";
+import {
+  getPlatformBalance,
+  getPlatformSummary,
+  getPlatformLogs,
+  addPlatformDeposit,
+} from '../services/platform.service.js';
+import { success } from '../utils/responseHandler.js';
+import { PLATFORM_MESSAGES } from '../constants/messages.js';
 
 export const getPlatformBalanceController = async (req, res, next) => {
   try {
@@ -43,5 +48,5 @@ export const addPlatformDepositController = async (req, res, next) => {
     return success(res, PLATFORM_MESSAGES.PLATFORM_DEPOSIT_SUCCESS, result);
   } catch (err) {
     next(err);
-  } 
-}; 
+  }
+};

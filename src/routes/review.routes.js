@@ -1,13 +1,13 @@
-import express from "express";
+import express from 'express';
 import {
   createReviewController,
   getReviewsByProductController,
   getReviewByIdController,
   updateReviewController,
   deleteReviewController,
-} from "../controllers/reviewController.js";
-import { authenticate } from "../middlewares/auth.js";
-import { s3ImageUpload } from "../middlewares/s3ImageUpload.js";
+} from '../controllers/reviewController.js';
+import { authenticate } from '../middlewares/auth.js';
+import { s3ImageUpload } from '../middlewares/s3ImageUpload.js';
 
 /**
  * @swagger
@@ -248,14 +248,14 @@ import { s3ImageUpload } from "../middlewares/s3ImageUpload.js";
 const router = express.Router();
 
 // 상품별 리뷰 목록 조회
-router.get("/product/:productId", getReviewsByProductController);
-// 리뷰 작성 
-router.post("/", authenticate, s3ImageUpload, createReviewController);
+router.get('/product/:productId', getReviewsByProductController);
+// 리뷰 작성
+router.post('/', authenticate, s3ImageUpload, createReviewController);
 // 리뷰 상세 조회
-router.get("/:id", getReviewByIdController);
-// 리뷰 수정 
-router.patch("/:id", authenticate, s3ImageUpload, updateReviewController);
+router.get('/:id', getReviewByIdController);
+// 리뷰 수정
+router.patch('/:id', authenticate, s3ImageUpload, updateReviewController);
 // 리뷰 삭제 (관리자도 가능)
-router.delete("/:id", authenticate, deleteReviewController);
+router.delete('/:id', authenticate, deleteReviewController);
 
-export default router; 
+export default router;

@@ -1,4 +1,4 @@
-import prisma from "../data-source.js";
+import prisma from '../data-source.js';
 
 // 잔고 충전
 export const chargeBalanceRepo = async (userId, amount) => {
@@ -26,7 +26,7 @@ export const createPaymentLogRepo = async ({
   memo,
   balanceBefore,
   balanceAfter,
-  paidAt
+  paidAt,
 }) => {
   return await prisma.paymentLog.create({
     data: {
@@ -42,8 +42,11 @@ export const createPaymentLogRepo = async ({
   });
 };
 
-// 유저 결제/잔고 내역 조회 
-export const findPaymentLogsByUserRepo = async (userId, { type, skip = 0, take = 20 } = {}) => {
+// 유저 결제/잔고 내역 조회
+export const findPaymentLogsByUserRepo = async (
+  userId,
+  { type, skip = 0, take = 20 } = {},
+) => {
   const where = { userId };
 
   if (type) where.paymentType = type;

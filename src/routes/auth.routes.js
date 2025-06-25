@@ -1,16 +1,16 @@
-import express from "express";
+import express from 'express';
 import {
-	signupController,
-	loginController,
-	logoutController,
-	refreshTokenController,
-	rejoinRequestController,
-	rejoinVerifyController,
-	socialCallbackController,
-	requestPhoneCodeController,
-	verifyPhoneCodeController,
-} from "../controllers/auth.controller.js";
-import passport from "../configs/passport.js";
+  signupController,
+  loginController,
+  logoutController,
+  refreshTokenController,
+  rejoinRequestController,
+  rejoinVerifyController,
+  socialCallbackController,
+  requestPhoneCodeController,
+  verifyPhoneCodeController,
+} from '../controllers/auth.controller.js';
+import passport from '../configs/passport.js';
 
 /**
  * @swagger
@@ -475,58 +475,58 @@ import passport from "../configs/passport.js";
 
 const router = express.Router();
 //회원가입
-router.post("/signup", signupController);
+router.post('/signup', signupController);
 //로그인
-router.post("/login", loginController);
+router.post('/login', loginController);
 //로그아웃
-router.post("/logout", logoutController);
+router.post('/logout', logoutController);
 //토큰 재발급
-router.post("/refresh", refreshTokenController);
+router.post('/refresh', refreshTokenController);
 //재가입 요청
-router.post("/rejoin/request", rejoinRequestController);
+router.post('/rejoin/request', rejoinRequestController);
 //재가입 인증
-router.post("/rejoin/verify", rejoinVerifyController);
+router.post('/rejoin/verify', rejoinVerifyController);
 
 // 카카오 로그인 시작
-router.get("/kakao", passport.authenticate("kakao"));
+router.get('/kakao', passport.authenticate('kakao'));
 
 // 카카오 로그인 콜백
 router.get(
-	"/kakao/callback",
-	passport.authenticate("kakao", { failureRedirect: "/login", session: false }),
-	socialCallbackController
+  '/kakao/callback',
+  passport.authenticate('kakao', { failureRedirect: '/login', session: false }),
+  socialCallbackController,
 );
 
 // 구글 로그인 시작
 router.get(
-	"/google",
-	passport.authenticate("google", { scope: ["profile", "email"] })
+  '/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] }),
 );
 
 // 구글 로그인 콜백
 router.get(
-	"/google/callback",
-	passport.authenticate("google", { failureRedirect: "/login", session: false }),
-	socialCallbackController
+  '/google/callback',
+  passport.authenticate('google', {
+    failureRedirect: '/login',
+    session: false,
+  }),
+  socialCallbackController,
 );
 
 // 네이버 로그인 시작
-router.get(
-	"/naver",
-	passport.authenticate("naver")
-);
+router.get('/naver', passport.authenticate('naver'));
 
 // 네이버 로그인 콜백
 router.get(
-	"/naver/callback",
-	passport.authenticate("naver", { failureRedirect: "/login", session: false }),
-	socialCallbackController
+  '/naver/callback',
+  passport.authenticate('naver', { failureRedirect: '/login', session: false }),
+  socialCallbackController,
 );
 
 // 인증번호 요청
-router.post("/phone/request", requestPhoneCodeController);
+router.post('/phone/request', requestPhoneCodeController);
 
 // 인증번호 검증
-router.post("/phone/verify", verifyPhoneCodeController);
+router.post('/phone/verify', verifyPhoneCodeController);
 
 export default router;

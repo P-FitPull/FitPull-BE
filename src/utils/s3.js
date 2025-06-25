@@ -1,5 +1,9 @@
-import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
-import { S3_PREFIX } from "../constants/s3.js";
+import {
+  S3Client,
+  PutObjectCommand,
+  DeleteObjectCommand,
+} from '@aws-sdk/client-s3';
+import { S3_PREFIX } from '../constants/s3.js';
 
 const s3 = new S3Client({
   region: process.env.AWS_REGION,
@@ -22,8 +26,10 @@ export const uploadToS3 = async (file) => {
 
 export const deleteFromS3 = async (imageUrl) => {
   const key = imageUrl.split('.amazonaws.com/')[1];
-  await s3.send(new DeleteObjectCommand({
-    Bucket: process.env.AWS_S3_BUCKET,
-    Key: key
-  }));
+  await s3.send(
+    new DeleteObjectCommand({
+      Bucket: process.env.AWS_S3_BUCKET,
+      Key: key,
+    }),
+  );
 };

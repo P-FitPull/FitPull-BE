@@ -1,11 +1,11 @@
-import express from "express";
+import express from 'express';
 import {
-	completeRentalController,
-	getMyCompletedRentalsController,
-	getAllCompletedRentalsController,
-} from "../controllers/completedRental.controller.js";
-import { authenticate } from "../middlewares/auth.js";
-import { adminOnly } from "../middlewares/adminOnly.js";
+  completeRentalController,
+  getMyCompletedRentalsController,
+  getAllCompletedRentalsController,
+} from '../controllers/completedRental.controller.js';
+import { authenticate } from '../middlewares/auth.js';
+import { adminOnly } from '../middlewares/adminOnly.js';
 
 /**
  * @swagger
@@ -153,10 +153,10 @@ import { adminOnly } from "../middlewares/adminOnly.js";
 
 const router = express.Router();
 // 내 대여완료 조회
-router.get("/me", authenticate, getMyCompletedRentalsController);
+router.get('/me', authenticate, getMyCompletedRentalsController);
 // 어드민 대여완료 전체 조회
-router.get("/", authenticate, adminOnly, getAllCompletedRentalsController);
+router.get('/', authenticate, adminOnly, getAllCompletedRentalsController);
 // 어드민 대여 완료 처리
-router.post("/:id/complete", authenticate, adminOnly, completeRentalController);
+router.post('/:id/complete', authenticate, adminOnly, completeRentalController);
 
 export default router;
