@@ -52,3 +52,7 @@ export const findAllFeaturedHomeInfluencerPromosRepo = async () => {
     },
   });
 };
+
+export const updateManyInfluencerPromoRepo = async (where, data) => {
+  return prisma.influencerPromo.updateMany({ where, data });
+};

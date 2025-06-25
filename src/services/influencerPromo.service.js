@@ -5,6 +5,7 @@ import {
   updateInfluencerPromoRepo,
   deleteInfluencerPromoRepo,
   findAllFeaturedHomeInfluencerPromosRepo,
+  updateManyInfluencerPromoRepo,
 } from '../repositories/influencerPromo.repository.js';
 import { INFLUENCER_PROMO_MESSAGES } from '../constants/messages.js';
 import CustomError from '../utils/customError.js';
@@ -134,8 +135,7 @@ export const updateInfluencerPromo = async (id, data, userId) => {
       INFLUENCER_PROMO_MESSAGES.NOT_FOUND,
     );
   }
-
-  if (promo.userId !== userId) {
+  if (String(promo.userId) !== String(userId)) {
     throw new CustomError(
       403,
       'NO_PERMISSION',
@@ -143,7 +143,6 @@ export const updateInfluencerPromo = async (id, data, userId) => {
     );
   }
 
-  // 필드 유효성 검사
   if ('title' in data && !data.title) {
     throw new CustomError(
       400,
@@ -151,7 +150,6 @@ export const updateInfluencerPromo = async (id, data, userId) => {
       INFLUENCER_PROMO_MESSAGES.INVALID_TITLE,
     );
   }
-
   if ('videoUrl' in data && !data.videoUrl) {
     throw new CustomError(
       400,
@@ -159,7 +157,6 @@ export const updateInfluencerPromo = async (id, data, userId) => {
       INFLUENCER_PROMO_MESSAGES.INVALID_VIDEO_URL,
     );
   }
-
   if ('productId' in data) {
     const product = await getProductByIdRepo(data.productId);
     if (!product) {
@@ -169,7 +166,7 @@ export const updateInfluencerPromo = async (id, data, userId) => {
         INFLUENCER_PROMO_MESSAGES.PRODUCT_NOT_FOUND,
       );
     }
-    if (product.ownerId !== userId) {
+    if (String(product.ownerId) !== String(userId)) {
       throw new CustomError(
         403,
         'NOT_PRODUCT_OWNER',
@@ -177,7 +174,6 @@ export const updateInfluencerPromo = async (id, data, userId) => {
       );
     }
   }
-
   if (data.imageUrls && data.imageUrls.length > MAX_INFLUENCER_PROMO_IMAGES) {
     throw new CustomError(
       400,
@@ -186,11 +182,22 @@ export const updateInfluencerPromo = async (id, data, userId) => {
     );
   }
 
-  // snsLinks 정리
+  const updateData = {};
+  if ('title' in data) updateData.title = data.title;
+  if ('description' in data) updateData.description = data.description;
+  if ('videoUrl' in data) updateData.videoUrl = data.videoUrl;
+  if ('productId' in data) updateData.productId = data.productId;
+  if ('imageUrls' in data) updateData.imageUrls = data.imageUrls;
+
+  // snsLinks 가공
   if ('snsLinks' in data) {
     if (typeof data.snsLinks === 'string') {
-      data.snsLinks = data.snsLinks.split(',').map((snsLink) => snsLink.trim());
-    } else if (!Array.isArray(data.snsLinks)) {
+      updateData.snsLinks = data.snsLinks
+        .split(',')
+        .map((snsLink) => snsLink.trim());
+    } else if (Array.isArray(data.snsLinks)) {
+      updateData.snsLinks = data.snsLinks;
+    } else {
       throw new CustomError(
         400,
         'INVALID_SNS_LINKS',
@@ -198,8 +205,7 @@ export const updateInfluencerPromo = async (id, data, userId) => {
       );
     }
   }
-
-  return await updateInfluencerPromoRepo(id, data);
+  return await updateInfluencerPromoRepo(id, updateData);
 };
 
 export const deleteInfluencerPromo = async (id, userId) => {
@@ -213,7 +219,7 @@ export const deleteInfluencerPromo = async (id, userId) => {
   }
 
   //본인 소유/권한 체크
-  if (promo.userId !== userId) {
+  if (String(promo.userId) !== String(userId)) {
     throw new CustomError(
       403,
       'NO_PERMISSION',
@@ -247,9 +253,19 @@ export const findFeaturedHomeInfluencerPromo = async () => {
 };
 
 export const setFeaturedHomeInfluencerPromo = async (id) => {
+  // 0. id로 홍보물 먼저 조회
+  const promo = await findInfluencerPromoDetailRepo(id);
+  if (!promo || promo.deletedAt) {
+    throw new CustomError(
+      404,
+      'NOT_FOUND',
+      INFLUENCER_PROMO_MESSAGES.NOT_FOUND,
+    );
+  }
+
   // 1. 기존에 true인 홍보물 찾아서 false로 변경
-  await updateInfluencerPromoRepo(
-    { isFeaturedHome: true },
+  await updateManyInfluencerPromoRepo(
+    { isFeaturedHome: true, deletedAt: null },
     { isFeaturedHome: false },
   );
   // 2. 지정한 id의 홍보물 isFeaturedHome을 true로 변경

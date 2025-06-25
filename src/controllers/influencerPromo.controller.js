@@ -39,7 +39,6 @@ export const createInfluencerPromoController = async (req, res, next) => {
     const promo = await createInfluencerPromo(req.body);
     return success(res, INFLUENCER_PROMO_MESSAGES.CREATE_SUCCESS, { promo });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -47,7 +46,7 @@ export const createInfluencerPromoController = async (req, res, next) => {
 export const updateInfluencerPromoController = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const promo = await updateInfluencerPromo(id, req.body);
+    const promo = await updateInfluencerPromo(id, req.body, req.user.id);
     return success(res, INFLUENCER_PROMO_MESSAGES.UPDATE_SUCCESS, { promo });
   } catch (err) {
     next(err);
@@ -57,7 +56,7 @@ export const updateInfluencerPromoController = async (req, res, next) => {
 export const deleteInfluencerPromoController = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await deleteInfluencerPromo(id);
+    await deleteInfluencerPromo(id, req.user.id);
     return success(res, INFLUENCER_PROMO_MESSAGES.DELETE_SUCCESS);
   } catch (err) {
     next(err);
@@ -91,6 +90,7 @@ export const setFeaturedHomeInfluencerPromoController = async (
       promo: updated,
     });
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };
