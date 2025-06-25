@@ -1,5 +1,5 @@
-import swaggerJSDoc from "swagger-jsdoc";
-import dotenv from "dotenv";
+import swaggerJSDoc from 'swagger-jsdoc';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -39,9 +39,7 @@ const options = {
         },
       },
     },
-    security: [
-      { bearerAuth: [] }
-    ],
+    security: [{ bearerAuth: [] }],
   },
   apis: ['./src/routes/*.js'],
 };

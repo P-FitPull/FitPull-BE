@@ -1,30 +1,30 @@
 version: '3.8'
 
 services:
-    app:
-        container_name: fof-app
-        build:
-            context: .
-            dockerfile: Dockerfile
-        ports:
-            - '3000:3000'
-        env_file:
-            - .env.docker
-        depends_on:
-            - redis
-        volumes:
-            - .:/app
-            - /app/node_modules
-        command: yarn start
+  app:
+    container_name: fof-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env.docker
+    depends_on:
+      - redis
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: yarn start
 
-    redis:
-        container_name: fof-redis
-        image: redis:7
-        restart: always
-        ports:
-            - '6379:6379'
-        volumes:
-            - fof-redis-data:/data
+  redis:
+    container_name: fof-redis
+    image: redis:7
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - fof-redis-data:/data
 
 volumes:
-    fof-redis-data:
+  fof-redis-data:

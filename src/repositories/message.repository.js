@@ -1,4 +1,4 @@
-import prisma from "../data-source.js";
+import prisma from '../data-source.js';
 
 export const createMessage = ({ senderId, receiverId, content, productId }) => {
   return prisma.message.create({
@@ -17,17 +17,17 @@ export const findReceivedMessages = (userId) => {
       receiverId: userId,
       deletedAt: null,
     },
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: 'desc' },
     select: {
       id: true,
       content: true,
       isRead: true,
       sender: {
-        select: { id: true, name: true }
+        select: { id: true, name: true },
       },
       product: {
-        select: { id: true, title: true }
-      }
+        select: { id: true, title: true },
+      },
     },
   });
 };
@@ -38,17 +38,17 @@ export const findSentMessages = (userId) => {
       senderId: userId,
       deletedAt: null,
     },
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: 'desc' },
     select: {
       id: true,
       content: true,
       isRead: true,
       receiver: {
-        select: { id: true, name: true }
+        select: { id: true, name: true },
       },
       product: {
-        select: { id: true, title: true }
-      }
+        select: { id: true, title: true },
+      },
     },
   });
 };
@@ -84,10 +84,7 @@ export const softDeleteMessage = (messageId, userId) => {
   return prisma.message.updateMany({
     where: {
       id: messageId,
-      OR: [
-        { senderId: userId },
-        { receiverId: userId },
-      ],
+      OR: [{ senderId: userId }, { receiverId: userId }],
       deletedAt: null,
     },
     data: {
@@ -98,7 +95,7 @@ export const softDeleteMessage = (messageId, userId) => {
 
 //관리자 찾기
 export const getAdminId = async () => {
-  const admin = await prisma.user.findFirst({ where: { role: "ADMIN" } });
-  if (!admin) throw new Error("ADMIN_NOT_FOUND");
+  const admin = await prisma.user.findFirst({ where: { role: 'ADMIN' } });
+  if (!admin) throw new Error('ADMIN_NOT_FOUND');
   return admin.id;
 };

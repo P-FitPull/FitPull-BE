@@ -1,4 +1,4 @@
-import prisma from "../data-source.js";
+import prisma from '../data-source.js';
 
 export const createNotificationRepo = async (data) => {
   return await prisma.notification.create({ data });
@@ -7,7 +7,7 @@ export const createNotificationRepo = async (data) => {
 export const getNotificationsByUserRepo = async (userId) => {
   return await prisma.notification.findMany({
     where: { userId },
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: 'desc' },
     take: 10,
   });
 };
@@ -30,4 +30,3 @@ export const deleteReadNotificationsRepo = async (date) => {
     },
   });
 };
-

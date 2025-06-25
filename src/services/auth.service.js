@@ -17,6 +17,7 @@ import {
   getEmailCode,
   deleteEmailCode,
   setEmailCode,
+  deleteRefreshToken,
 } from '../utils/redis.js';
 import CustomError from '../utils/customError.js';
 import { AUTH_MESSAGES } from '../constants/messages.js';
@@ -299,5 +300,11 @@ export const ensurePhoneExistsForVerification = async (phone) => {
       'ALREADY_VERIFIED',
       AUTH_MESSAGES.ALREADY_VERIFIED,
     );
+  }
+};
+
+export const logout = async (userId) => {
+  if (userId) {
+    await deleteRefreshToken(userId);
   }
 };

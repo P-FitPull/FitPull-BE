@@ -1,13 +1,13 @@
-import express from "express";
+import express from 'express';
 import {
   createStatusLogController,
   getStatusLogsController,
   updateStatusLogController,
   deleteStatusLogController,
-} from "../controllers/productStatusLog.controller.js";
-import { authenticate } from "../middlewares/auth.js";
-import { adminOnly } from "../middlewares/adminOnly.js";
-import { s3ImageUpload } from "../middlewares/s3ImageUpload.js";
+} from '../controllers/productStatusLog.controller.js';
+import { authenticate } from '../middlewares/auth.js';
+import { adminOnly } from '../middlewares/adminOnly.js';
+import { s3ImageUpload } from '../middlewares/s3ImageUpload.js';
 
 const router = express.Router();
 
@@ -224,20 +224,26 @@ const router = express.Router();
  */
 
 // 상품로그조회
-router.get("/:productId/logs", authenticate, getStatusLogsController);
+router.get('/:productId/logs', authenticate, getStatusLogsController);
 
 // 어드민 상품로그생성
 router.post(
-  "/:productId/logs",
+  '/:productId/logs',
   authenticate,
   adminOnly,
   ...s3ImageUpload,
-  createStatusLogController
+  createStatusLogController,
 );
 
 // 어드민 상품로그수정
-router.patch("/:productId/logs/:id", authenticate, adminOnly, ...s3ImageUpload, updateStatusLogController);
+router.patch(
+  '/:productId/logs/:id',
+  authenticate,
+  adminOnly,
+  ...s3ImageUpload,
+  updateStatusLogController,
+);
 // 어드민 상품로그삭제
-router.delete("/logs/:id", authenticate, adminOnly, deleteStatusLogController);
+router.delete('/logs/:id', authenticate, adminOnly, deleteStatusLogController);
 
 export default router;

@@ -1,4 +1,4 @@
-import express from "express";
+import express from 'express';
 import {
   sendMessageController,
   getReceivedMessagesController,
@@ -6,8 +6,8 @@ import {
   markMessageReadController,
   markAllMessagesReadController,
   deleteMessageController,
-} from "../controllers/message.controller.js";
-import { authenticate } from "../middlewares/auth.js";
+} from '../controllers/message.controller.js';
+import { authenticate } from '../middlewares/auth.js';
 
 const router = express.Router();
 
@@ -207,21 +207,21 @@ const router = express.Router();
  */
 
 //메세지 전송
-router.post("/send", authenticate, sendMessageController);
+router.post('/send', authenticate, sendMessageController);
 
 //받은 메세지 목록 조회
-router.get("/received", authenticate, getReceivedMessagesController);
+router.get('/received', authenticate, getReceivedMessagesController);
 
 //보낸 메세지 목록 조회
-router.get("/sent", authenticate, getSentMessagesController);
+router.get('/sent', authenticate, getSentMessagesController);
 
 //메세지 단건 읽음 처리
-router.patch("/:id/read", authenticate, markMessageReadController);
+router.patch('/:id/read', authenticate, markMessageReadController);
 
 //메세지 전체 읽음 처리
-router.patch("/read-all", authenticate, markAllMessagesReadController);
+router.patch('/read-all', authenticate, markAllMessagesReadController);
 
-//메세지 삭제 
-router.delete("/:id", authenticate, deleteMessageController);
+//메세지 삭제
+router.delete('/:id', authenticate, deleteMessageController);
 
 export default router;

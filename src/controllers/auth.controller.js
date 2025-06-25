@@ -6,12 +6,9 @@ import {
   rejoinVerify,
   verifyPhoneAndUpdateUser,
   ensurePhoneExistsForVerification,
+  logout,
 } from '../services/auth.service.js';
-import {
-  deleteRefreshToken,
-  getRefreshToken,
-  setRefreshToken,
-} from '../utils/redis.js';
+import { getRefreshToken, setRefreshToken } from '../utils/redis.js';
 import { verifyRefreshToken } from '../utils/jwt.js';
 import { generateTokens } from '../utils/jwt.js';
 import { success } from '../utils/responseHandler.js';
@@ -66,9 +63,7 @@ export const loginController = async (req, res, next) => {
 export const logoutController = async (req, res, next) => {
   try {
     const userId = req.user?.userId;
-    if (userId) {
-      await deleteRefreshToken(userId);
-    }
+    await logout(userId);
     res.clearCookie('refreshToken', { path: '/' });
     return success(res, AUTH_MESSAGES.LOGOUT_SUCCESS);
   } catch (error) {

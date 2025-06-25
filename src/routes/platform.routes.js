@@ -1,7 +1,12 @@
-import express from "express";
-import { getPlatformBalanceController, getPlatformSummaryController, getPlatformLogsController, addPlatformDepositController } from "../controllers/platform.controller.js";
-import { authenticate } from "../middlewares/auth.js";
-import { adminOnly } from "../middlewares/adminOnly.js";
+import express from 'express';
+import {
+  getPlatformBalanceController,
+  getPlatformSummaryController,
+  getPlatformLogsController,
+  addPlatformDepositController,
+} from '../controllers/platform.controller.js';
+import { authenticate } from '../middlewares/auth.js';
+import { adminOnly } from '../middlewares/adminOnly.js';
 
 const router = express.Router();
 
@@ -189,17 +194,16 @@ const router = express.Router();
  *                       description: 생성된 PlatformPaymentLog
  */
 
-
 // 플랫폼 잔고 조회
-router.get("/balance", authenticate, adminOnly, getPlatformBalanceController);
+router.get('/balance', authenticate, adminOnly, getPlatformBalanceController);
 
 // 플랫폼 자금 요약 조회
-router.get("/summary", authenticate, adminOnly, getPlatformSummaryController);
+router.get('/summary', authenticate, adminOnly, getPlatformSummaryController);
 
 // 플랫폼 전체 자금 로그 조회
-router.get("/logs", authenticate, adminOnly, getPlatformLogsController);
+router.get('/logs', authenticate, adminOnly, getPlatformLogsController);
 
 // 플랫폼 입금
-router.post("/deposit", authenticate, adminOnly, addPlatformDepositController);
+router.post('/deposit', authenticate, adminOnly, addPlatformDepositController);
 
-export default router; 
+export default router;

@@ -1,4 +1,4 @@
-import prisma from "../data-source.js";
+import prisma from '../data-source.js';
 
 export const createReviewRepo = async (data) => {
   return await prisma.rentalReview.create({ data });
@@ -12,20 +12,26 @@ export const getReviewByIdRepo = async (id) => {
 export const getReviewsByProductIdRepo = async (productId) => {
   return await prisma.rentalReview.findMany({
     where: { productId, deletedAt: null },
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: 'desc' },
     include: { user: { select: { name: true } } },
   });
 };
 
-// 하나의 대여완료에 하나의 리뷰만 가능함 
-export const checkOneRentalOneReviewRepo = async (userId, completedRentalId) => {
+// 하나의 대여완료에 하나의 리뷰만 가능함
+export const checkOneRentalOneReviewRepo = async (
+  userId,
+  completedRentalId,
+) => {
   return await prisma.rentalReview.findFirst({
     where: { userId, completedRentalId, deletedAt: null },
   });
 };
 
 // 본인 대여건인지 확인
-export const getCompletedRentalByUserRepo = async (userId, completedRentalId) => {
+export const getCompletedRentalByUserRepo = async (
+  userId,
+  completedRentalId,
+) => {
   return await prisma.completedRental.findUnique({
     where: { id: completedRentalId, userId, deletedAt: null },
   });

@@ -1,1 +1,1 @@
-export const DEFAULT_CATEGORY_NAME = "기타";
+export const DEFAULT_CATEGORY_NAME = '기타';

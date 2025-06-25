@@ -1,7 +1,11 @@
-import express from "express";
-import { chargeBalanceController, useBalanceController, paymentLogsController } from "../controllers/payment.controller.js";
-import { authenticate } from "../middlewares/auth.js";
-import requireVerifiedPhone from "../middlewares/requireVerifiedPhone.js";
+import express from 'express';
+import {
+  chargeBalanceController,
+  useBalanceController,
+  paymentLogsController,
+} from '../controllers/payment.controller.js';
+import { authenticate } from '../middlewares/auth.js';
+import requireVerifiedPhone from '../middlewares/requireVerifiedPhone.js';
 
 /**
  * @swagger
@@ -188,10 +192,15 @@ import requireVerifiedPhone from "../middlewares/requireVerifiedPhone.js";
 const router = express.Router();
 
 // 잔고 충전
-router.post("/charge", authenticate, requireVerifiedPhone, chargeBalanceController);
+router.post(
+  '/charge',
+  authenticate,
+  requireVerifiedPhone,
+  chargeBalanceController,
+);
 // 잔고 차감
-router.post("/use", authenticate, requireVerifiedPhone, useBalanceController);
+router.post('/use', authenticate, requireVerifiedPhone, useBalanceController);
 // 결제/잔고 내역 전체 조회
-router.get("/logs", authenticate, paymentLogsController);
+router.get('/logs', authenticate, paymentLogsController);
 
-export default router; 
+export default router;
