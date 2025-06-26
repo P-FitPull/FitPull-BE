@@ -11,6 +11,8 @@ import {
   verifyPhoneCodeController,
   passwordResetRequestController,
   passwordResetVerifyController,
+  findIdSendCodeByPhoneController,
+  findIdVerifyByPhoneController,
 } from '../controllers/auth.controller.js';
 import passport from '../configs/passport.js';
 
@@ -549,6 +551,93 @@ import passport from '../configs/passport.js';
  *         description: 인증 실패(만료, 불일치, 잘못된 입력 등)
  */
 
+/**
+ * @swagger
+ * /api/auth/id/find/request:
+ *   post:
+ *     summary: 휴대폰 번호로 ID(이메일) 찾기 인증번호 발송
+ *     description: 입력한 휴대폰 번호로 인증번호를 전송합니다. 인증번호를 통해 ID(이메일) 찾기 검증을 진행할 수 있습니다.
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - phone
+ *             properties:
+ *               phone:
+ *                 type: string
+ *                 example: "01012345678"
+ *     responses:
+ *       200:
+ *         description: 인증번호 전송 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *       400:
+ *         description: 잘못된 요청(번호 누락, 형식 오류 등)
+ *       404:
+ *         description: 해당 번호의 유저 없음
+ */
+
+/**
+ * @swagger
+ * /api/auth/id/find/verify:
+ *   post:
+ *     summary: 휴대폰 인증번호로 ID(이메일) 찾기
+ *     description: 인증번호와 휴대폰 번호를 입력하면 마스킹된 이메일과 provider(LOCAL/SOCIAL)를 반환합니다.
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - phone
+ *               - code
+ *             properties:
+ *               phone:
+ *                 type: string
+ *                 example: "01012345678"
+ *               code:
+ *                 type: string
+ *                 example: "123456"
+ *     responses:
+ *       200:
+ *         description: 이메일 반환 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     email:
+ *                       type: string
+ *                       example: abc****@gmail.com
+ *                     provider:
+ *                       type: string
+ *                       example: LOCAL
+ *       400:
+ *         description: 인증 실패(만료, 불일치, 잘못된 입력 등)
+ *       404:
+ *         description: 해당 번호의 유저 없음
+ */
+
 const router = express.Router();
 //회원가입
 router.post('/signup', signupController);
@@ -610,5 +699,11 @@ router.post('/password/reset/request', passwordResetRequestController);
 
 // 비밀번호 재설정 인증코드 검증
 router.post('/password/reset/verify', passwordResetVerifyController);
+
+// 휴대폰 번호로 ID 찾기 요청
+router.post('/id/find/request', findIdSendCodeByPhoneController);
+
+// 휴대폰 인증번호로 ID 찾기
+router.post('/id/find/verify', findIdVerifyByPhoneController);
 
 export default router;

@@ -12,13 +12,7 @@ import { findProductByIdRepo } from '../repositories/product.repository.js';
 import CustomError from '../utils/customError.js';
 import { createNotification } from './notification.service.js';
 import { NOTIFICATION_MESSAGES } from '../constants/messages.js';
-
-// 이름 마스킹 함수
-export function maskName(name) {
-  if (!name) return '';
-  if (name.length <= 1) return '*';
-  return name[0] + '*'.repeat(name.length - 1);
-}
+import { maskName } from '../utils/mask.js';
 
 export const createReview = async (
   user,

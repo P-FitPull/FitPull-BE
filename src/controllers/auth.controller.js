@@ -5,20 +5,19 @@ import {
   rejoinRequest,
   rejoinVerify,
   verifyPhoneAndUpdateUser,
-  ensurePhoneExistsForVerification,
   logout,
   sendPasswordResetCode,
   verifyCodeAndChangePassword,
+  requestPhoneVerification,
+  findIdSendCodeByPhone,
+  findIdVerifyByPhone,
 } from '../services/auth.service.js';
 import { getRefreshToken, setRefreshToken } from '../utils/redis.js';
 import { verifyRefreshToken } from '../utils/jwt.js';
 import { generateTokens } from '../utils/jwt.js';
 import { success } from '../utils/responseHandler.js';
 import { AUTH_MESSAGES } from '../constants/messages.js';
-import {
-  sendVerificationCode,
-  verifyCode,
-} from '../utils/phoneVerification.js';
+import { verifyCode } from '../utils/phoneVerification.js';
 import CustomError from '../utils/customError.js';
 
 export const signupController = async (req, res, next) => {
@@ -130,7 +129,7 @@ export const rejoinRequestController = async (req, res, next) => {
   try {
     const { email } = req.body;
     await rejoinRequest(email);
-    return success(res, '인증 코드가 이메일로 전송되었습니다.');
+    return success(res, AUTH_MESSAGES.REJOIN_CODE_SENT);
   } catch (error) {
     next(error);
   }
@@ -200,19 +199,8 @@ export const socialCallbackController = async (req, res, next) => {
 export const requestPhoneCodeController = async (req, res, next) => {
   try {
     const { phone } = req.body;
-
-    if (!phone) {
-      throw new CustomError(
-        400,
-        'PHONE_REQUIRED',
-        AUTH_MESSAGES.PHONE_REQUIRED,
-      );
-    }
-
-    await ensurePhoneExistsForVerification(phone);
-    await sendVerificationCode(phone);
-
-    res.status(200).json({ message: '인증번호가 전송되었습니다.' });
+    await requestPhoneVerification(phone);
+    return success(res, AUTH_MESSAGES.SUCCESS_CODE_SENT);
   } catch (err) {
     next(err);
   }
@@ -230,7 +218,7 @@ export const verifyPhoneCodeController = async (req, res, next) => {
 
     await verifyPhoneAndUpdateUser(phone);
 
-    res.status(200).json({ message: '인증이 완료되었습니다.' });
+    return success(res, AUTH_MESSAGES.PHONE_VERIFICATION_SUCCESS);
   } catch (err) {
     next(err);
   }
@@ -257,7 +245,26 @@ export const passwordResetVerifyController = async (req, res, next) => {
     });
     return success(res, AUTH_MESSAGES.PASSWORD_RESET_SUCCESS);
   } catch (error) {
-    console.log(error);
+    next(error);
+  }
+};
+
+export const findIdSendCodeByPhoneController = async (req, res, next) => {
+  try {
+    const { phone } = req.body;
+    await findIdSendCodeByPhone(phone);
+    return success(res, AUTH_MESSAGES.ID_FIND_CODE_SENT);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const findIdVerifyByPhoneController = async (req, res, next) => {
+  try {
+    const { phone, code } = req.body;
+    const result = await findIdVerifyByPhone({ phone, code });
+    return success(res, AUTH_MESSAGES.ID_FIND_SUCCESS, result);
+  } catch (error) {
     next(error);
   }
 };

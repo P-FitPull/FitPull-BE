@@ -19,6 +19,8 @@ import {
   deleteEmailCode,
   setEmailCode,
   deleteRefreshToken,
+  getPhoneCode,
+  deletePhoneCode,
 } from '../utils/redis.js';
 import CustomError from '../utils/customError.js';
 import { AUTH_MESSAGES } from '../constants/messages.js';
@@ -26,6 +28,8 @@ import {
   sendRecoveryEmail,
   sendPasswordResetEmail,
 } from '../utils/nodemailer.js';
+import { sendVerificationCode } from '../utils/phoneVerification.js';
+import { maskEmail } from '../utils/mask.js';
 
 export const signup = async ({
   email,
@@ -281,6 +285,14 @@ export const findOrCreateSocialAccount = async (profile, provider) => {
   return user;
 };
 
+export const requestPhoneVerification = async (phone) => {
+  if (!phone) {
+    throw new CustomError(400, 'PHONE_REQUIRED', AUTH_MESSAGES.PHONE_REQUIRED);
+  }
+  await ensurePhoneExistsForVerification(phone);
+  await sendVerificationCode(phone);
+};
+
 export const verifyPhoneAndUpdateUser = async (phone) => {
   const user = await findUserByPhone(phone);
   if (user && !user.verifiedPhone) {
@@ -384,4 +396,56 @@ export const verifyCodeAndChangePassword = async ({
   // 비밀번호 변경
   const hash = await bcrypt.hash(newPassword, 10);
   await updatePasswordByEmail(account.id, hash);
+};
+
+export const findIdSendCodeByPhone = async (phone) => {
+  if (!phone || typeof phone !== 'string' || !/^\d{10,}$/.test(phone)) {
+    throw new CustomError(
+      400,
+      'INVALID_PHONE',
+      AUTH_MESSAGES.INVALID_PHONE_ONLY_NUMBER,
+    );
+  }
+  const user = await findUserByPhone(phone);
+  if (!user) {
+    throw new CustomError(404, 'USER_NOT_FOUND', AUTH_MESSAGES.USER_NOT_FOUND);
+  }
+  await sendVerificationCode(phone);
+};
+
+export const findIdVerifyByPhone = async ({ phone, code }) => {
+  if (!phone || typeof phone !== 'string' || !/^\d{10,}$/.test(phone)) {
+    throw new CustomError(
+      400,
+      'INVALID_PHONE',
+      AUTH_MESSAGES.INVALID_PHONE_ONLY_NUMBER,
+    );
+  }
+  if (!code) {
+    throw new CustomError(400, 'MISSING_CODE', AUTH_MESSAGES.MISSING_CODE);
+  }
+  const user = await findUserByPhone(phone);
+  if (!user) {
+    throw new CustomError(404, 'USER_NOT_FOUND', AUTH_MESSAGES.USER_NOT_FOUND);
+  }
+  // 인증코드 검증
+  const savedCode = await getPhoneCode(phone);
+  if (!savedCode) {
+    throw new CustomError(400, 'EXPIRED_CODE', AUTH_MESSAGES.EXPIRED_CODE);
+  }
+  if (savedCode !== code) {
+    throw new CustomError(400, 'INVALID_CODE', AUTH_MESSAGES.INVALID_CODE);
+  }
+  // 인증코드 삭제
+  await deletePhoneCode(phone);
+  // account에서 email, provider 조회
+  const account =
+    (await findByEmail(user.email)) || (await findAnyByEmail(user.email));
+  if (!account) {
+    throw new CustomError(404, 'USER_NOT_FOUND', AUTH_MESSAGES.USER_NOT_FOUND);
+  }
+  return {
+    email: maskEmail(account.email),
+    provider: account.provider,
+  };
 };
