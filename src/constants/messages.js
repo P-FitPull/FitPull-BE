@@ -179,6 +179,9 @@ export const AUTH_MESSAGES = {
   NAVER_LOGIN_SUCCESS: '네이버 로그인 성공',
   LOGIN_SUCCESS: '로그인 성공',
   PHONE_REQUIRED: '전화번호를 입력해주세요.',
+  SUCCESS_CODE_SENT: '인증번호가 전송되었습니다.',
+  PHONE_VERIFICATION_SUCCESS: '전화번호 인증이 완료되었습니다.',
+  REJOIN_CODE_SENT: '재가입 인증코드가 이메일로 전송되었습니다.',
   INVALID_INPUT: '전화번호와 인증번호를 입력해주세요.',
   PASSWORD_MISMATCH: '비밀번호가 일치하지 않습니다.',
   EMAIL_EXISTS: '이미 가입된 이메일입니다.',
@@ -203,6 +206,7 @@ export const AUTH_MESSAGES = {
   PASSWORD_RESET_CODE_SENT:
     '비밀번호 재설정 인증코드가 이메일로 전송되었습니다.',
   PASSWORD_RESET_SUCCESS: '비밀번호가 성공적으로 변경되었습니다.',
+  ID_FIND_CODE_SENT: 'ID 찾기 인증코드가 전화번호로 전송되었습니다.',
 };
 
 export const USER_MESSAGES = {

@@ -26,6 +26,7 @@ import {
   sendRecoveryEmail,
   sendPasswordResetEmail,
 } from '../utils/nodemailer.js';
+import { sendVerificationCode } from '../utils/phoneVerification.js';
 
 export const signup = async ({
   email,
@@ -281,6 +282,14 @@ export const findOrCreateSocialAccount = async (profile, provider) => {
   return user;
 };
 
+export const requestPhoneVerification = async (phone) => {
+  if (!phone) {
+    throw new CustomError(400, 'PHONE_REQUIRED', AUTH_MESSAGES.PHONE_REQUIRED);
+  }
+  await ensurePhoneExistsForVerification(phone);
+  await sendVerificationCode(phone);
+};
+
 export const verifyPhoneAndUpdateUser = async (phone) => {
   const user = await findUserByPhone(phone);
   if (user && !user.verifiedPhone) {
@@ -384,4 +393,19 @@ export const verifyCodeAndChangePassword = async ({
   // 비밀번호 변경
   const hash = await bcrypt.hash(newPassword, 10);
   await updatePasswordByEmail(account.id, hash);
+};
+
+export const findIdByPhone = async (phone) => {
+  if (!phone || typeof phone !== 'string' || !/^\d{10,}$/.test(phone)) {
+    throw new CustomError(
+      400,
+      'INVALID_PHONE',
+      AUTH_MESSAGES.INVALID_PHONE_ONLY_NUMBER,
+    );
+  }
+  const user = await findUserByPhone(phone);
+  if (!user) {
+    throw new CustomError(404, 'USER_NOT_FOUND', AUTH_MESSAGES.USER_NOT_FOUND);
+  }
+  await sendVerificationCode(phone);
 };
