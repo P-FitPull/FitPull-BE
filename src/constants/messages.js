@@ -207,6 +207,8 @@ export const AUTH_MESSAGES = {
     '비밀번호 재설정 인증코드가 이메일로 전송되었습니다.',
   PASSWORD_RESET_SUCCESS: '비밀번호가 성공적으로 변경되었습니다.',
   ID_FIND_CODE_SENT: 'ID 찾기 인증코드가 전화번호로 전송되었습니다.',
+  MISSING_CODE: '인증번호를 입력해주세요.',
+  ID_FIND_SUCCESS: '분실하신 ID(이메일) 정보입니다.',
 };
 
 export const USER_MESSAGES = {

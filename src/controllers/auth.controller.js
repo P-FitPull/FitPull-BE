@@ -9,7 +9,8 @@ import {
   sendPasswordResetCode,
   verifyCodeAndChangePassword,
   requestPhoneVerification,
-  findIdByPhone,
+  findIdSendCodeByPhone,
+  findIdVerifyByPhone,
 } from '../services/auth.service.js';
 import { getRefreshToken, setRefreshToken } from '../utils/redis.js';
 import { verifyRefreshToken } from '../utils/jwt.js';
@@ -248,13 +249,22 @@ export const passwordResetVerifyController = async (req, res, next) => {
   }
 };
 
-export const findIdByPhoneController = async (req, res, next) => {
+export const findIdSendCodeByPhoneController = async (req, res, next) => {
   try {
     const { phone } = req.body;
-    await findIdByPhone(phone);
+    await findIdSendCodeByPhone(phone);
     return success(res, AUTH_MESSAGES.ID_FIND_CODE_SENT);
   } catch (error) {
-    console.log(error);
+    next(error);
+  }
+};
+
+export const findIdVerifyByPhoneController = async (req, res, next) => {
+  try {
+    const { phone, code } = req.body;
+    const result = await findIdVerifyByPhone({ phone, code });
+    return success(res, AUTH_MESSAGES.ID_FIND_SUCCESS, result);
+  } catch (error) {
     next(error);
   }
 };
