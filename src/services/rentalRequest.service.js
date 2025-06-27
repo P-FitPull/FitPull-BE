@@ -40,6 +40,17 @@ export const createRentalRequestWithPayment = async (
     const start = new Date(startDate);
     const end = new Date(endDate);
 
+    // 오늘 00:00 기준으로 비교
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (start < today) {
+      throw new CustomError(
+        400,
+        'START_DATE_BEFORE_TODAY',
+        RENTAL_REQUEST_MESSAGES.START_DATE_BEFORE_TODAY,
+      );
+    }
+
     if (isNaN(start.getTime()) || isNaN(end.getTime())) {
       throw new CustomError(
         400,
@@ -84,7 +95,7 @@ export const createRentalRequestWithPayment = async (
       );
 
     const product = await getProductByIdRepo(productId);
-    if (!product)
+    if (!product || product.deletedAt)
       throw new CustomError(
         404,
         'PRODUCT_NOT_FOUND',
