@@ -151,6 +151,7 @@ export const RENTAL_REQUEST_MESSAGES = {
   INVALID_DATE_FORMAT: '날짜 형식이 올바르지 않습니다.',
   ALREADY_PROCESSED: '이미 처리된 대여요청입니다.',
   RENTAL_NOT_ALLOWED: '대여가 허용되지 않은 상태입니다.',
+  START_DATE_BEFORE_TODAY: '예약 시작일은 오늘 이후여야 합니다.',
 };
 
 export const MESSAGE_RESPONSES = {
