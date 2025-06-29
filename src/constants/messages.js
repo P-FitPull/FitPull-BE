@@ -269,3 +269,8 @@ export const CATEGORY_MESSAGES = {
   ETC_CATEGORY_NOT_FOUND: "'기타' 카테고리가 존재하지 않습니다.",
   CATEGORY_NAME_REQUIRED: '카테고리 이름이 필요합니다.',
 };
+
+export const PACKAGE_MESSAGES = {
+  PACKAGE_CREATED: '패키지가 생성되었습니다.',
+  PACKAGE_TITLE_AND_PRODUCTS_REQUIRED: '패키지명과 상품목록은 필수입니다.',
+};
