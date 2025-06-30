@@ -304,7 +304,6 @@ model Package {
   id                   String                 @id @default(uuid())
   title                String
   description          String?                @db.Text
-  discountRate         Float?                 @map("discount_rate")
   createdBy            String
   creator              User                   @relation(fields: [createdBy], references: [id])
   isFeatured           Boolean                @default(false)
