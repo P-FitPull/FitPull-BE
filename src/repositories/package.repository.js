@@ -15,14 +15,14 @@ export const createPackageItemsRepo = async (items) => {
 export const getPackageByIdRepo = async (id) => {
   return await prisma.package.findUnique({
     where: { id },
-    include: { items: { include: { product: true } }, creator: true },
+    include: { items: { include: { product: true } } },
   });
 };
 
 export const getAllPackagesRepo = async (filter = {}) => {
   return await prisma.package.findMany({
     where: filter,
-    include: { items: { include: { product: true } }, creator: true },
+    include: { items: { include: { product: true } } },
   });
 };
 

@@ -64,9 +64,17 @@ export const createPackage = async ({
 };
 
 export const getPackageById = async (id) => {
+  if (!id || typeof id !== 'string') {
+    throw new CustomError(400, 'INVALID_ID', PACKAGE_MESSAGES.INVALID_ID);
+  }
   const pkg = await getPackageByIdRepo(id);
-  if (!pkg)
-    throw new CustomError(404, 'NOT_FOUND', PACKAGE_MESSAGES.PACKAGE_NOT_FOUND);
+  if (!pkg) {
+    throw new CustomError(
+      404,
+      'PACKAGE_NOT_FOUND',
+      PACKAGE_MESSAGES.PACKAGE_NOT_FOUND,
+    );
+  }
   return pkg;
 };
 

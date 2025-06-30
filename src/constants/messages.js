@@ -275,4 +275,7 @@ export const PACKAGE_MESSAGES = {
   PACKAGE_TITLE_AND_PRODUCTS_REQUIRED: '패키지명과 상품목록은 필수입니다.',
   PRODUCT_NOT_FOUND: '존재하지 않는 상품입니다.',
   PACKAGE_NOT_FOUND: '존재하지 않는 패키지입니다.',
+  INVALID_ID: '패키지 ID가 유효하지 않습니다.',
+  PACKAGE_LIST_FETCHED: '패키지 목록 조회 성공',
+  PACKAGE_FETCHED: '패키지 상세 조회 성공',
 };
