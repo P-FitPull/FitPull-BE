@@ -1,7 +1,7 @@
 import {
   createPackage,
-  getPackage,
-  getPackages,
+  getPackageById,
+  getAllPackages,
   updatePackage,
   deletePackage,
 } from '../services/package.service.js';
@@ -23,23 +23,24 @@ export const createPackageController = async (req, res, next) => {
     });
     return success(res, PACKAGE_MESSAGES.PACKAGE_CREATED, result);
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };
 
-export const getPackageController = async (req, res, next) => {
+export const getPackageByIdController = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = await getPackage(id);
+    const result = await getPackageById(id);
     return success(res, PACKAGE_MESSAGES.PACKAGE_FETCHED, result);
   } catch (error) {
     next(error);
   }
 };
 
-export const getPackagesController = async (req, res, next) => {
+export const getAllPackagesController = async (req, res, next) => {
   try {
-    const result = await getPackages();
+    const result = await getAllPackages();
     return success(res, PACKAGE_MESSAGES.PACKAGE_LIST_FETCHED, result);
   } catch (error) {
     next(error);

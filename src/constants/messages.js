@@ -273,4 +273,6 @@ export const CATEGORY_MESSAGES = {
 export const PACKAGE_MESSAGES = {
   PACKAGE_CREATED: '패키지가 생성되었습니다.',
   PACKAGE_TITLE_AND_PRODUCTS_REQUIRED: '패키지명과 상품목록은 필수입니다.',
+  PRODUCT_NOT_FOUND: '존재하지 않는 상품입니다.',
+  PACKAGE_NOT_FOUND: '존재하지 않는 패키지입니다.',
 };

@@ -19,7 +19,7 @@ export const getPackageByIdRepo = async (id) => {
   });
 };
 
-export const getPackagesRepo = async (filter = {}) => {
+export const getAllPackagesRepo = async (filter = {}) => {
   return await prisma.package.findMany({
     where: filter,
     include: { items: { include: { product: true } }, creator: true },
