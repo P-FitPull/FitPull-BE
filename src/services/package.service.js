@@ -3,7 +3,7 @@ import CustomError from '../utils/customError.js';
 import { PACKAGE_MESSAGES } from '../constants/messages.js';
 import {
   getPackageByIdRepo,
-  getPackagesRepo,
+  getAllPackagesRepo,
   updatePackageRepo,
   deletePackageRepo,
 } from '../repositories/package.repository.js';
@@ -14,13 +14,25 @@ export const createPackage = async ({
   productIds,
   createdBy,
   isFeatured = false,
-  discountRate,
 }) => {
   if (!title || !Array.isArray(productIds) || productIds.length === 0) {
     throw new CustomError(
       400,
-      'INVALID_REQUEST',
+      'PACKAGE_TITLE_AND_PRODUCTS_REQUIRED',
       PACKAGE_MESSAGES.PACKAGE_TITLE_AND_PRODUCTS_REQUIRED,
+    );
+  }
+
+  // 상품 존재 여부 사전 검증
+  const products = await prisma.product.findMany({
+    where: { id: { in: productIds }, deletedAt: null },
+    select: { id: true },
+  });
+  if (products.length !== productIds.length) {
+    throw new CustomError(
+      400,
+      'PRODUCT_NOT_FOUND',
+      PACKAGE_MESSAGES.PRODUCT_NOT_FOUND,
     );
   }
 
@@ -32,7 +44,6 @@ export const createPackage = async ({
         description,
         createdBy,
         isFeatured,
-        discountRate,
       },
     });
 
@@ -52,22 +63,83 @@ export const createPackage = async ({
   });
 };
 
-export const getPackage = async (id) => {
+export const getPackageById = async (id) => {
+  if (!id || typeof id !== 'string') {
+    throw new CustomError(400, 'INVALID_ID', PACKAGE_MESSAGES.INVALID_ID);
+  }
   const pkg = await getPackageByIdRepo(id);
-  if (!pkg)
-    throw new CustomError(404, 'NOT_FOUND', PACKAGE_MESSAGES.PACKAGE_NOT_FOUND);
+  if (!pkg) {
+    throw new CustomError(
+      404,
+      'PACKAGE_NOT_FOUND',
+      PACKAGE_MESSAGES.PACKAGE_NOT_FOUND,
+    );
+  }
   return pkg;
 };
 
-export const getPackages = async (filter = {}) => {
-  return await getPackagesRepo(filter);
+export const getAllPackages = async (filter = {}) => {
+  return await getAllPackagesRepo(filter);
 };
 
 export const updatePackage = async (id, data) => {
+  // ID 유효성 검사
+  if (!id || typeof id !== 'string') {
+    throw new CustomError(400, 'INVALID_ID', PACKAGE_MESSAGES.INVALID_ID);
+  }
+
+  // 패키지 존재 여부 확인
+  const existing = await getPackageByIdRepo(id);
+  if (!existing) {
+    throw new CustomError(
+      404,
+      'PACKAGE_NOT_FOUND',
+      PACKAGE_MESSAGES.PACKAGE_NOT_FOUND,
+    );
+  }
+
+  // 상품목록 변경 시 상품 존재 여부 검증
+  if (data.productIds) {
+    if (!Array.isArray(data.productIds) || data.productIds.length === 0) {
+      throw new CustomError(
+        400,
+        'PRODUCTS_REQUIRED',
+        PACKAGE_MESSAGES.PACKAGE_TITLE_AND_PRODUCTS_REQUIRED,
+      );
+    }
+    const products = await prisma.product.findMany({
+      where: { id: { in: data.productIds }, deletedAt: null },
+      select: { id: true },
+    });
+    if (products.length !== data.productIds.length) {
+      throw new CustomError(
+        400,
+        'PRODUCT_NOT_FOUND',
+        PACKAGE_MESSAGES.PRODUCT_NOT_FOUND,
+      );
+    }
+  }
+  //패키지 정보 업데이트
   const pkg = await updatePackageRepo(id, data);
+
   return pkg;
 };
 
 export const deletePackage = async (id) => {
+  // ID 유효성 검사
+  if (!id || typeof id !== 'string') {
+    throw new CustomError(400, 'INVALID_ID', PACKAGE_MESSAGES.INVALID_ID);
+  }
+
+  // 패키지 존재 여부 확인
+  const existing = await getPackageByIdRepo(id);
+  if (!existing) {
+    throw new CustomError(
+      404,
+      'PACKAGE_NOT_FOUND',
+      PACKAGE_MESSAGES.PACKAGE_NOT_FOUND,
+    );
+  }
+
   return await deletePackageRepo(id);
 };

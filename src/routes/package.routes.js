@@ -1,8 +1,8 @@
 import express from 'express';
 import {
   createPackageController,
-  getPackageController,
-  getPackagesController,
+  getPackageByIdController,
+  getAllPackagesController,
   updatePackageController,
   deletePackageController,
 } from '../controllers/package.controller.js';
@@ -13,9 +13,9 @@ const router = express.Router();
 // 패키지 생성
 router.post('/', authenticate, createPackageController);
 // 패키지 목록 조회
-router.get('/', getPackagesController);
+router.get('/', getAllPackagesController);
 // 패키지 단일 조회
-router.get('/:id', getPackageController);
+router.get('/:id', getPackageByIdController);
 // 패키지 수정
 router.put('/:id', authenticate, updatePackageController);
 // 패키지 삭제
