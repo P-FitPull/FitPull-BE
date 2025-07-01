@@ -38,3 +38,14 @@ export const deletePackageRepo = async (id) => {
     where: { id },
   });
 };
+
+export const getProductsByIdsRepo = async (ids) => {
+  return await prisma.product.findMany({
+    where: { id: { in: ids }, deletedAt: null },
+    select: { id: true },
+  });
+};
+
+export const deletePackageItemsByPackageIdRepo = async (packageId) => {
+  return await prisma.packageItem.deleteMany({ where: { packageId } });
+};

@@ -23,7 +23,6 @@ export const createPackageController = async (req, res, next) => {
     });
     return success(res, PACKAGE_MESSAGES.PACKAGE_CREATED, result);
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -50,7 +49,7 @@ export const getAllPackagesController = async (req, res, next) => {
 export const updatePackageController = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = await updatePackage(id, req.body);
+    const result = await updatePackage(id, req.body, req.user.id);
     return success(res, PACKAGE_MESSAGES.PACKAGE_UPDATED, result);
   } catch (error) {
     next(error);
