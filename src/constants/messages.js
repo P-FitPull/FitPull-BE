@@ -278,4 +278,9 @@ export const PACKAGE_MESSAGES = {
   INVALID_ID: '패키지 ID가 유효하지 않습니다.',
   PACKAGE_LIST_FETCHED: '패키지 목록 조회 성공',
   PACKAGE_FETCHED: '패키지 상세 조회 성공',
+  PACKAGE_MIN_PRODUCTS_REQUIRED:
+    '패키지는 2개 이상의 상품으로 구성되어야 합니다.',
+  NO_PERMISSION: '권한이 없습니다.',
+  PACKAGE_UPDATED: '패키지가 수정되었습니다.',
+  PACKAGE_DELETED: '패키지가 삭제되었습니다.',
 };

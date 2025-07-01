@@ -17,7 +17,7 @@ router.get('/', getAllPackagesController);
 // 패키지 단일 조회
 router.get('/:id', getPackageByIdController);
 // 패키지 수정
-router.put('/:id', authenticate, updatePackageController);
+router.patch('/:id', authenticate, updatePackageController);
 // 패키지 삭제
 router.delete('/:id', authenticate, deletePackageController);
 
