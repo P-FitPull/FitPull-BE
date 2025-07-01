@@ -6,7 +6,6 @@ import {
   getAllPackagesRepo,
   updatePackageRepo,
   deletePackageRepo,
-  getProductsByIdsRepo,
   deletePackageItemsByPackageIdRepo,
   createPackageItemsRepo,
 } from '../repositories/package.repository.js';
@@ -17,7 +16,12 @@ export const createPackage = async ({
   productIds,
   createdBy,
   isFeatured = false,
+  userRole,
 }) => {
+  // 어드민 권한 체크
+  if (userRole !== 'admin') {
+    throw new CustomError(403, 'NO_PERMISSION', PACKAGE_MESSAGES.NO_PERMISSION);
+  }
   if (!title || !Array.isArray(productIds)) {
     throw new CustomError(
       400,
@@ -33,14 +37,28 @@ export const createPackage = async ({
     );
   }
 
-  // 상품 존재 여부 사전 검증
-  const products = await getProductsByIdsRepo(productIds);
+  // 상품 존재 및 상태 검증
+  const products = await prisma.product.findMany({
+    where: { id: { in: productIds } },
+    select: { id: true, name: true, status: true },
+  });
   if (products.length !== productIds.length) {
     throw new CustomError(
       400,
       'PRODUCT_NOT_FOUND',
       PACKAGE_MESSAGES.PRODUCT_NOT_FOUND,
     );
+  }
+  // 상태 검증
+  const invalidStatus = ['CANCELED', 'PURCHASE_RESERVED', 'SOLD'];
+  for (const product of products) {
+    if (invalidStatus.includes(product.status)) {
+      throw new CustomError(
+        400,
+        'INVALID_PRODUCT_STATUS',
+        `${product.name}(${product.id})의 상태가 ${product.status} 입니다`,
+      );
+    }
   }
 
   return await prisma.$transaction(async (tx) => {
@@ -89,7 +107,11 @@ export const getAllPackages = async (filter = {}) => {
   return await getAllPackagesRepo(filter);
 };
 
-export const updatePackage = async (id, data, userId) => {
+export const updatePackage = async (id, data, userId, userRole) => {
+  // 어드민 권한 체크
+  if (userRole !== 'admin') {
+    throw new CustomError(403, 'NO_PERMISSION', PACKAGE_MESSAGES.NO_PERMISSION);
+  }
   // ID 유효성 검사
   if (!id || typeof id !== 'string') {
     throw new CustomError(400, 'INVALID_ID', PACKAGE_MESSAGES.INVALID_ID);
@@ -126,13 +148,27 @@ export const updatePackage = async (id, data, userId) => {
         PACKAGE_MESSAGES.PACKAGE_MIN_PRODUCTS_REQUIRED,
       );
     }
-    const products = await getProductsByIdsRepo(data.productIds);
+    // 상품 상태 검증 추가
+    const products = await prisma.product.findMany({
+      where: { id: { in: data.productIds } },
+      select: { id: true, name: true, status: true },
+    });
     if (products.length !== data.productIds.length) {
       throw new CustomError(
         400,
         'PRODUCT_NOT_FOUND',
         PACKAGE_MESSAGES.PRODUCT_NOT_FOUND,
       );
+    }
+    const invalidStatus = ['CANCELED', 'PURCHASE_RESERVED', 'SOLD'];
+    for (const p of products) {
+      if (invalidStatus.includes(p.status)) {
+        throw new CustomError(
+          400,
+          'INVALID_PRODUCT_STATUS',
+          `${p.name}(${p.id})의 상태가 ${p.status} 입니다`,
+        );
+      }
     }
     // 기존 packageItem 모두 삭제
     await deletePackageItemsByPackageIdRepo(id);
@@ -151,7 +187,11 @@ export const updatePackage = async (id, data, userId) => {
   return pkg;
 };
 
-export const deletePackage = async (id) => {
+export const deletePackage = async (id, userId, userRole) => {
+  // 어드민 권한 체크
+  if (userRole !== 'admin') {
+    throw new CustomError(403, 'NO_PERMISSION', PACKAGE_MESSAGES.NO_PERMISSION);
+  }
   // ID 유효성 검사
   if (!id || typeof id !== 'string') {
     throw new CustomError(400, 'INVALID_ID', PACKAGE_MESSAGES.INVALID_ID);
