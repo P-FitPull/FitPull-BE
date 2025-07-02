@@ -20,6 +20,7 @@ export const createPackageController = async (req, res, next) => {
       createdBy,
       isFeatured,
       discountRate,
+      userRole: req.user.role,
     });
     return success(res, PACKAGE_MESSAGES.PACKAGE_CREATED, result);
   } catch (error) {
@@ -49,7 +50,12 @@ export const getAllPackagesController = async (req, res, next) => {
 export const updatePackageController = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = await updatePackage(id, req.body, req.user.id);
+    const result = await updatePackage(
+      id,
+      req.body,
+      req.user.id,
+      req.user.role,
+    );
     return success(res, PACKAGE_MESSAGES.PACKAGE_UPDATED, result);
   } catch (error) {
     next(error);
@@ -59,7 +65,7 @@ export const updatePackageController = async (req, res, next) => {
 export const deletePackageController = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = await deletePackage(id);
+    const result = await deletePackage(id, req.user.id, req.user.role);
     return success(res, PACKAGE_MESSAGES.PACKAGE_DELETED, result);
   } catch (error) {
     next(error);
