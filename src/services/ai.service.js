@@ -165,8 +165,8 @@ export const recommendProducts = async ({ prompt, userId }) => {
     throw new CustomError(404, 'NO_PRODUCTS', AI_MESSAGES.NO_PRODUCTS);
   }
   const itemsText = products
-    .map((p, idx) => {
-      return `${idx + 1}. [ID: ${p.id}] ${p.title} - ${p.description ?? '설명 없음'}`;
+    .map((product, idx) => {
+      return `${idx + 1}. [ID: ${product.id}] ${product.title} - ${product.description ?? '설명 없음'}`;
     })
     .join('\n');
   const gptPrompt = `
