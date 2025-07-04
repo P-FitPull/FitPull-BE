@@ -283,4 +283,13 @@ export const PACKAGE_MESSAGES = {
   NO_PERMISSION: '권한이 없습니다.',
   PACKAGE_UPDATED: '패키지가 수정되었습니다.',
   PACKAGE_DELETED: '패키지가 삭제되었습니다.',
+  USER_NOT_FOUND: '존재하지 않는 사용자입니다.',
+  PACKAGE_RENTAL_REQUEST_CREATED: '패키지 대여 요청이 등록되었습니다.',
+  PACKAGE_RENTAL_REQUEST_LISTED: '패키지 대여 요청 목록 조회 성공',
+  PACKAGE_RENTAL_REQUEST_FETCHED: '패키지 대여 요청 상세 조회 성공',
+  ALREADY_REQUESTED: '이미 대여요청이 존재합니다.',
+  PACKAGE_RENTAL_REQUEST_CANCELED: '패키지 대여 요청이 취소되었습니다.',
+  PACKAGE_RENTAL_CANCEL_NOT_ALLOWED: '요청하신 취소가 불가능한 상태입니다.',
+  PACKAGE_RENTAL_CANCEL_TOO_LATE:
+    '패키지 대여 시작 3일 전부터는 취소가 불가합니다.',
 };
