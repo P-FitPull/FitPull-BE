@@ -248,3 +248,125 @@ export const createPackageRentalRequest = async ({
     return packageRentalRequest;
   });
 };
+
+export const cancelPackageRentalRequest = async (
+  packageRentalRequestId,
+  userId,
+  refundMemo = null,
+) => {
+  // 1. 패키지 대여 요청 조회
+  const packageRentalRequest = await prisma.packageRentalRequest.findUnique({
+    where: { id: packageRentalRequestId },
+    include: { user: true, package: true },
+  });
+  if (!packageRentalRequest)
+    throw new CustomError(
+      404,
+      'PACKAGE_NOT_FOUND',
+      PACKAGE_MESSAGES.PACKAGE_NOT_FOUND,
+    );
+  if (packageRentalRequest.userId !== userId) {
+    throw new CustomError(403, 'NO_PERMISSION', PACKAGE_MESSAGES.NO_PERMISSION);
+  }
+  if (!['PENDING', 'APPROVED'].includes(packageRentalRequest.status)) {
+    throw new CustomError(
+      400,
+      'PACKAGE_RENTAL_CANCEL_NOT_ALLOWED',
+      PACKAGE_MESSAGES.PACKAGE_RENTAL_CANCEL_NOT_ALLOWED,
+    );
+  }
+
+  // 3일 전까지만 취소 가능
+  const now = new Date();
+  const startDate = new Date(packageRentalRequest.startDate);
+  const diffDays = (startDate - now) / (1000 * 60 * 60 * 24);
+  if (diffDays < 3) {
+    throw new CustomError(
+      400,
+      'PACKAGE_RENTAL_CANCEL_TOO_LATE',
+      PACKAGE_MESSAGES.PACKAGE_RENTAL_CANCEL_TOO_LATE,
+    );
+  }
+
+  // 2. 트랜잭션: 상태 변경, 환불, 결제로그, 플랫폼 정산
+  const result = await prisma.$transaction(async (tx) => {
+    // 동시성 처리: FOR UPDATE
+    await tx.$executeRaw`SELECT * FROM "PackageRentalRequest" WHERE id = ${packageRentalRequestId} FOR UPDATE`;
+
+    // 상태 변경
+    const updated = await tx.packageRentalRequest.updateMany({
+      where: {
+        id: packageRentalRequestId,
+        status: { in: ['PENDING', 'APPROVED'] },
+      },
+      data: { status: 'CANCELED' },
+    });
+    if (updated.count === 0) {
+      throw new CustomError(
+        400,
+        'ALREADY_PROCESSED',
+        PACKAGE_MESSAGES.PACKAGE_RENTAL_ALREADY_PROCESSED,
+      );
+    }
+
+    // 유저 환불
+    const updatedUser = await tx.user.update({
+      where: { id: packageRentalRequest.userId },
+      data: { balance: { increment: packageRentalRequest.totalPrice } },
+      select: { balance: true },
+    });
+
+    // 결제 로그
+    await tx.paymentLog.create({
+      data: {
+        userId: packageRentalRequest.userId,
+        packageRentalRequestId,
+        amount: packageRentalRequest.totalPrice,
+        paymentType: 'REFUND',
+        memo: refundMemo || '[자동] 패키지 대여 취소 환불',
+        balanceBefore: packageRentalRequest.user.balance,
+        balanceAfter: updatedUser.balance,
+        paidAt: new Date(),
+      },
+    });
+
+    // 플랫폼 계정
+    const platformAccount = await tx.platformAccount.findFirst();
+    if (!platformAccount)
+      throw new CustomError(
+        500,
+        'PLATFORM_ACCOUNT_NOT_FOUND',
+        PACKAGE_MESSAGES.PLATFORM_ACCOUNT_NOT_FOUND,
+      );
+    if (platformAccount.balance < packageRentalRequest.totalPrice) {
+      throw new CustomError(
+        422,
+        'PLATFORM_BALANCE_INSUFFICIENT',
+        PACKAGE_MESSAGES.PLATFORM_BALANCE_INSUFFICIENT,
+      );
+    }
+    await tx.platformAccount.update({
+      where: { id: platformAccount.id },
+      data: { balance: { decrement: packageRentalRequest.totalPrice } },
+    });
+    await tx.platformPaymentLog.create({
+      data: {
+        platformAccountId: platformAccount.id,
+        type: 'REFUND',
+        amount: packageRentalRequest.totalPrice,
+        memo: `[자동] 패키지 대여 취소 환불: ${packageRentalRequest.package?.title ?? ''}`,
+        balanceBefore: platformAccount.balance,
+        balanceAfter: platformAccount.balance - packageRentalRequest.totalPrice,
+        packageRentalRequestId,
+        userId: packageRentalRequest.userId,
+      },
+    });
+    return {
+      packageRentalRequestId,
+      refundedAmount: packageRentalRequest.totalPrice,
+      status: 'CANCELED',
+    };
+  });
+
+  return result;
+};

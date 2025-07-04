@@ -3,6 +3,7 @@ import {
   createPackageRentalRequestController,
   getMyPackageRentalRequestsController,
   getPackageRentalRequestByIdController,
+  cancelPackageRentalRequestController,
 } from '../controllers/packageRentalRequest.controller.js';
 import { authenticate } from '../middlewares/auth.js';
 
@@ -14,5 +15,7 @@ router.post('/', authenticate, createPackageRentalRequestController);
 router.get('/my', authenticate, getMyPackageRentalRequestsController);
 // 패키지 대여 요청 상세
 router.get('/:id', authenticate, getPackageRentalRequestByIdController);
+// 패키지 대여 요청 취소
+router.patch('/:id/cancel', authenticate, cancelPackageRentalRequestController);
 
 export default router;

@@ -27,3 +27,10 @@ export const getMyPackageRentalRequestsRepo = async (userId) => {
     orderBy: { createdAt: 'desc' },
   });
 };
+
+export const cancelPackageRentalRequestRepo = async (id) => {
+  return await prisma.packageRentalRequest.update({
+    where: { id },
+    data: { status: 'CANCELED' },
+  });
+};
