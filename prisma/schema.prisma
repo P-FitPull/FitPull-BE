@@ -328,19 +328,20 @@ model PackageItem {
 }
 
 model PackageRentalRequest {
-  id         String                     @id @default(uuid())
-  userId     String
-  packageId  String?
-  startDate  DateTime
-  endDate    DateTime
-  totalPrice Int
-  memo       String?                    @db.Text
-  status     RequestStatus
-  createdAt  DateTime                   @default(now())
-  user       User                       @relation(fields: [userId], references: [id])
-  package    Package?                   @relation(fields: [packageId], references: [id])
-  items      PackageRentalRequestItem[]
-  PaymentLog PaymentLog[]
+  id                 String                     @id @default(uuid())
+  userId             String
+  packageId          String?
+  startDate          DateTime
+  endDate            DateTime
+  totalPrice         Int
+  memo               String?                    @db.Text
+  status             RequestStatus
+  createdAt          DateTime                   @default(now())
+  user               User                       @relation(fields: [userId], references: [id])
+  package            Package?                   @relation(fields: [packageId], references: [id])
+  items              PackageRentalRequestItem[]
+  PaymentLog         PaymentLog[]
+  PlatformPaymentLog PlatformPaymentLog[]
 }
 
 model PackageRentalRequestItem {
@@ -386,18 +387,20 @@ model PlatformAccount {
 }
 
 model PlatformPaymentLog {
-  id                String          @id @default(uuid())
-  platformAccountId String          @map("platform_account_id")
-  type              PlatformLogType
-  amount            Int
-  memo              String?
-  createdAt         DateTime        @default(now())
-  rentalRequestId   String?         @map("rental_request_id")
-  rentalRequest     RentalRequest?  @relation(fields: [rentalRequestId], references: [id])
-  userId            String?         @map("user_id")
-  user              User?           @relation(fields: [userId], references: [id])
-  balanceBefore     Int?
-  balanceAfter      Int?
+  id                     String                @id @default(uuid())
+  platformAccountId      String                @map("platform_account_id")
+  type                   PlatformLogType
+  amount                 Int
+  memo                   String?
+  createdAt              DateTime              @default(now())
+  rentalRequestId        String?               @map("rental_request_id")
+  rentalRequest          RentalRequest?        @relation(fields: [rentalRequestId], references: [id])
+  packageRentalRequestId String?               @map("package_rental_request_id")
+  packageRentalRequest   PackageRentalRequest? @relation(fields: [packageRentalRequestId], references: [id])
+  userId                 String?               @map("user_id")
+  user                   User?                 @relation(fields: [userId], references: [id])
+  balanceBefore          Int?
+  balanceAfter           Int?
 
   platformAccount PlatformAccount @relation(fields: [platformAccountId], references: [id])
 
