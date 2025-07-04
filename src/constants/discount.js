@@ -5,3 +5,5 @@ export const RENTAL_DISCOUNT = [
 
 export const INFLUENCER_PROMO_RENTAL_DISCOUNT_RATE = 0.05; // 인플루언서 홍보관 대여 5% 할인
 export const INFLUENCER_PROMO_PURCHASE_DISCOUNT_RATE = 0.05; // 인플루언서 홍보관 구매 5% 할인
+
+export const PACKAGE_RENTAL_DISCOUNT_RATE = 0.1; // 패키지 대여 10% 할인
