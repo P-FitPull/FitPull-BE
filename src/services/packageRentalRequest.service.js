@@ -1,0 +1,250 @@
+import prisma from '../data-source.js';
+import CustomError from '../utils/customError.js';
+import {
+  PACKAGE_MESSAGES,
+  RENTAL_REQUEST_MESSAGES,
+  PLATFORM_MESSAGES,
+} from '../constants/messages.js';
+import { findUserById } from '../repositories/user.repository.js';
+import {
+  RENTAL_DISCOUNT,
+  INFLUENCER_PROMO_RENTAL_DISCOUNT_RATE,
+  PACKAGE_RENTAL_DISCOUNT_RATE,
+} from '../constants/discount.js';
+import { getPackageByIdRepo } from '../repositories/package.repository.js';
+import { checkRentalDateConflict } from '../repositories/rentalRequest.repository.js';
+import { findInfluencerPromoByProductId } from '../repositories/influencerPromo.repository.js';
+
+export const createPackageRentalRequest = async ({
+  userId,
+  packageId,
+  startDate,
+  endDate,
+  howToReceive,
+  memo,
+}) => {
+  // 1. 패키지, 유저, 상품 정보 검증
+  const pkg = await getPackageByIdRepo(packageId);
+  if (!pkg)
+    throw new CustomError(
+      404,
+      'PACKAGE_NOT_FOUND',
+      PACKAGE_MESSAGES.PACKAGE_NOT_FOUND,
+    );
+
+  const user = await findUserById(userId);
+  if (!user)
+    throw new CustomError(
+      404,
+      'USER_NOT_FOUND',
+      RENTAL_REQUEST_MESSAGES.USER_NOT_FOUND,
+    );
+
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const now = new Date();
+  const oneMonthLater = new Date();
+  oneMonthLater.setDate(now.getDate() + 30);
+
+  if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+    throw new CustomError(
+      400,
+      'INVALID_DATE_FORMAT',
+      RENTAL_REQUEST_MESSAGES.INVALID_DATE_FORMAT,
+    );
+  }
+  if (start < now.setHours(0, 0, 0, 0)) {
+    throw new CustomError(
+      400,
+      'START_DATE_BEFORE_TODAY',
+      RENTAL_REQUEST_MESSAGES.START_DATE_BEFORE_TODAY,
+    );
+  }
+  if (end <= start) {
+    throw new CustomError(
+      400,
+      'INVALID_RENTAL_DATE',
+      RENTAL_REQUEST_MESSAGES.INVALID_RENTAL_DATE,
+    );
+  }
+  if (start > oneMonthLater) {
+    throw new CustomError(
+      400,
+      'RENTAL_DATE_LIMIT',
+      RENTAL_REQUEST_MESSAGES.START_DATE_LIMIT,
+    );
+  }
+  if (!howToReceive) {
+    throw new CustomError(
+      400,
+      'RECEIVE_METHOD_REQUIRED',
+      RENTAL_REQUEST_MESSAGES.RECEIVE_METHOD_REQUIRED,
+    );
+  }
+
+  // 2. 각 상품별 대여 가능 여부 및 금액 계산
+  let totalPrice = 0;
+  const dayCount = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+  const items = [];
+
+  for (const item of pkg.items) {
+    const product = item.product;
+    // 상품 상태/삭제 체크
+    if (!product || product.deletedAt) {
+      throw new CustomError(
+        404,
+        'PRODUCT_NOT_FOUND',
+        RENTAL_REQUEST_MESSAGES.PRODUCT_NOT_FOUND,
+      );
+    }
+    if (['PURCHASE_RESERVED', 'SOLD'].includes(product.status)) {
+      throw new CustomError(
+        400,
+        'RENTAL_NOT_ALLOWED',
+        RENTAL_REQUEST_MESSAGES.RENTAL_NOT_ALLOWED,
+      );
+    }
+    // 날짜 중복 체크
+    const conflict = await checkRentalDateConflict(
+      product.id,
+      startDate,
+      endDate,
+    );
+    if (conflict) {
+      throw new CustomError(
+        400,
+        'RENTAL_DATE_CONFLICT',
+        RENTAL_REQUEST_MESSAGES.RENTAL_DATE_CONFLICT,
+      );
+    }
+
+    // 기본 가격
+    let price = product.price * dayCount;
+
+    // 할인 정책 적용
+    const discountPolicy = RENTAL_DISCOUNT.find(
+      (policy) => dayCount >= policy.minDays,
+    );
+    if (discountPolicy) {
+      price *= discountPolicy.rate;
+    }
+
+    // 인플루언서 홍보관 할인
+    const influencerPromo = await findInfluencerPromoByProductId(product.id);
+    if (influencerPromo) {
+      price *= 1 - INFLUENCER_PROMO_RENTAL_DISCOUNT_RATE;
+    }
+
+    // 패키지 대여 할인
+    price *= 1 - PACKAGE_RENTAL_DISCOUNT_RATE;
+
+    price = Math.round(price);
+
+    totalPrice += price;
+
+    items.push({
+      productId: product.id,
+      ownerId: product.ownerId,
+      price: product.price * dayCount,
+      finalPrice: price,
+      status: 'PENDING',
+    });
+  }
+
+  if (user.balance < totalPrice) {
+    throw new CustomError(
+      400,
+      'INSUFFICIENT_BALANCE',
+      RENTAL_REQUEST_MESSAGES.INSUFFICIENT_BALANCE,
+    );
+  }
+
+  // 3. 트랜잭션: 잔고 차감, 패키지 대여 생성, 결제로그, 플랫폼 정산
+  return await prisma.$transaction(async (tx) => {
+    // 동시성 체크
+    const exists = await tx.packageRentalRequest.findFirst({
+      where: {
+        userId,
+        packageId,
+        status: { in: ['PENDING', 'APPROVED'] },
+        startDate: { lte: new Date(endDate) },
+        endDate: { gte: new Date(startDate) },
+      },
+    });
+    if (exists) {
+      throw new CustomError(
+        400,
+        'ALREADY_REQUESTED',
+        PACKAGE_MESSAGES.ALREADY_REQUESTED,
+      );
+    }
+
+    // 유저 잔액 차감
+    const updatedUser = await tx.user.update({
+      where: { id: userId },
+      data: { balance: { decrement: totalPrice } },
+      select: { balance: true },
+    });
+
+    // 패키지 대여 요청 생성
+    const packageRentalRequest = await tx.packageRentalRequest.create({
+      data: {
+        userId,
+        packageId,
+        startDate: start,
+        endDate: end,
+        totalPrice,
+        memo,
+        status: 'PENDING',
+        items: {
+          create: items,
+        },
+      },
+      include: { items: true },
+    });
+
+    // 결제 로그
+    await tx.paymentLog.create({
+      data: {
+        userId,
+        amount: totalPrice,
+        paymentType: 'RENTAL_PAYMENT',
+        memo: `[패키지대여] ${pkg.title}`,
+        balanceBefore: user.balance,
+        balanceAfter: updatedUser.balance,
+        paidAt: new Date(),
+      },
+    });
+
+    // 플랫폼 계정 처리
+    const platformAccount = await tx.platformAccount.findFirst();
+    if (!platformAccount) {
+      throw new CustomError(
+        500,
+        'PLATFORM_ACCOUNT_NOT_FOUND',
+        PLATFORM_MESSAGES.PLATFORM_ACCOUNT_NOT_FOUND,
+      );
+    }
+    const platformBalanceBefore = platformAccount.balance;
+    const platformBalanceAfter = platformBalanceBefore + totalPrice;
+
+    await tx.platformAccount.update({
+      where: { id: platformAccount.id },
+      data: { balance: { increment: totalPrice } },
+    });
+
+    await tx.platformPaymentLog.create({
+      data: {
+        platformAccountId: platformAccount.id,
+        type: 'INCOME',
+        amount: totalPrice,
+        memo: `[패키지대여] ${pkg.title}`,
+        balanceBefore: platformBalanceBefore,
+        balanceAfter: platformBalanceAfter,
+        userId,
+      },
+    });
+
+    return packageRentalRequest;
+  });
+};
