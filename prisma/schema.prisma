@@ -332,7 +332,7 @@ model PackageRentalRequest {
   startDate  DateTime
   endDate    DateTime
   totalPrice Int
-  discount   Int
+  memo       String?                    @db.Text
   status     RequestStatus
   createdAt  DateTime                   @default(now())
   user       User                       @relation(fields: [userId], references: [id])
