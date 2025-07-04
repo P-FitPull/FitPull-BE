@@ -165,20 +165,22 @@ model CompletedRental {
 }
 
 model PaymentLog {
-  id              String         @id @default(uuid())
-  amount          Int
-  paymentType     PaymentType
-  paidAt          DateTime?
-  memo            String?
-  createdAt       DateTime       @default(now()) @map("created_at")
-  rentalRequestId String?        @map("rental_request_id")
-  rentalRequest   RentalRequest? @relation(fields: [rentalRequestId], references: [id])
-  productId       String?        @map("product_id")
-  product         Product?       @relation(fields: [productId], references: [id])
-  userId          String         @map("user_id")
-  user            User           @relation(fields: [userId], references: [id])
-  balanceBefore   Int?
-  balanceAfter    Int?
+  id                     String                @id @default(uuid())
+  amount                 Int
+  paymentType            PaymentType
+  paidAt                 DateTime?
+  memo                   String?
+  createdAt              DateTime              @default(now()) @map("created_at")
+  rentalRequestId        String?               @map("rental_request_id")
+  rentalRequest          RentalRequest?        @relation(fields: [rentalRequestId], references: [id])
+  packageRentalRequestId String?               @map("package_rental_request_id")
+  packageRentalRequest   PackageRentalRequest? @relation(fields: [packageRentalRequestId], references: [id])
+  productId              String?               @map("product_id")
+  product                Product?              @relation(fields: [productId], references: [id])
+  userId                 String                @map("user_id")
+  user                   User                  @relation(fields: [userId], references: [id])
+  balanceBefore          Int?
+  balanceAfter           Int?
 
   @@map("payment_logs")
 }
@@ -338,6 +340,7 @@ model PackageRentalRequest {
   user       User                       @relation(fields: [userId], references: [id])
   package    Package?                   @relation(fields: [packageId], references: [id])
   items      PackageRentalRequestItem[]
+  PaymentLog PaymentLog[]
 }
 
 model PackageRentalRequestItem {
