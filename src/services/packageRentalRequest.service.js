@@ -14,6 +14,8 @@ import {
 import { getPackageByIdRepo } from '../repositories/package.repository.js';
 import { checkRentalDateConflict } from '../repositories/rentalRequest.repository.js';
 import { findInfluencerPromoByProductId } from '../repositories/influencerPromo.repository.js';
+import { createNotification } from './notification.service.js';
+import { NOTIFICATION_MESSAGES } from '../constants/messages.js';
 
 export const createPackageRentalRequest = async ({
   userId,
@@ -247,6 +249,75 @@ export const createPackageRentalRequest = async ({
 
     return packageRentalRequest;
   });
+};
+
+export const approvePackageRentalRequest = async (id) => {
+  // 1. 상태 변경
+  const updated = await prisma.packageRentalRequest.updateMany({
+    where: {
+      id,
+      status: 'PENDING',
+    },
+    data: { status: 'APPROVED' },
+  });
+  if (updated.count === 0) {
+    throw new CustomError(
+      404,
+      'PACKAGE_RENTAL_NOT_FOUND_OR_ALREADY_PROCESSED',
+      PACKAGE_MESSAGES.PACKAGE_RENTAL_ALREADY_PROCESSED,
+    );
+  }
+
+  // 2. 상세 정보 조회 (패키지, 대여자, 상품, 소유주)
+  const request = await prisma.packageRentalRequest.findUnique({
+    where: { id },
+    include: {
+      user: true,
+      package: true,
+      items: { include: { product: true } },
+    },
+  });
+  if (!request) {
+    throw new CustomError(
+      404,
+      'PACKAGE_RENTAL_NOT_FOUND',
+      PACKAGE_MESSAGES.PACKAGE_RENTAL_REQUEST_NOT_FOUND,
+    );
+  }
+
+  // 3. 대여자 알림
+  await createNotification({
+    userId: request.userId,
+    type: 'PACKAGE_RENTAL_STATUS',
+    message: `${NOTIFICATION_MESSAGES.PACKAGE_RENTAL_APPROVED} [${request.package.title}]`,
+    url: `/package-rental-requests/${id}`,
+    packageRentalRequestId: id,
+  });
+
+  // 4. 각 상품 소유주 알림
+  const ownerIdSet = new Set();
+  for (const item of request.items) {
+    if (item.product && item.product.ownerId) {
+      ownerIdSet.add(item.product.ownerId);
+    }
+  }
+  for (const ownerId of ownerIdSet) {
+    await createNotification({
+      userId: ownerId,
+      type: 'PACKAGE_RENTAL_STATUS',
+      message: `${NOTIFICATION_MESSAGES.PACKAGE_RENTAL_PRODUCT_RENTED} [${request.package.title}]`,
+      url: `/package-rental-requests/${id}`,
+      packageRentalRequestId: id,
+    });
+  }
+
+  // 5. 승인 결과 반환
+  return {
+    id,
+    status: 'APPROVED',
+    packageTitle: request.package.title,
+    totalPrice: request.totalPrice,
+  };
 };
 
 export const cancelPackageRentalRequest = async (

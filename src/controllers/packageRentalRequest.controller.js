@@ -6,6 +6,7 @@ import {
 import { success } from '../utils/responseHandler.js';
 import { PACKAGE_MESSAGES } from '../constants/messages.js';
 import { cancelPackageRentalRequest } from '../services/packageRentalRequest.service.js';
+import { approvePackageRentalRequest } from '../services/packageRentalRequest.service.js';
 
 export const createPackageRentalRequestController = async (req, res, next) => {
   try {
@@ -68,6 +69,20 @@ export const cancelPackageRentalRequestController = async (req, res, next) => {
     );
   } catch (error) {
     console.log(error);
+    next(error);
+  }
+};
+
+export const approvePackageRentalRequestController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await approvePackageRentalRequest(id);
+    return success(
+      res,
+      PACKAGE_MESSAGES.PACKAGE_RENTAL_REQUEST_APPROVED,
+      result,
+    );
+  } catch (error) {
     next(error);
   }
 };

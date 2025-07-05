@@ -292,4 +292,7 @@ export const PACKAGE_MESSAGES = {
   PACKAGE_RENTAL_CANCEL_NOT_ALLOWED: '요청하신 취소가 불가능한 상태입니다.',
   PACKAGE_RENTAL_CANCEL_TOO_LATE:
     '패키지 대여 시작 3일 전부터는 취소가 불가합니다.',
+  PACKAGE_RENTAL_ALREADY_PROCESSED: '이미 처리된 패키지 대여요청입니다.',
+  PACKAGE_RENTAL_REQUEST_NOT_FOUND: '패키지 대여 요청을 찾을 수 없습니다.',
+  PACKAGE_RENTAL_REQUEST_APPROVED: '패키지 대여 요청이 승인되었습니다.',
 };

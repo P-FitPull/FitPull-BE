@@ -4,8 +4,10 @@ import {
   getMyPackageRentalRequestsController,
   getPackageRentalRequestByIdController,
   cancelPackageRentalRequestController,
+  approvePackageRentalRequestController,
 } from '../controllers/packageRentalRequest.controller.js';
 import { authenticate } from '../middlewares/auth.js';
+import { adminOnly } from '../middlewares/adminOnly.js';
 
 const router = express.Router();
 
@@ -17,5 +19,12 @@ router.get('/my', authenticate, getMyPackageRentalRequestsController);
 router.get('/:id', authenticate, getPackageRentalRequestByIdController);
 // 패키지 대여 요청 취소
 router.patch('/:id/cancel', authenticate, cancelPackageRentalRequestController);
+// 패키지 대여 요청 승인
+router.patch(
+  '/:id/approve',
+  authenticate,
+  adminOnly,
+  approvePackageRentalRequestController,
+);
 
 export default router;
