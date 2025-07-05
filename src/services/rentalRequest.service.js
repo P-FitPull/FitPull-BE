@@ -16,7 +16,7 @@ import { getProductByIdRepo } from '../repositories/product.repository.js';
 import CustomError from '../utils/customError.js';
 import { createNotification } from './notification.service.js';
 import {
-  RENTAL_DISCOUNT,
+  PERIOD_RENTAL_DISCOUNT_RATE,
   INFLUENCER_PROMO_RENTAL_DISCOUNT_RATE,
 } from '../constants/discount.js';
 import { findUserById } from '../repositories/user.repository.js';
@@ -125,7 +125,7 @@ export const createRentalRequestWithPayment = async (
     let totalPrice = product.price * dayCount;
 
     // 할인 정책 적용
-    const discountPolicy = RENTAL_DISCOUNT.find(
+    const discountPolicy = PERIOD_RENTAL_DISCOUNT_RATE.find(
       (policy) => dayCount >= policy.minDays,
     );
     if (discountPolicy) {
