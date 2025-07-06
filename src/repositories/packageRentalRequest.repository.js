@@ -41,3 +41,10 @@ export const approvePackageRentalRequestRepo = async (id) => {
     data: { status: 'APPROVED' },
   });
 };
+
+export const rejectPackageRentalRequestRepo = async (id) => {
+  return await prisma.packageRentalRequest.update({
+    where: { id },
+    data: { status: 'REJECTED' },
+  });
+};

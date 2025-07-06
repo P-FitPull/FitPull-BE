@@ -25,7 +25,7 @@ export const createPackageRentalRequest = async ({
   howToReceive,
   memo,
 }) => {
-  // 1. 패키지, 유저, 상품 정보 검증
+  //패키지, 유저, 상품 정보 검증
   const pkg = await getPackageByIdRepo(packageId);
   if (!pkg)
     throw new CustomError(
@@ -84,7 +84,7 @@ export const createPackageRentalRequest = async ({
     );
   }
 
-  // 2. 각 상품별 대여 가능 여부 및 금액 계산
+  // 각 상품별 대여 가능 여부 및 금액 계산
   let totalPrice = 0;
   const dayCount = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
   const items = [];
@@ -161,7 +161,7 @@ export const createPackageRentalRequest = async ({
     );
   }
 
-  // 3. 트랜잭션: 잔고 차감, 패키지 대여 생성, 결제로그, 플랫폼 정산
+  // 트랜잭션: 잔고 차감, 패키지 대여 생성, 결제로그, 플랫폼 정산
   return await prisma.$transaction(async (tx) => {
     // 동시성 체크
     const exists = await tx.packageRentalRequest.findFirst({
@@ -252,7 +252,7 @@ export const createPackageRentalRequest = async ({
 };
 
 export const approvePackageRentalRequest = async (id) => {
-  // 1. 상태 변경
+  // 상태 변경
   const updated = await prisma.packageRentalRequest.updateMany({
     where: {
       id,
@@ -268,7 +268,7 @@ export const approvePackageRentalRequest = async (id) => {
     );
   }
 
-  // 2. 상세 정보 조회 (패키지, 대여자, 상품, 소유주)
+  // 상세 정보 조회 (패키지, 대여자, 상품, 소유주)
   const request = await prisma.packageRentalRequest.findUnique({
     where: { id },
     include: {
@@ -285,7 +285,7 @@ export const approvePackageRentalRequest = async (id) => {
     );
   }
 
-  // 3. 대여자 알림
+  // 대여자 알림
   await createNotification({
     userId: request.userId,
     type: 'PACKAGE_RENTAL_STATUS',
@@ -294,7 +294,7 @@ export const approvePackageRentalRequest = async (id) => {
     packageRentalRequestId: id,
   });
 
-  // 4. 각 상품 소유주 알림
+  // 각 상품 소유주 알림
   const ownerIdSet = new Set();
   for (const item of request.items) {
     if (item.product && item.product.ownerId) {
@@ -311,7 +311,7 @@ export const approvePackageRentalRequest = async (id) => {
     });
   }
 
-  // 5. 승인 결과 반환
+  // 승인 결과 반환
   return {
     id,
     status: 'APPROVED',
@@ -325,7 +325,7 @@ export const cancelPackageRentalRequest = async (
   userId,
   refundMemo = null,
 ) => {
-  // 1. 패키지 대여 요청 조회
+  // 패키지 대여 요청 조회
   const packageRentalRequest = await prisma.packageRentalRequest.findUnique({
     where: { id: packageRentalRequestId },
     include: { user: true, package: true },
@@ -333,8 +333,8 @@ export const cancelPackageRentalRequest = async (
   if (!packageRentalRequest)
     throw new CustomError(
       404,
-      'PACKAGE_NOT_FOUND',
-      PACKAGE_MESSAGES.PACKAGE_NOT_FOUND,
+      'PACKAGE_RENTAL_REQUEST_NOT_FOUND',
+      PACKAGE_MESSAGES.PACKAGE_RENTAL_REQUEST_NOT_FOUND,
     );
   if (packageRentalRequest.userId !== userId) {
     throw new CustomError(403, 'NO_PERMISSION', PACKAGE_MESSAGES.NO_PERMISSION);
@@ -359,7 +359,7 @@ export const cancelPackageRentalRequest = async (
     );
   }
 
-  // 2. 트랜잭션: 상태 변경, 환불, 결제로그, 플랫폼 정산
+  // 트랜잭션: 상태 변경, 환불, 결제로그, 플랫폼 정산
   const result = await prisma.$transaction(async (tx) => {
     // 동시성 처리: FOR UPDATE
     await tx.$executeRaw`SELECT * FROM "PackageRentalRequest" WHERE id = ${packageRentalRequestId} FOR UPDATE`;
@@ -407,13 +407,13 @@ export const cancelPackageRentalRequest = async (
       throw new CustomError(
         500,
         'PLATFORM_ACCOUNT_NOT_FOUND',
-        PACKAGE_MESSAGES.PLATFORM_ACCOUNT_NOT_FOUND,
+        PLATFORM_MESSAGES.PLATFORM_ACCOUNT_NOT_FOUND,
       );
     if (platformAccount.balance < packageRentalRequest.totalPrice) {
       throw new CustomError(
         422,
-        'PLATFORM_BALANCE_INSUFFICIENT',
-        PACKAGE_MESSAGES.PLATFORM_BALANCE_INSUFFICIENT,
+        'INSUFFICIENT_PLATFORM_BALANCE',
+        PLATFORM_MESSAGES.INSUFFICIENT_PLATFORM_BALANCE,
       );
     }
     await tx.platformAccount.update({
@@ -438,6 +438,140 @@ export const cancelPackageRentalRequest = async (
       status: 'CANCELED',
     };
   });
+
+  return result;
+};
+
+export const rejectPackageRentalRequestByAdmin = async (
+  packageRentalRequestId,
+  refundMemo = null,
+) => {
+  // 패키지 대여 요청 조회
+  const packageRentalRequest = await prisma.packageRentalRequest.findUnique({
+    where: { id: packageRentalRequestId },
+    include: {
+      user: true,
+      package: true,
+      items: { include: { product: true } },
+    },
+  });
+  if (!packageRentalRequest)
+    throw new CustomError(
+      404,
+      'PACKAGE_RENTAL_REQUEST_NOT_FOUND',
+      PACKAGE_MESSAGES.PACKAGE_RENTAL_REQUEST_NOT_FOUND,
+    );
+  if (['REJECTED', 'CANCELED'].includes(packageRentalRequest.status)) {
+    throw new CustomError(
+      400,
+      'ALREADY_PROCESSED',
+      PACKAGE_MESSAGES.PACKAGE_RENTAL_ALREADY_PROCESSED,
+    );
+  }
+
+  //트랜잭션: 상태 변경, 환불, 결제로그, 플랫폼 정산
+  const result = await prisma.$transaction(async (tx) => {
+    await tx.$executeRaw`SELECT * FROM "PackageRentalRequest" WHERE id = ${packageRentalRequestId} FOR UPDATE`;
+
+    const updated = await tx.packageRentalRequest.updateMany({
+      where: {
+        id: packageRentalRequestId,
+        status: { in: ['PENDING', 'APPROVED'] },
+      },
+      data: { status: 'REJECTED' },
+    });
+    if (updated.count === 0) {
+      throw new CustomError(
+        400,
+        'ALREADY_PROCESSED',
+        PACKAGE_MESSAGES.PACKAGE_RENTAL_ALREADY_PROCESSED,
+      );
+    }
+
+    // 유저 환불
+    const updatedUser = await tx.user.update({
+      where: { id: packageRentalRequest.userId },
+      data: { balance: { increment: packageRentalRequest.totalPrice } },
+      select: { balance: true },
+    });
+
+    // 결제 로그
+    await tx.paymentLog.create({
+      data: {
+        userId: packageRentalRequest.userId,
+        packageRentalRequestId,
+        amount: packageRentalRequest.totalPrice,
+        paymentType: 'REFUND',
+        memo: refundMemo || '[자동] 어드민 거절 환불',
+        balanceBefore: packageRentalRequest.user.balance,
+        balanceAfter: updatedUser.balance,
+        paidAt: new Date(),
+      },
+    });
+
+    // 플랫폼 계정
+    const platformAccount = await tx.platformAccount.findFirst();
+    if (!platformAccount)
+      throw new CustomError(
+        500,
+        'PLATFORM_ACCOUNT_NOT_FOUND',
+        PLATFORM_MESSAGES.PLATFORM_ACCOUNT_NOT_FOUND,
+      );
+    if (platformAccount.balance < packageRentalRequest.totalPrice) {
+      throw new CustomError(
+        422,
+        'INSUFFICIENT_PLATFORM_BALANCE',
+        PLATFORM_MESSAGES.INSUFFICIENT_PLATFORM_BALANCE,
+      );
+    }
+    await tx.platformAccount.update({
+      where: { id: platformAccount.id },
+      data: { balance: { decrement: packageRentalRequest.totalPrice } },
+    });
+    await tx.platformPaymentLog.create({
+      data: {
+        platformAccountId: platformAccount.id,
+        type: 'REFUND',
+        amount: packageRentalRequest.totalPrice,
+        memo: `[자동] 어드민 거절 환불: ${packageRentalRequest.package?.title ?? ''}`,
+        balanceBefore: platformAccount.balance,
+        balanceAfter: platformAccount.balance - packageRentalRequest.totalPrice,
+        packageRentalRequestId,
+        userId: packageRentalRequest.userId,
+      },
+    });
+    return {
+      packageRentalRequestId,
+      refundedAmount: packageRentalRequest.totalPrice,
+      status: 'REJECTED',
+    };
+  });
+
+  // 대여자(신청자)에게 거절 알림
+  await createNotification({
+    userId: packageRentalRequest.userId,
+    type: 'PACKAGE_RENTAL_STATUS',
+    message: `${NOTIFICATION_MESSAGES.PACKAGE_RENTAL_REJECTED} [${packageRentalRequest.package?.title ?? ''}]`,
+    url: `/package-rental-requests/${packageRentalRequestId}`,
+    packageRentalRequestId,
+  });
+
+  // 각 상품 소유주에게 거절 알림
+  const ownerIdSet = new Set();
+  for (const item of packageRentalRequest.items) {
+    if (item.product && item.product.ownerId) {
+      ownerIdSet.add(item.product.ownerId);
+    }
+  }
+  for (const ownerId of ownerIdSet) {
+    await createNotification({
+      userId: ownerId,
+      type: 'PACKAGE_RENTAL_STATUS',
+      message: `${NOTIFICATION_MESSAGES.PACKAGE_RENTAL_REJECTED} [${packageRentalRequest.package?.title ?? ''}]`,
+      url: `/package-rental-requests/${packageRentalRequestId}`,
+      packageRentalRequestId,
+    });
+  }
 
   return result;
 };

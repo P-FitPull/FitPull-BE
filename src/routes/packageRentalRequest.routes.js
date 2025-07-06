@@ -5,6 +5,7 @@ import {
   getPackageRentalRequestByIdController,
   cancelPackageRentalRequestController,
   approvePackageRentalRequestController,
+  rejectPackageRentalRequestByAdminController,
 } from '../controllers/packageRentalRequest.controller.js';
 import { authenticate } from '../middlewares/auth.js';
 import { adminOnly } from '../middlewares/adminOnly.js';
@@ -25,6 +26,13 @@ router.patch(
   authenticate,
   adminOnly,
   approvePackageRentalRequestController,
+);
+// 패키지 대여 요청 거절
+router.patch(
+  '/:id/reject',
+  authenticate,
+  adminOnly,
+  rejectPackageRentalRequestByAdminController,
 );
 
 export default router;
