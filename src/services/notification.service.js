@@ -14,6 +14,7 @@ const VALID_TYPES = [
   'SYSTEM',
   'APPROVAL',
   'RENTAL_STATUS',
+  'PACKAGE_RENTAL_STATUS',
   'CHAT',
   'FEE',
   'REVIEW',

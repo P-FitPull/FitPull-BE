@@ -85,6 +85,11 @@ export const NOTIFICATION_MESSAGES = {
   MARK_READ_SUCCESS:
     '읽음 처리 완료. 읽음 처리된 알림은 3일 후 자동 삭제됩니다.',
   STORAGE_FEE_CHARGED: '보관료가 부과되었습니다.',
+  PACKAGE_RENTAL_APPROVED: '패키지 대여가 승인되었습니다.',
+  PACKAGE_RENTAL_PRODUCT_RENTED: '패키지 대여가 승인되었습니다.',
+  PACKAGE_RENTAL_REJECTED: '패키지 대여가 거절되었습니다.',
+  RENTAL_CANCELED: '대여가 취소되었습니다.',
+  PACKAGE_RENTAL_CANCELED: '패키지 대여가 취소되었습니다.',
 };
 
 export const REVIEW_MESSAGES = {
@@ -292,4 +297,8 @@ export const PACKAGE_MESSAGES = {
   PACKAGE_RENTAL_CANCEL_NOT_ALLOWED: '요청하신 취소가 불가능한 상태입니다.',
   PACKAGE_RENTAL_CANCEL_TOO_LATE:
     '패키지 대여 시작 3일 전부터는 취소가 불가합니다.',
+  PACKAGE_RENTAL_ALREADY_PROCESSED: '이미 처리된 패키지 대여요청입니다.',
+  PACKAGE_RENTAL_REQUEST_NOT_FOUND: '패키지 대여 요청을 찾을 수 없습니다.',
+  PACKAGE_RENTAL_REQUEST_APPROVED: '패키지 대여 요청이 승인되었습니다.',
+  PACKAGE_RENTAL_REQUEST_REJECTED: '패키지 대여 요청이 거절되었습니다.',
 };
