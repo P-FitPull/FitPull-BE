@@ -88,6 +88,8 @@ export const NOTIFICATION_MESSAGES = {
   PACKAGE_RENTAL_APPROVED: '패키지 대여가 승인되었습니다.',
   PACKAGE_RENTAL_PRODUCT_RENTED: '패키지 대여가 승인되었습니다.',
   PACKAGE_RENTAL_REJECTED: '패키지 대여가 거절되었습니다.',
+  RENTAL_CANCELED: '대여가 취소되었습니다.',
+  PACKAGE_RENTAL_CANCELED: '패키지 대여가 취소되었습니다.',
 };
 
 export const REVIEW_MESSAGES = {

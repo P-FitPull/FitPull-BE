@@ -328,7 +328,11 @@ export const cancelPackageRentalRequest = async (
   // 패키지 대여 요청 조회
   const packageRentalRequest = await prisma.packageRentalRequest.findUnique({
     where: { id: packageRentalRequestId },
-    include: { user: true, package: true },
+    include: {
+      user: true,
+      package: true,
+      items: { include: { product: true } },
+    },
   });
   if (!packageRentalRequest)
     throw new CustomError(
@@ -438,6 +442,32 @@ export const cancelPackageRentalRequest = async (
       status: 'CANCELED',
     };
   });
+
+  // 취소한 유저에게 알림
+  await createNotification({
+    userId: packageRentalRequest.userId,
+    type: 'PACKAGE_RENTAL_STATUS',
+    message: `${NOTIFICATION_MESSAGES.PACKAGE_RENTAL_CANCELED} [${packageRentalRequest.package?.title ?? ''}]`,
+    url: `/package-rental-requests/${packageRentalRequestId}`,
+    packageRentalRequestId,
+  });
+
+  // 각 상품 소유주에게 취소 알림
+  const ownerIdSet = new Set();
+  for (const item of packageRentalRequest.items) {
+    if (item.product && item.product.ownerId) {
+      ownerIdSet.add(item.product.ownerId);
+    }
+  }
+  for (const ownerId of ownerIdSet) {
+    await createNotification({
+      userId: ownerId,
+      type: 'PACKAGE_RENTAL_STATUS',
+      message: `${NOTIFICATION_MESSAGES.PACKAGE_RENTAL_CANCELED} [${packageRentalRequest.package?.title ?? ''}]`,
+      url: `/package-rental-requests/${packageRentalRequestId}`,
+      packageRentalRequestId,
+    });
+  }
 
   return result;
 };

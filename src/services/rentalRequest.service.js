@@ -457,6 +457,21 @@ export const cancelRentalRequest = async (
     };
   });
 
+  await createNotification({
+    userId: rentalRequest.userId,
+    type: 'RENTAL_STATUS',
+    message: `${NOTIFICATION_MESSAGES.RENTAL_CANCELED} [${rentalRequest.product.title}]`,
+    url: `/rental-requests/${rentalRequestId}`,
+    rentalRequestId,
+  });
+  await createNotification({
+    userId: rentalRequest.product.ownerId,
+    type: 'RENTAL_STATUS',
+    message: `${NOTIFICATION_MESSAGES.RENTAL_CANCELED} [${rentalRequest.product.title}]`,
+    url: `/rental-requests/${rentalRequestId}`,
+    rentalRequestId,
+  });
+
   return result;
 };
 
