@@ -16,6 +16,10 @@ import { checkRentalDateConflict } from '../repositories/rentalRequest.repositor
 import { findInfluencerPromoByProductId } from '../repositories/influencerPromo.repository.js';
 import { createNotification } from './notification.service.js';
 import { NOTIFICATION_MESSAGES } from '../constants/messages.js';
+import {
+  findMyPackageRentalRequestsRepo,
+  findPendingPackageRentalRequestsRepo,
+} from '../repositories/packageRentalRequest.repository.js';
 
 export const createPackageRentalRequest = async ({
   userId,
@@ -604,4 +608,32 @@ export const rejectPackageRentalRequestByAdmin = async (
   }
 
   return result;
+};
+
+export const getMyPackageRentalRequests = async (userId) => {
+  const requests = await findMyPackageRentalRequestsRepo(userId);
+  return requests.map((request) => ({
+    id: request.id,
+    rentalPeriod: `${request.startDate.toISOString().slice(0, 10)} ~ ${request.endDate.toISOString().slice(0, 10)}`,
+    packageTitle: request.package?.title ?? '',
+    status: request.status,
+    howToReceive: request.howToReceive,
+    memo: request.memo,
+    totalPrice: request.totalPrice,
+  }));
+};
+
+export const getPendingPackageRentalRequests = async () => {
+  const requests = await findPendingPackageRentalRequestsRepo();
+  return requests.map((request) => ({
+    id: request.id,
+    rentalPeriod: `${request.startDate.toISOString().slice(0, 10)} ~ ${request.endDate.toISOString().slice(0, 10)}`,
+    packageTitle: request.package?.title ?? '',
+    howToReceive: request.howToReceive,
+    memo: request.memo,
+    userName: request.user?.name ?? '',
+    userPhone: request.user?.phone ?? '',
+    status: request.status,
+    totalPrice: request.totalPrice,
+  }));
 };

@@ -7,22 +7,23 @@ export const createPackageRentalRequestRepo = async (data) => {
   });
 };
 
-export const getPackageRentalRequestByIdRepo = async (id, userId) => {
-  return await prisma.packageRentalRequest.findFirst({
-    where: { id, userId },
-    include: {
-      items: { include: { product: true, owner: true } },
-      package: true,
-    },
-  });
-};
-
-export const getMyPackageRentalRequestsRepo = async (userId) => {
+export const findMyPackageRentalRequestsRepo = async (userId) => {
   return await prisma.packageRentalRequest.findMany({
     where: { userId },
     include: {
-      items: { include: { product: true, owner: true } },
       package: true,
+      user: true,
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+};
+
+export const findPendingPackageRentalRequestsRepo = async () => {
+  return await prisma.packageRentalRequest.findMany({
+    where: { status: 'PENDING' },
+    include: {
+      package: true,
+      user: true,
     },
     orderBy: { createdAt: 'desc' },
   });
