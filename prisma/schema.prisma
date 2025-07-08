@@ -336,6 +336,7 @@ model PackageRentalRequest {
   totalPrice         Int
   memo               String?                    @db.Text
   status             RequestStatus
+  howToReceive       ReceiveMethod?             @map("how_to_receive")
   createdAt          DateTime                   @default(now())
   user               User                       @relation(fields: [userId], references: [id])
   package            Package?                   @relation(fields: [packageId], references: [id])
