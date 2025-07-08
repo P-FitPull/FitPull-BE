@@ -57,6 +57,7 @@ export const approvePackageRentalRequestController = async (req, res, next) => {
       result,
     );
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };

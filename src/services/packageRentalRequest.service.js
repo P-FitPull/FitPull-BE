@@ -289,6 +289,36 @@ export const approvePackageRentalRequest = async (id) => {
     );
   }
 
+  //  상품별 rentalRequest 생성
+  await prisma.$transaction(async (tx) => {
+    for (const item of request.items) {
+      // 이미 해당 기간에 rentalRequest가 있으면 skip
+      const exists = await tx.rentalRequest.findFirst({
+        where: {
+          productId: item.productId,
+          status: { in: ['PENDING', 'APPROVED'] },
+          startDate: { lte: request.endDate },
+          endDate: { gte: request.startDate },
+        },
+      });
+      if (!exists) {
+        await tx.rentalRequest.create({
+          data: {
+            productId: item.productId,
+            userId: request.userId,
+            startDate: request.startDate,
+            endDate: request.endDate,
+            howToReceive: request.howToReceive,
+            memo: request.memo,
+            totalPrice: item.finalPrice,
+            status: 'APPROVED',
+            packageRentalRequestId: request.id,
+          },
+        });
+      }
+    }
+  });
+
   // 대여자 알림
   await createNotification({
     userId: request.userId,
