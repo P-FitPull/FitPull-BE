@@ -470,6 +470,17 @@ export const cancelPackageRentalRequest = async (
         userId: packageRentalRequest.userId,
       },
     });
+
+    await tx.rentalRequest.updateMany({
+      where: {
+        packageRentalRequestId: packageRentalRequestId,
+        status: { in: ['APPROVED'] }, // 필요시 PENDING도 포함
+      },
+      data: {
+        status: 'CANCELED',
+      },
+    });
+
     return {
       packageRentalRequestId,
       refundedAmount: packageRentalRequest.totalPrice,
@@ -604,6 +615,17 @@ export const rejectPackageRentalRequestByAdmin = async (
         userId: packageRentalRequest.userId,
       },
     });
+
+    await tx.rentalRequest.updateMany({
+      where: {
+        packageRentalRequestId: packageRentalRequestId,
+        status: { in: ['APPROVED'] }, // 필요시 PENDING도 포함
+      },
+      data: {
+        status: 'REJECTED',
+      },
+    });
+
     return {
       packageRentalRequestId,
       refundedAmount: packageRentalRequest.totalPrice,
