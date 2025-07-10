@@ -41,6 +41,9 @@ FitPull Overflow는 "자신에게 꼭 맞는 모든 것을 대여한다"는 컨�
 📦 FitPull-BE
  ┣ 📂docs
  ┣ 📂prisma
+ ┃ ┣ 📜migrations
+ ┃ ┣ 📜schema.prisma
+ ┃ ┣ 📜seed.js
  ┣ 📂scripts
  ┣ 📂tasks
 📦src
@@ -63,6 +66,8 @@ FitPull Overflow는 "자신에게 꼭 맞는 모든 것을 대여한다"는 컨�
  ┃ ┣ 📜influencerPromo.controller.js
  ┃ ┣ 📜message.controller.js
  ┃ ┣ 📜notification.controller.js
+ ┃ ┣ 📜package.controller.js
+ ┃ ┣ 📜packageRentalRequest.controller.js
  ┃ ┣ 📜payment.controller.js
  ┃ ┣ 📜platform.controller.js
  ┃ ┣ 📜product.controller.js
@@ -89,6 +94,8 @@ FitPull Overflow는 "자신에게 꼭 맞는 모든 것을 대여한다"는 컨�
  ┃ ┣ 📜influencerPromo.repository.js
  ┃ ┣ 📜message.repository.js
  ┃ ┣ 📜notification.repository.js
+ ┃ ┣ 📜package.repository.js
+ ┃ ┣ 📜packageRentalRequest.repository.js
  ┃ ┣ 📜payment.repository.js
  ┃ ┣ 📜platform.repository.js
  ┃ ┣ 📜product.repository.js
@@ -105,6 +112,8 @@ FitPull Overflow는 "자신에게 꼭 맞는 모든 것을 대여한다"는 컨�
  ┃ ┣ 📜influencerPromo.routes.js
  ┃ ┣ 📜message.routes.js
  ┃ ┣ 📜notification.routes.js
+ ┃ ┣ 📜package.routes.js
+ ┃ ┣ 📜packageRentalRequest.routes.js
  ┃ ┣ 📜payment.routes.js
  ┃ ┣ 📜platform.routes.js
  ┃ ┣ 📜product.routes.js
@@ -121,6 +130,8 @@ FitPull Overflow는 "자신에게 꼭 맞는 모든 것을 대여한다"는 컨�
  ┃ ┣ 📜influencerPromo.service.js
  ┃ ┣ 📜message.service.js
  ┃ ┣ 📜notification.service.js
+ ┃ ┣ 📜package.service.js
+ ┃ ┣ 📜packageRentalRequest.service.js
  ┃ ┣ 📜payment.service.js
  ┃ ┣ 📜platform.service.js
  ┃ ┣ 📜product.service.js
@@ -287,7 +298,6 @@ FitPull Overflow는 "자신에게 꼭 맞는 모든 것을 대여한다"는 컨�
 
 ## 향후 계획
 
-- 패키지 상품 대여/구매 도입
 - 대용량 처리 테스트
 - 프론트엔드
 - express/prisma -> nestJS/typeORM 마이그레이션
