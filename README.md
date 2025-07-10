@@ -177,40 +177,40 @@ FitPull Overflow는 "자신에게 꼭 맞는 모든 것을 대여한다"는 컨�
 
 <h3>Programming Languages & Frameworks</h3>
 <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-  <img src="https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white" height="32"/>
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" height="32"/>
-  <img src="https://img.shields.io/badge/Express-000000?logo=express&logoColor=white" height="32"/>
-  <img src="https://img.shields.io/badge/Yarn-2C8EBB?logo=yarn&logoColor=white" height="32"/>
-  <img src="https://img.shields.io/badge/Prisma-2D3748?logo=prisma&logoColor=white" height="32"/>
+  <img src="https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white" style="height: 40px; width: auto;"/>
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" style="height: 40px; width: auto;"/>
+  <img src="https://img.shields.io/badge/Express-000000?logo=express&logoColor=white" style="height: 40px; width: auto;"/>
+  <img src="https://img.shields.io/badge/Yarn-2C8EBB?logo=yarn&logoColor=white" style="height: 40px; width: auto;"/>
+  <img src="https://img.shields.io/badge/Prisma-2D3748?logo=prisma&logoColor=white" style="height: 40px; width: auto;"/>
 </div>
 
 <h3>Infrastructure / Database / AI</h3>  
 <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-<img src="https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white" height="32"/>
-<img src="https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white" height="32"/>
-<img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white" height="32"/>
-<img src="https://img.shields.io/badge/PM2-2B037A?logo=pm2&logoColor=white" height="32"/>
-<img src="https://img.shields.io/badge/Amazon%20S3-569A31?logo=amazonaws&logoColor=white" height="32"/>
-<img src="https://img.shields.io/badge/Socket.IO-010101?logo=socket.io&logoColor=white" height="32"/>
-<img src="https://img.shields.io/badge/OpenAI-412991?logo=openai&logoColor=white" height="32"/>
-<img src="https://img.shields.io/badge/Anthropic-000000?logo=Anthropic&logoColor=white" height="32"/>
+<img src="https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white" style="height: 40px; width: auto;"/>
+<img src="https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white" style="height: 40px; width: auto;"/>
+<img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white" style="height: 40px; width: auto;"/>
+<img src="https://img.shields.io/badge/PM2-2B037A?logo=pm2&logoColor=white" style="height: 40px; width: auto;"/>
+<img src="https://img.shields.io/badge/Amazon%20S3-569A31?logo=amazonaws&logoColor=white" style="height: 40px; width: auto;"/>
+<img src="https://img.shields.io/badge/Socket.IO-010101?logo=socket.io&logoColor=white" style="height: 40px; width: auto;"/>
+<img src="https://img.shields.io/badge/OpenAI-412991?logo=openai&logoColor=white" style="height: 40px; width: auto;"/>
+<img src="https://img.shields.io/badge/Anthropic-000000?logo=Anthropic&logoColor=white" style="height: 40px; width: auto;"/>
 </div>
 
 <h3>인증 / 문서화</h3>  
 <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-<img src="https://img.shields.io/badge/Passport-34E27A?logo=passport&logoColor=white" height="32"/>
-<img src="https://img.shields.io/badge/Swagger-85EA2D?logo=swagger&logoColor=black" height="32"/>
-<img src="https://img.shields.io/badge/JWT-000000?logo=jsonwebtokens&logoColor=white" height="32"/>
-<img src="https://img.shields.io/badge/CoolSMS-0096FF?logo=messagebird&logoColor=white" height="32"/>
+<img src="https://img.shields.io/badge/Passport-34E27A?logo=passport&logoColor=white" style="height: 40px; width: auto;"/>
+<img src="https://img.shields.io/badge/Swagger-85EA2D?logo=swagger&logoColor=black" style="height: 40px; width: auto;"/>
+<img src="https://img.shields.io/badge/JWT-000000?logo=jsonwebtokens&logoColor=white" style="height: 40px; width: auto;"/>
+<img src="https://img.shields.io/badge/CoolSMS-0096FF?logo=messagebird&logoColor=white" style="height: 40px; width: auto;"/>
 </div>
 
 <h3>Dev Tools</h3>  
 <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-<img src="https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white" height="32"/>
-<img src="https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white" height="32"/>
-<img src="https://img.shields.io/badge/VSCode-007ACC?logo=visualstudiocode&logoColor=white" height="32"/>
-<img src="https://img.shields.io/badge/Insomnia-4000BF?logo=insomnia&logoColor=white" height="32"/>
-<img src="https://img.shields.io/badge/GitHub%20Actions-2088FF?logo=githubactions&logoColor=white" height="32"/>
+<img src="https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white" style="height: 40px; width: auto;"/>
+<img src="https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white" style="height: 40px; width: auto;"/>
+<img src="https://img.shields.io/badge/VSCode-007ACC?logo=visualstudiocode&logoColor=white" style="height: 40px; width: auto;"/>
+<img src="https://img.shields.io/badge/Insomnia-4000BF?logo=insomnia&logoColor=white" style="height: 40px; width: auto;"/>
+<img src="https://img.shields.io/badge/GitHub%20Actions-2088FF?logo=githubactions&logoColor=white" style="height: 40px; width: auto;"/>
 </div>
 
 ## 핵심 기능
