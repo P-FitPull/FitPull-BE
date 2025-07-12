@@ -9,7 +9,8 @@ export const PLATFORM_MESSAGES = {
   PLATFORM_DEPOSIT_SUCCESS: '플랫폼 잔고 충전 성공',
   PLATFORM_DEPOSIT_ERROR: '플랫폼 잔고 충전에 실패했습니다.',
   PLATFORM_ACCOUNT_NOT_FOUND: '플랫폼 계정을 찾을 수 없습니다.',
-  INSUFFICIENT_PLATFORM_BALANCE: '플랫폼 잔액이 부족합니다.',
+  INSUFFICIENT_PLATFORM_BALANCE:
+    '플랫폼 잔액이 부족합니다. 관리자에게 문의하세요.',
 };
 
 export const INFLUENCER_PROMO_MESSAGES = {
@@ -304,4 +305,5 @@ export const PACKAGE_MESSAGES = {
   PACKAGE_RENTAL_REQUEST_NOT_FOUND: '패키지 대여 요청을 찾을 수 없습니다.',
   PACKAGE_RENTAL_REQUEST_APPROVED: '패키지 대여 요청이 승인되었습니다.',
   PACKAGE_RENTAL_REQUEST_REJECTED: '패키지 대여 요청이 거절되었습니다.',
+  PACKAGE_RENTAL_NOT_APPROVED: '승인된 패키지 대여요청이 아닙니다.',
 };

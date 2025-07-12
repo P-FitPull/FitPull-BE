@@ -49,3 +49,15 @@ export const rejectPackageRentalRequestRepo = async (id) => {
     data: { status: 'REJECTED' },
   });
 };
+
+// 패키지 대여요청 상세 조회 (items, package, user 포함)
+export const getPackageRentalRequestById = async (id) => {
+  return await prisma.packageRentalRequest.findUnique({
+    where: { id },
+    include: {
+      items: true,
+      package: true,
+      user: true,
+    },
+  });
+};
