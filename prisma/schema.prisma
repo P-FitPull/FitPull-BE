@@ -47,6 +47,7 @@ model User {
   purchaseReservedProducts Product[]                  @relation("PurchaseReservedProducts")
   PackageRentalRequest     PackageRentalRequest[]
   PackageRentalRequestItem PackageRentalRequestItem[]
+  PackageCompletedRental   PackageCompletedRental[]
 }
 
 model Account {
@@ -144,24 +145,26 @@ model RentalRequest {
 }
 
 model CompletedRental {
-  id               String             @id @default(uuid())
-  startDate        DateTime           @map("start_date")
-  endDate          DateTime           @map("end_date")
-  totalPrice       Int                @map("total_price")
-  createdAt        DateTime           @default(now()) @map("created_at")
-  updatedAt        DateTime           @updatedAt @map("updated_at")
-  deletedAt        DateTime?          @map("deleted_at")
-  userId           String             @map("user_id")
-  productId        String             @map("product_id")
-  rentalRequestId  String             @unique @map("rental_request_id")
-  returnMethod     ReturnMethod       @default(DELIVERY) @map("return_method")
-  isReturned       Boolean            @default(false) @map("is_returned")
-  returnedAt       DateTime?          @map("returned_at")
-  user             User               @relation(fields: [userId], references: [id])
-  product          Product            @relation(fields: [productId], references: [id])
-  rentalRequest    RentalRequest      @relation(fields: [rentalRequestId], references: [id])
-  rentalReview     RentalReview?
-  ProductStatusLog ProductStatusLog[]
+  id                       String                  @id @default(uuid())
+  startDate                DateTime                @map("start_date")
+  endDate                  DateTime                @map("end_date")
+  totalPrice               Int                     @map("total_price")
+  createdAt                DateTime                @default(now()) @map("created_at")
+  updatedAt                DateTime                @updatedAt @map("updated_at")
+  deletedAt                DateTime?               @map("deleted_at")
+  userId                   String                  @map("user_id")
+  productId                String                  @map("product_id")
+  rentalRequestId          String                  @unique @map("rental_request_id")
+  returnMethod             ReturnMethod            @default(DELIVERY) @map("return_method")
+  isReturned               Boolean                 @default(false) @map("is_returned")
+  returnedAt               DateTime?               @map("returned_at")
+  user                     User                    @relation(fields: [userId], references: [id])
+  product                  Product                 @relation(fields: [productId], references: [id])
+  rentalRequest            RentalRequest           @relation(fields: [rentalRequestId], references: [id])
+  rentalReview             RentalReview?
+  ProductStatusLog         ProductStatusLog[]
+  PackageCompletedRental   PackageCompletedRental? @relation(fields: [packageCompletedRentalId], references: [id])
+  packageCompletedRentalId String?
 
   @@map("completed_rentals")
 }
@@ -305,16 +308,17 @@ model AiReviewSummary {
 }
 
 model Package {
-  id                   String                 @id @default(uuid())
-  title                String
-  description          String?                @db.Text
-  createdBy            String
-  creator              User                   @relation(fields: [createdBy], references: [id])
-  isFeatured           Boolean                @default(false)
-  createdAt            DateTime               @default(now()) @map("created_at")
-  updatedAt            DateTime               @updatedAt @map("updated_at")
-  items                PackageItem[]
-  PackageRentalRequest PackageRentalRequest[]
+  id                     String                   @id @default(uuid())
+  title                  String
+  description            String?                  @db.Text
+  createdBy              String
+  creator                User                     @relation(fields: [createdBy], references: [id])
+  isFeatured             Boolean                  @default(false)
+  createdAt              DateTime                 @default(now()) @map("created_at")
+  updatedAt              DateTime                 @updatedAt @map("updated_at")
+  items                  PackageItem[]
+  PackageRentalRequest   PackageRentalRequest[]
+  PackageCompletedRental PackageCompletedRental[]
 
   @@map("packages")
 }
@@ -330,22 +334,23 @@ model PackageItem {
 }
 
 model PackageRentalRequest {
-  id                 String                     @id @default(uuid())
-  userId             String
-  packageId          String?
-  startDate          DateTime
-  endDate            DateTime
-  totalPrice         Int
-  memo               String?                    @db.Text
-  status             RequestStatus
-  howToReceive       ReceiveMethod              @map("how_to_receive")
-  createdAt          DateTime                   @default(now())
-  user               User                       @relation(fields: [userId], references: [id])
-  package            Package?                   @relation(fields: [packageId], references: [id])
-  items              PackageRentalRequestItem[]
-  PaymentLog         PaymentLog[]
-  PlatformPaymentLog PlatformPaymentLog[]
-  RentalRequest      RentalRequest[]
+  id                     String                     @id @default(uuid())
+  userId                 String
+  packageId              String?
+  startDate              DateTime
+  endDate                DateTime
+  totalPrice             Int
+  memo                   String?                    @db.Text
+  status                 RequestStatus
+  howToReceive           ReceiveMethod              @map("how_to_receive")
+  createdAt              DateTime                   @default(now())
+  user                   User                       @relation(fields: [userId], references: [id])
+  package                Package?                   @relation(fields: [packageId], references: [id])
+  items                  PackageRentalRequestItem[]
+  PaymentLog             PaymentLog[]
+  PlatformPaymentLog     PlatformPaymentLog[]
+  RentalRequest          RentalRequest[]
+  PackageCompletedRental PackageCompletedRental[]
 }
 
 model PackageRentalRequestItem {
@@ -359,6 +364,28 @@ model PackageRentalRequestItem {
   packageRentalRequest   PackageRentalRequest @relation(fields: [packageRentalRequestId], references: [id])
   product                Product              @relation(fields: [productId], references: [id])
   owner                  User                 @relation(fields: [ownerId], references: [id])
+}
+
+model PackageCompletedRental {
+  id                     String               @id @default(uuid())
+  startDate              DateTime             @map("start_date")
+  endDate                DateTime             @map("end_date")
+  totalPrice             Int                  @map("total_price")
+  createdAt              DateTime             @default(now()) @map("created_at")
+  updatedAt              DateTime             @updatedAt @map("updated_at")
+  deletedAt              DateTime?            @map("deleted_at")
+  userId                 String               @map("user_id")
+  packageId              String?              @map("package_id")
+  packageRentalRequestId String               @unique @map("package_rental_request_id")
+  returnMethod           ReturnMethod         @default(DELIVERY) @map("return_method")
+  isReturned             Boolean              @default(false) @map("is_returned")
+  returnedAt             DateTime?            @map("returned_at")
+  user                   User                 @relation(fields: [userId], references: [id])
+  package                Package?             @relation(fields: [packageId], references: [id])
+  packageRentalRequest   PackageRentalRequest @relation(fields: [packageRentalRequestId], references: [id])
+  completedRental        CompletedRental[]
+
+  @@map("package_completed_rentals")
 }
 
 model InfluencerPromo {
