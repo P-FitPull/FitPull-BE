@@ -119,27 +119,28 @@ model Product {
 }
 
 model RentalRequest {
-  id                     String                @id @default(uuid())
-  startDate              DateTime              @map("start_date")
-  endDate                DateTime              @map("end_date")
-  status                 RequestStatus         @default(PENDING)
-  totalPrice             Int                   @map("total_price")
-  howToReceive           ReceiveMethod         @map("how_to_receive")
-  memo                   String?               @db.Text
-  isPaid                 Boolean               @default(false) @map("isPaid")
-  createdAt              DateTime              @default(now()) @map("created_at")
-  updatedAt              DateTime              @updatedAt @map("updated_at")
-  deletedAt              DateTime?             @map("deleted_at")
-  userId                 String                @map("user_id")
-  productId              String                @map("product_id")
-  user                   User                  @relation(fields: [userId], references: [id])
-  product                Product               @relation(fields: [productId], references: [id])
-  completedRental        CompletedRental?
-  paymentLogs            PaymentLog[]
-  notifications          Notification[]
-  PlatformPaymentLog     PlatformPaymentLog[]
-  packageRentalRequestId String?               @map("package_rental_request_id")
-  packageRentalRequest   PackageRentalRequest? @relation(fields: [packageRentalRequestId], references: [id])
+  id                       String                     @id @default(uuid())
+  startDate                DateTime                   @map("start_date")
+  endDate                  DateTime                   @map("end_date")
+  status                   RequestStatus              @default(PENDING)
+  totalPrice               Int                        @map("total_price")
+  howToReceive             ReceiveMethod              @map("how_to_receive")
+  memo                     String?                    @db.Text
+  isPaid                   Boolean                    @default(false) @map("isPaid")
+  createdAt                DateTime                   @default(now()) @map("created_at")
+  updatedAt                DateTime                   @updatedAt @map("updated_at")
+  deletedAt                DateTime?                  @map("deleted_at")
+  userId                   String                     @map("user_id")
+  productId                String                     @map("product_id")
+  user                     User                       @relation(fields: [userId], references: [id])
+  product                  Product                    @relation(fields: [productId], references: [id])
+  completedRental          CompletedRental?
+  paymentLogs              PaymentLog[]
+  notifications            Notification[]
+  PlatformPaymentLog       PlatformPaymentLog[]
+  packageRentalRequestId   String?                    @map("package_rental_request_id")
+  packageRentalRequest     PackageRentalRequest?      @relation(fields: [packageRentalRequestId], references: [id])
+  PackageRentalRequestItem PackageRentalRequestItem[]
 
   @@map("rental_requests")
 }
@@ -364,6 +365,8 @@ model PackageRentalRequestItem {
   packageRentalRequest   PackageRentalRequest @relation(fields: [packageRentalRequestId], references: [id])
   product                Product              @relation(fields: [productId], references: [id])
   owner                  User                 @relation(fields: [ownerId], references: [id])
+  rentalRequestId        String?              @map("rental_request_id")
+  rentalRequest          RentalRequest?       @relation(fields: [rentalRequestId], references: [id])
 }
 
 model PackageCompletedRental {
