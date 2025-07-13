@@ -70,7 +70,7 @@ export const createPackageCompletedRental = async (packageRentalRequestId) => {
       });
       if (!product) continue;
       const owner = product.owner;
-      const totalPrice = item.finalPrice; // 이미 할인 등 적용된 최종 금액
+      const totalPrice = item.finalPrice;
       const commissionRate =
         owner.role === 'INFLUENCER'
           ? INFLUENCER_RENTAL_COMMISSION_RATE
@@ -109,6 +109,7 @@ export const createPackageCompletedRental = async (packageRentalRequestId) => {
         data: {
           userId: owner.id,
           rentalRequestId: item.rentalRequestId,
+          packageCompletedRentalId: packageCompleted.id,
           amount: ownerProfit,
           paymentType: 'OWNER_PAYOUT',
           memo: `[자동] ${product.title} 대여 수익 (플랫폼 수수료 ${platformCommission}원 제외)`,
@@ -146,6 +147,7 @@ export const createPackageCompletedRental = async (packageRentalRequestId) => {
           platformAccountId: platform.id,
           type: 'OWNER_PAYOUT',
           amount: ownerProfit,
+          packageCompletedRentalId: packageCompleted.id,
           memo: `[자동] 소유주 정산: ${product.title} (수수료 ${platformCommission}원 제외)`,
           balanceBefore: platformBalanceBefore,
           balanceAfter: platformBalanceAfter,
@@ -160,6 +162,7 @@ export const createPackageCompletedRental = async (packageRentalRequestId) => {
           platformAccountId: platform.id,
           type: 'INCOME',
           amount: platformCommission,
+          packageCompletedRentalId: packageCompleted.id,
           memo: `[자동] 플랫폼 수수료 수입: ${product.title}`,
           balanceBefore: platformBalanceAfter,
           balanceAfter: platformBalanceAfter + platformCommission,

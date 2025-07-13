@@ -306,4 +306,5 @@ export const PACKAGE_MESSAGES = {
   PACKAGE_RENTAL_REQUEST_APPROVED: '패키지 대여 요청이 승인되었습니다.',
   PACKAGE_RENTAL_REQUEST_REJECTED: '패키지 대여 요청이 거절되었습니다.',
   PACKAGE_RENTAL_NOT_APPROVED: '승인된 패키지 대여요청이 아닙니다.',
+  PACKAGE_RENTAL_COMPLETED: '패키지 대여가 완료되었습니다.',
 };

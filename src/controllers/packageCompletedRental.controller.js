@@ -1,4 +1,6 @@
 import { createPackageCompletedRental } from '../services/packageCompletedRental.service.js';
+import { success } from '../utils/responseHandler.js';
+import { PACKAGE_MESSAGES } from '../constants/messages.js';
 
 export const createPackageCompletedRentalController = async (
   req,
@@ -6,11 +8,10 @@ export const createPackageCompletedRentalController = async (
   next,
 ) => {
   try {
-    const { packageRentalRequestId } = req.body;
+    const { packageRentalRequestId } = req.params;
     const result = await createPackageCompletedRental(packageRentalRequestId);
-    res.json({ success: true, data: result });
+    return success(res, PACKAGE_MESSAGES.PACKAGE_RENTAL_COMPLETED, result);
   } catch (err) {
-    console.error(err);
     next(err);
   }
 };
