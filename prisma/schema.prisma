@@ -166,27 +166,33 @@ model CompletedRental {
   ProductStatusLog         ProductStatusLog[]
   PackageCompletedRental   PackageCompletedRental? @relation(fields: [packageCompletedRentalId], references: [id])
   packageCompletedRentalId String?
+  PaymentLog               PaymentLog[]
+  PlatformPaymentLog       PlatformPaymentLog[]
 
   @@map("completed_rentals")
 }
 
 model PaymentLog {
-  id                     String                @id @default(uuid())
-  amount                 Int
-  paymentType            PaymentType
-  paidAt                 DateTime?
-  memo                   String?
-  createdAt              DateTime              @default(now()) @map("created_at")
-  rentalRequestId        String?               @map("rental_request_id")
-  rentalRequest          RentalRequest?        @relation(fields: [rentalRequestId], references: [id])
-  packageRentalRequestId String?               @map("package_rental_request_id")
-  packageRentalRequest   PackageRentalRequest? @relation(fields: [packageRentalRequestId], references: [id])
-  productId              String?               @map("product_id")
-  product                Product?              @relation(fields: [productId], references: [id])
-  userId                 String                @map("user_id")
-  user                   User                  @relation(fields: [userId], references: [id])
-  balanceBefore          Int?
-  balanceAfter           Int?
+  id                       String                  @id @default(uuid())
+  amount                   Int
+  paymentType              PaymentType
+  paidAt                   DateTime?
+  memo                     String?
+  createdAt                DateTime                @default(now()) @map("created_at")
+  rentalRequestId          String?                 @map("rental_request_id")
+  rentalRequest            RentalRequest?          @relation(fields: [rentalRequestId], references: [id])
+  packageRentalRequestId   String?                 @map("package_rental_request_id")
+  packageRentalRequest     PackageRentalRequest?   @relation(fields: [packageRentalRequestId], references: [id])
+  productId                String?                 @map("product_id")
+  product                  Product?                @relation(fields: [productId], references: [id])
+  userId                   String                  @map("user_id")
+  user                     User                    @relation(fields: [userId], references: [id])
+  balanceBefore            Int?
+  balanceAfter             Int?
+  packageCompletedRentalId String?
+  packageCompletedRental   PackageCompletedRental? @relation(fields: [packageCompletedRentalId], references: [id])
+  completedRentalId        String?
+  completedRental          CompletedRental?        @relation(fields: [completedRentalId], references: [id])
 
   @@map("payment_logs")
 }
@@ -387,6 +393,8 @@ model PackageCompletedRental {
   package                Package?             @relation(fields: [packageId], references: [id])
   packageRentalRequest   PackageRentalRequest @relation(fields: [packageRentalRequestId], references: [id])
   completedRental        CompletedRental[]
+  PaymentLog             PaymentLog[]
+  PlatformPaymentLog     PlatformPaymentLog[]
 
   @@map("package_completed_rentals")
 }
@@ -421,20 +429,24 @@ model PlatformAccount {
 }
 
 model PlatformPaymentLog {
-  id                     String                @id @default(uuid())
-  platformAccountId      String                @map("platform_account_id")
-  type                   PlatformLogType
-  amount                 Int
-  memo                   String?
-  createdAt              DateTime              @default(now())
-  rentalRequestId        String?               @map("rental_request_id")
-  rentalRequest          RentalRequest?        @relation(fields: [rentalRequestId], references: [id])
-  packageRentalRequestId String?               @map("package_rental_request_id")
-  packageRentalRequest   PackageRentalRequest? @relation(fields: [packageRentalRequestId], references: [id])
-  userId                 String?               @map("user_id")
-  user                   User?                 @relation(fields: [userId], references: [id])
-  balanceBefore          Int?
-  balanceAfter           Int?
+  id                       String                  @id @default(uuid())
+  platformAccountId        String                  @map("platform_account_id")
+  type                     PlatformLogType
+  amount                   Int
+  memo                     String?
+  createdAt                DateTime                @default(now())
+  rentalRequestId          String?                 @map("rental_request_id")
+  rentalRequest            RentalRequest?          @relation(fields: [rentalRequestId], references: [id])
+  packageRentalRequestId   String?                 @map("package_rental_request_id")
+  packageRentalRequest     PackageRentalRequest?   @relation(fields: [packageRentalRequestId], references: [id])
+  userId                   String?                 @map("user_id")
+  user                     User?                   @relation(fields: [userId], references: [id])
+  balanceBefore            Int?
+  balanceAfter             Int?
+  packageCompletedRentalId String?
+  packageCompletedRental   PackageCompletedRental? @relation(fields: [packageCompletedRentalId], references: [id])
+  completedRentalId        String?
+  completedRental          CompletedRental?        @relation(fields: [completedRentalId], references: [id])
 
   platformAccount PlatformAccount @relation(fields: [platformAccountId], references: [id])
 
