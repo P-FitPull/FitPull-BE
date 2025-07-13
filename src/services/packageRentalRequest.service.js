@@ -289,7 +289,7 @@ export const approvePackageRentalRequest = async (id) => {
     );
   }
 
-  //  상품별 rentalRequest 생성
+  // 상품별 rentalRequest 생성 및 rentalRequestId/status 업데이트
   await prisma.$transaction(async (tx) => {
     for (const item of request.items) {
       // 이미 해당 기간에 rentalRequest가 있으면 skip
@@ -301,8 +301,9 @@ export const approvePackageRentalRequest = async (id) => {
           endDate: { gte: request.startDate },
         },
       });
+      let rentalRequestId = exists ? exists.id : null;
       if (!exists) {
-        await tx.rentalRequest.create({
+        const rentalRequest = await tx.rentalRequest.create({
           data: {
             productId: item.productId,
             userId: request.userId,
@@ -315,7 +316,16 @@ export const approvePackageRentalRequest = async (id) => {
             packageRentalRequestId: request.id,
           },
         });
+        rentalRequestId = rentalRequest.id;
       }
+      // rentalRequestItem에 rentalRequestId, status 업데이트
+      await tx.packageRentalRequestItem.update({
+        where: { id: item.id },
+        data: {
+          rentalRequestId,
+          status: 'APPROVED',
+        },
+      });
     }
   });
 

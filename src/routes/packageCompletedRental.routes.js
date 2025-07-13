@@ -7,7 +7,7 @@ const router = express.Router();
 
 // 패키지 대여 완료 생성
 router.post(
-  '/',
+  '/:packageRentalRequestId',
   authenticate,
   adminOnly,
   createPackageCompletedRentalController,

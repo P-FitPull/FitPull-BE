@@ -86,6 +86,7 @@ export const completeRental = async (rentalRequestId) => {
       data: {
         userId: owner.id,
         rentalRequestId,
+        completedRentalId: created.id,
         amount: ownerProfit,
         paymentType: 'OWNER_PAYOUT',
         memo: `[자동] ${product.title} 대여 수익 (플랫폼 수수료 ${platformCommission}원 제외)`,
@@ -111,7 +112,7 @@ export const completeRental = async (rentalRequestId) => {
       throw new CustomError(
         422,
         'INSUFFICIENT_PLATFORM_BALANCE',
-        PLATFORM_MESSAGES.INSUFFICIENT_PLATFORM_BALANCE,
+        PLATFORM_MESSAGES.PLATFORM_ACCOUNT_NOT_FOUND,
       );
     }
 
@@ -126,6 +127,7 @@ export const completeRental = async (rentalRequestId) => {
         platformAccountId: platform.id,
         type: 'OWNER_PAYOUT',
         amount: ownerProfit,
+        completedRentalId: created.id,
         memo: `[자동] 소유주 정산: ${product.title} (수수료 ${platformCommission}원 제외)`,
         balanceBefore: platformBalanceBefore,
         balanceAfter: platformBalanceAfter,
@@ -140,6 +142,7 @@ export const completeRental = async (rentalRequestId) => {
         platformAccountId: platform.id,
         type: 'INCOME',
         amount: platformCommission,
+        completedRentalId: created.id,
         memo: `[자동] 플랫폼 수수료 수입: ${product.title}`,
         balanceBefore: platformBalanceAfter,
         balanceAfter: platformBalanceAfter + platformCommission,
