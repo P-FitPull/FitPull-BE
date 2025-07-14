@@ -1,7 +1,11 @@
 import express from 'express';
-import { createPackageCompletedRentalController } from '../controllers/packageCompletedRental.controller.js';
 import { authenticate } from '../middlewares/auth.js';
 import { adminOnly } from '../middlewares/adminOnly.js';
+import {
+  createPackageCompletedRentalController,
+  getMyPackageCompletedRentalsController,
+  getAllPackageCompletedRentalsController,
+} from '../controllers/packageCompletedRental.controller.js';
 
 const router = express.Router();
 
@@ -12,5 +16,16 @@ router.post(
   adminOnly,
   createPackageCompletedRentalController,
 );
+
+// 전체 패키지 대여완료 조회 (어드민)
+router.get(
+  '/',
+  authenticate,
+  adminOnly,
+  getAllPackageCompletedRentalsController,
+);
+
+// 내 패키지 대여완료 조회 (유저)
+router.get('/my', authenticate, getMyPackageCompletedRentalsController);
 
 export default router;

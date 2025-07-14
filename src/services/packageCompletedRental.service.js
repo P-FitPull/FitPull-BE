@@ -12,6 +12,10 @@ import {
   INFLUENCER_RENTAL_COMMISSION_RATE,
 } from '../constants/commission.js';
 import { createNotification } from './notification.service.js';
+import {
+  findPackageCompletedRentalsByUser,
+  findAllPackageCompletedRentals,
+} from '../repositories/packageCompletedRental.repository.js';
 
 export const createPackageCompletedRental = async (packageRentalRequestId) => {
   // 패키지 대여요청 조회
@@ -184,4 +188,28 @@ export const createPackageCompletedRental = async (packageRentalRequestId) => {
 
     return packageCompleted;
   });
+};
+
+export const getMyPackageCompletedRentals = async (userId) => {
+  const rentals = await findPackageCompletedRentalsByUser(userId);
+  return rentals.map((rental) => ({
+    packageCompletedRentalId: rental.id,
+    packageRentalRequestId: rental.packageRentalRequestId,
+    packageTitle: rental.package?.title,
+    rentalPeriod: `${rental.startDate.toISOString().slice(0, 10)} ~ ${rental.endDate.toISOString().slice(0, 10)}`,
+    totalPrice: Number(rental.totalPrice),
+  }));
+};
+
+export const getAllPackageCompletedRentals = async () => {
+  const rentals = await findAllPackageCompletedRentals();
+  return rentals.map((rental) => ({
+    packageCompletedRentalId: rental.id,
+    packageRentalRequestId: rental.packageRentalRequestId,
+    packageTitle: rental.package?.title,
+    userName: rental.user?.name,
+    userPhone: rental.user?.phone,
+    rentalPeriod: `${rental.startDate.toISOString().slice(0, 10)} ~ ${rental.endDate.toISOString().slice(0, 10)}`,
+    totalPrice: Number(rental.totalPrice),
+  }));
 };
