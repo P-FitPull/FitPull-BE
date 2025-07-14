@@ -15,3 +15,25 @@ export const findPackageCompletedRentalById = async (id) => {
     },
   });
 };
+
+export const findPackageCompletedRentalsByUser = async (userId) => {
+  return await prisma.packageCompletedRental.findMany({
+    where: { userId },
+    include: {
+      package: true,
+      packageRentalRequest: true,
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+};
+
+export const findAllPackageCompletedRentals = async () => {
+  return await prisma.packageCompletedRental.findMany({
+    include: {
+      user: true,
+      package: true,
+      packageRentalRequest: true,
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+};
