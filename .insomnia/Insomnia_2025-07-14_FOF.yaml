@@ -1,0 +1,3523 @@
+type: collection.insomnia.rest/5.0
+name: FOF
+meta:
+  id: wrk_3fded802d8cf4b3d87eb9a4960180a94
+  created: 1746764381406
+  modified: 1746764381406
+  description: ""
+collection:
+  - url: http://localhost:3000/api/auth/signup
+    name: 회원가입
+    meta:
+      id: req_ce0fb6bef4ad4d9b92f8c1d076af4b6f
+      created: 1746764394944
+      modified: 1749489801352
+      isPrivate: false
+      description: ""
+      sortKey: -1746764394944
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "email": "yooseungyub1@gmail.com",
+          "password": "123456",
+        	"passwordCheck" : "123456",
+          "name": "강미니",
+          "phone": "00000000000"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/login
+    name: 로그인
+    meta:
+      id: req_f251027da9d34c35b6fd10e74441c88e
+      created: 1746991440079
+      modified: 1750855186215
+      isPrivate: false
+      description: ""
+      sortKey: -1734690382534.5
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "email": "admin@fitpull.com",
+          "password": "qwer1234"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ3OTc1MzY5LCJleHAiOjE3NDc5Nzg5Njl9.sQRxRXs_Tha928v6-xJyMOmwmgQvv131XxK_H8hgYY8
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products
+    name: 상품등록
+    meta:
+      id: req_4920fbdfd1e4425b9b07381b3a517397
+      created: 1747070197120
+      modified: 1750157746040
+      isPrivate: false
+      description: ""
+      sortKey: -1728653376329.75
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_5e2e37f9225e47fa81a6e7e971fef441
+          name: title
+          value: 아이패드
+          description: ""
+          disabled: false
+        - id: pair_7113fb2411a94e48aad68f9af8d80355
+          name: description
+          value: 새상품임
+          description: ""
+          disabled: false
+        - id: pair_8533fbd2631a438d9477c77b6c3b841f
+          name: price
+          value: "10000"
+          description: ""
+          disabled: false
+        - id: pair_7a86bff820d847f6987573fe8a7c7ed1
+          name: categoryId
+          value: 4213860f-c37f-4035-a6a0-369296e71c5f
+          description: ""
+          disabled: false
+        - id: pair_f5e6d139e631431ba6a44225d73da53a
+          name: images
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\FOF이미지\화면 캡처 2025-06-09 183341.png
+        - id: pair_84eccabb3f434d4aa0420cd5c529ffe1
+          name: allowPurchase
+          value: "true"
+          description: ""
+          disabled: false
+        - id: pair_aaa7d6d323b54f34ab03c311d30decd5
+          name: purchasePrice
+          value: "1000001"
+          description: ""
+          disabled: false
+        - id: pair_8ee8048a70734719bc58534ff11d3ebb
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple104.png
+        - id: pair_21819238c815406bb3ec1362f5e48589
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple102.png
+        - id: pair_18b7dfafb7994731ae5b48f478b5a467
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple101aa.png
+        - id: pair_58764ca46bdc4c5ca4010abe22c901b9
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple 113ㅠ.png
+        - id: pair_a8794db4af194fed9c0eceea48fd227f
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple100.png
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUwMTU3NTI5LCJleHAiOjE3NTAxNjExMjl9.hLcOA3ogrZZibVtQyzacAweuJqK6APtdV4yRkgEmaCk
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products
+    name: 상품조회
+    meta:
+      id: req_3055b41b96cf4fa5933fcaca7a1bc8c0
+      created: 1747071654780
+      modified: 1748287172480
+      isPrivate: false
+      description: ""
+      sortKey: -1727898750554.1562
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products/733e3250-4a67-49e7-8f09-6cdff4c01098
+    name: 상품상세조회
+    meta:
+      id: req_50ddf1049fbc4d50bd76dff1a5ccbbce
+      created: 1747072662172
+      modified: 1750505902847
+      isPrivate: false
+      description: ""
+      sortKey: -1724125621676.1875
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products/me
+    name: 내상품조회
+    meta:
+      id: req_fbbdf98221c54fddbe13acb25374678a
+      created: 1747072722966
+      modified: 1748536018765
+      isPrivate: false
+      description: ""
+      sortKey: -1727144124778.5625
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmZThlNzdlYy1kZjU1LTQ4MWMtYWRiNS04YjQ4ZDJkY2M0NGUiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc0ODUzNTk2NCwiZXhwIjoxNzQ4NTM5NTY0fQ.DFtXnlg79K0DNkh9quPVzZkqhjLrj-rnKaziJd_6BWM
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/users/me
+    name: 내정보조회
+    meta:
+      id: req_4c808b7969584e989ab95094ca507435
+      created: 1747155826942
+      modified: 1749411554090
+      isPrivate: false
+      description: ""
+      sortKey: -1731671879432.125
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0YzA2ZDhjZS0wZjU2LTRhMTgtODZlMi01YmQwN2VjYWMxZGIiLCJhY2NvdW50SWQiOiI3ZTAxMTU4Yi03OGUyLTQwODctYjYxZi01OTExMzRhNDhiYjIiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ5NDExNTQ1LCJleHAiOjE3NDk0MTUxNDV9.wqUgknUpAorILzoYiWWAPLMMooYiI6MKCYWmdM0RQE8
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/users/me
+    name: 내정보수정
+    meta:
+      id: req_387d55ab14574b948c5494d3974179e1
+      created: 1747158006542
+      modified: 1749215337706
+      isPrivate: false
+      description: ""
+      sortKey: -1730162627880.9375
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "name": "강어드민",
+        	"phone" :"01026678832"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0YzA2ZDhjZS0wZjU2LTRhMTgtODZlMi01YmQwN2VjYWMxZGIiLCJhY2NvdW50SWQiOiI3ZTAxMTU4Yi03OGUyLTQwODctYjYxZi01OTExMzRhNDhiYjIiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ5MjE1MDI0LCJleHAiOjE3NDkyMTg2MjR9.foQ25ed3rCVKSrL_jQkJjG4h2W2QCCIAqPSiUhkt1XU
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/users/me
+    name: 회원탈퇴
+    meta:
+      id: req_e7649d3e9b06415eaedb19b4dc83da25
+      created: 1747159658743
+      modified: 1749410709935
+      isPrivate: false
+      description: ""
+      sortKey: -1729408002105.3438
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkMDA0OTBlZi0wZGI3LTQxMDQtYWFjYi1jZWY4NGQ0MGUwZDYiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc0OTQxMDY5NywiZXhwIjoxNzQ5NDE0Mjk3fQ.bLubGlWHwCVshwRgZQRMzEos07ofjdgzyYhQQ4ijdXc
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/categories
+    name: 카테고리조회
+    meta:
+      id: req_151234d180614650a3b4a384a9c52ff0
+      created: 1747238533041
+      modified: 1748284354079
+      isPrivate: false
+      description: ""
+      sortKey: -1722710698246.9492
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/categories
+    name: 카테고리등록
+    meta:
+      id: req_a8d236ceaedb4022b0069e909ce64e1b
+      created: 1747240396151
+      modified: 1748286051632
+      isPrivate: false
+      description: ""
+      sortKey: -1722710698146.9492
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "name": "의류",
+        	"description" : "의류입니다 "
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MjgzODg5LCJleHAiOjE3NDgyODc0ODl9.LJWojqD60dySZ10j7xv1g-Q27pJf1jo-aUNc8vDsUD8
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/categories/1c21443e-705f-4aa7-8c59-90af3a148517
+    name: 카테고리수정
+    meta:
+      id: req_031f5ed809cf482f8986820d1a8bf751
+      created: 1747240510987
+      modified: 1749463981573
+      isPrivate: false
+      description: ""
+      sortKey: -1722710698046.9492
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "name": "수정된의상임"
+        	
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0YzA2ZDhjZS0wZjU2LTRhMTgtODZlMi01YmQwN2VjYWMxZGIiLCJhY2NvdW50SWQiOiI3ZTAxMTU4Yi03OGUyLTQwODctYjYxZi01OTExMzRhNDhiYjIiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ5NDYzOTUwLCJleHAiOjE3NDk0Njc1NTB9.cWhtU4BiyoCjyZ2eSMXwTCmqCXnLkYL4cXfnw0QcqaM
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/categories/02f535a2-651e-4402-8986-658484238307
+    name: 카테고리삭제
+    meta:
+      id: req_1336d16576c6470eae0a9b8e2449165e
+      created: 1747241094994
+      modified: 1748286287492
+      isPrivate: false
+      description: ""
+      sortKey: -1722663534085.9746
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MjgzODg5LCJleHAiOjE3NDgyODc0ODl9.LJWojqD60dySZ10j7xv1g-Q27pJf1jo-aUNc8vDsUD8
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products/07dadaa7-e391-43c2-b6c1-d3c2c847aab1
+    name: 상품수정
+    meta:
+      id: req_6d637d8caeea4906ba9807907c1a334a
+      created: 1747334457367
+      modified: 1750159185913
+      isPrivate: false
+      description: ""
+      sortKey: -1723182339456.6953
+    method: PATCH
+    body:
+      mimeType: multipart/form-data
+      params:
+        - name: title
+          value: 수정아이패드
+          id: pair_3da874ed72674041a84e4e0d6a770050
+        - id: pair_a14f1fe87daf48509d281d617001bf6a
+          name: price
+          value: "10005"
+          description: ""
+          disabled: false
+        - id: pair_cefe5c96ca3d4d078f1bb0473c124721
+          name: description
+          value: 아이패드수정테스트입니다
+          description: ""
+          disabled: false
+        - id: pair_854dc2ade54e47a0a71cfe29b726e72e
+          name: categoryId
+          value: ""
+          description: ""
+          disabled: false
+        - id: pair_7ada7a1a53344e1cb90b1d2fd5659635
+          name: images
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\FOF이미지\화면 캡처 2025-06-09 183341.png
+        - id: pair_fbd9d9f5ecd34e55aafbcaf3ba038a45
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple116.png
+        - id: pair_bc753cb0144843e59b83df0360b8115f
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\40L0108.png
+        - id: pair_c081919845554f5e8f194f0f36fca614
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\40L0109.png
+        - id: pair_1ed4d4798a56494c9b7d84ea9022bf7a
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\40L0127.png
+        - id: pair_804c09e7e4754209be701bf33232157e
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple116.png
+        - id: pair_4e96ae5c415a47538d264462085a6754
+          name: allowPurchase
+          value: "true"
+          description: ""
+          disabled: false
+        - id: pair_bd8b49be9d4a4b2ab9ebfceff0387a91
+          name: purchasePrice
+          value: "1000000"
+          description: ""
+          disabled: false
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUwMTU3NTI5LCJleHAiOjE3NTAxNjExMjl9.hLcOA3ogrZZibVtQyzacAweuJqK6APtdV4yRkgEmaCk
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products/0f1d5275-e0e0-4a4a-953c-e7318127f675
+    name: 상품삭제
+    meta:
+      id: req_66c4aefd27644473abcd37beec21a487
+      created: 1747334466995
+      modified: 1748084649830
+      isPrivate: false
+      description: ""
+      sortKey: -1723088011234.746
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MDg0NTM5LCJleHAiOjE3NDgwODgxMzl9.BlKwqc6FR9uXvzRdeQzJzgr1E1gIQfUDZ1pmm_HxQDw
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products/admin/waiting
+    name: admin 대기상품조회
+    meta:
+      id: req_47438c8453d24206a6cd9a871f6f22fb
+      created: 1747375972804
+      modified: 1750961221744
+      isPrivate: false
+      description: ""
+      sortKey: -1722663533985.9746
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUwOTYxMjAzLCJleHAiOjE3NTA5NjQ4MDN9.P3sOPl2Rbk2IHi4KhEmRBRc2vrC7HR431n_hkG5RxoA
+      disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products/admin/4c5ad732-1f98-4c3b-91bb-06eb1e13ab89/approve
+    name: admin 상품상태승인
+    meta:
+      id: req_9e807b3fc57d4e71b7495983a194501a
+      created: 1747376245798
+      modified: 1750589333402
+      isPrivate: false
+      description: ""
+      sortKey: -1722639952055.4873
+    method: PATCH
+    headers:
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUwNTg5Mjg0LCJleHAiOjE3NTA1OTI4ODR9.VfyiOQC8bBKtjlobBOhNUTFv9atBXHTQ0OTtwGbZlqM
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products/admin/1ec14726-0e2f-42aa-9e55-c017c91d5dc7/reject
+    name: admin 상품상태거절
+    meta:
+      id: req_e4f24042eaf34cdf8e1a48219ab2cb94
+      created: 1747376577043
+      modified: 1749790101714
+      isPrivate: false
+      description: ""
+      sortKey: -1722628161090.2437
+    method: PATCH
+    headers:
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0YzA2ZDhjZS0wZjU2LTRhMTgtODZlMi01YmQwN2VjYWMxZGIiLCJhY2NvdW50SWQiOiI3ZTAxMTU4Yi03OGUyLTQwODctYjYxZi01OTExMzRhNDhiYjIiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ5NzkwMDY5LCJleHAiOjE3NDk3OTM2Njl9.9o0PrFE4YkD2wAi2UDp3aRlopbunHzzvvodyg3AkiHw
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/rental-requests
+    name: 대여요청생성
+    meta:
+      id: req_0ae29c5c63c24270a43f1761cababcfd
+      created: 1747563906313
+      modified: 1752389835974
+      isPrivate: false
+      description: ""
+      sortKey: -1722628160990.2437
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "productId": "733e3250-4a67-49e7-8f09-6cdff4c01098",
+          "startDate": "2025-07-18",
+          "endDate": "2025-07-20",
+        	"howToReceive" : "DIRECT",
+        	"memo" : "문앞에 놔주시고 문자남겨주세오"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUyMzg5NzI5LCJleHAiOjE3NTIzOTMzMjl9.Sxw_IH_h-3GfutnVElxmlB3Ex6PgFDJfS7bh237S1Gc
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/rental-requests/me
+    name: 나의대여요청조회
+    meta:
+      id: req_7f0aa46ccd1c445e9eaef175d160bf98
+      created: 1747563960610
+      modified: 1749322009715
+      isPrivate: false
+      description: ""
+      sortKey: -1722622265557.6218
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NDkzMjE5OTEsImV4cCI6MTc0OTMyNTU5MX0.niMbCfqyENCEtai-1YzwyENzyHCMz35OKEVOj17WNyk
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/rental-requests/pending
+    name: admin대여요청전체조회
+    meta:
+      id: req_59b0d4a905274a119f0f6e76d78a5aa2
+      created: 1747563993012
+      modified: 1752389743465
+      isPrivate: false
+      description: ""
+      sortKey: -1722619317841.311
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUyMzg5NzI5LCJleHAiOjE3NTIzOTMzMjl9.Sxw_IH_h-3GfutnVElxmlB3Ex6PgFDJfS7bh237S1Gc
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/rental-requests/92ef8b01-64b4-4b13-9d85-19d5db70388e/approve
+    name: admin대여요청승인
+    meta:
+      id: req_714745bc99604be9813cd2df69b2355c
+      created: 1747564006156
+      modified: 1752389871007
+      isPrivate: false
+      description: ""
+      sortKey: -1722617843983.1555
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUyMzg5ODU3LCJleHAiOjE3NTIzOTM0NTd9.DGz40mp3ZqxrOtno0Hgc1N9Xslvjx9kHCGuLLEaNwJI
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/rental-requests/13a90706-558c-4c27-887a-0268ea462360/reject
+    name: admin대여요청거절
+    meta:
+      id: req_8979b2ef8eac46ff9b8c045a5b8f9f70
+      created: 1747564012926
+      modified: 1750961374457
+      isPrivate: false
+      description: ""
+      sortKey: -1722617107054.0776
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUwOTYxMjAzLCJleHAiOjE3NTA5NjQ4MDN9.P3sOPl2Rbk2IHi4KhEmRBRc2vrC7HR431n_hkG5RxoA
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/completed-rentals/me
+    name: 나의완료된대여요청조회
+    meta:
+      id: req_eec7184c21194019b6bf859515d9c1c7
+      created: 1747662545910
+      modified: 1748345936793
+      isPrivate: false
+      description: ""
+      sortKey: -1722617106954.0776
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MzQ1OTE2LCJleHAiOjE3NDgzNDk1MTZ9.mTYuEna43k8iUZ47ZyjKBI4aT_wQsi8JEhybd_58q4E
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/completed-rentals
+    name: admin 완료된대여 전체조회
+    meta:
+      id: req_46950087a333428ea2dd9ae1720d3183
+      created: 1747662643962
+      modified: 1748364675674
+      isPrivate: false
+      description: ""
+      sortKey: -1722616738539.5388
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MzQ1OTE2LCJleHAiOjE3NDgzNDk1MTZ9.mTYuEna43k8iUZ47ZyjKBI4aT_wQsi8JEhybd_58q4E
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/completed-rentals/92ef8b01-64b4-4b13-9d85-19d5db70388e/complete
+    name: admin 대여 완료 처리
+    meta:
+      id: req_d1dff3013e144e7d959b24699c9a6c57
+      created: 1747662846824
+      modified: 1752389893375
+      isPrivate: false
+      description: ""
+      sortKey: -1722617107004.0776
+    method: POST
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUyMzg5NzI5LCJleHAiOjE3NTIzOTMzMjl9.Sxw_IH_h-3GfutnVElxmlB3Ex6PgFDJfS7bh237S1Gc
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/rental-requests/7848d6d9-476e-4338-a3ee-20e4e8205bec/cancel
+    name: 대여요청취소
+    meta:
+      id: req_44bc4a464af145079fcedde79f3564e3
+      created: 1748028796390
+      modified: 1751784156301
+      isPrivate: false
+      description: ""
+      sortKey: -1722625213273.9326
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUxNzgzNTYxLCJleHAiOjE3NTE3ODcxNjF9.sxZWqVrhJ1CRguxCoD3ORfcoGhRJm_VywC981rcf1Yg
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/logout
+    name: 로그아웃
+    meta:
+      id: req_e4dc672be9024ea283013f5d02df0bd3
+      created: 1748089718011
+      modified: 1748721568352
+      isPrivate: false
+      description: ""
+      sortKey: -1733181130983.3125
+    method: POST
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNGFhYzk3Yy1kNjY2LTQzOWQtOWMwNi00ZjE4MzI1OWFlYWYiLCJlbWFpbCI6Inlvb3NldW5neXViMUBnbWFpbC5jb20iLCJpYXQiOjE3NDg1MjAyOTIsImV4cCI6MTc0ODUyMzg5Mn0.gaYQjNovm5vlt5AABcOgGbqNgCIr4yHFgWXxg7d8Sg4
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/refresh
+    name: 토큰재발급
+    meta:
+      id: req_22260f9c69124c3fb2ee5c945d37f3af
+      created: 1748089723894
+      modified: 1749989753545
+      isPrivate: false
+      description: ""
+      sortKey: -1732426505207.7188
+    method: POST
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_0452f16794504351aa2f30983ba9386c
+      - name: User-Agent
+        value: insomnia/11.1.0
+        id: pair_8c1258fa011540ae88e109b6e587cb3b
+      - id: pair_1eb3bca531dd49009758c196a34b2d90
+        name: ""
+        value: ""
+        description: ""
+        disabled: false
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkMmExMjRiZC0wNGMyLTQ4ZjUtYTZjYi0xODE2ZjZiMzE4MjciLCJhY2NvdW50SWQiOiIzN2FmZDA3Zi0xZGM1LTRlYzMtODhiZS00MzFmNTYzZmM4ZGQiLCJlbWFpbCI6Inlvb3NldW5neXViMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc0OTk4OTczOSwiZXhwIjoxNzQ5OTkzMzM5fQ.RAycVlQjn--Dx0eb2BVudIUtQj7RXt7tjTy9uYBk1p0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products/b89b9fe9-08c8-4353-a8ca-d6a92a2107c7/logs
+    name: admin상품로그생성
+    meta:
+      id: req_0e7a3f522478476bb3599204b5eb81ef
+      created: 1748116365609
+      modified: 1749204266026
+      isPrivate: false
+      description: ""
+      sortKey: -1722616738439.5388
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_5e2e37f9225e47fa81a6e7e971fef441
+          name: type
+          value: ""
+          description: ""
+          disabled: false
+        - id: pair_7113fb2411a94e48aad68f9af8d80355
+          name: notes
+          value: ""
+          description: ""
+          disabled: false
+        - id: pair_8533fbd2631a438d9477c77b6c3b841f
+          name: completedrentalId
+          value: ""
+          description: ""
+          disabled: false
+        - id: pair_f5e6d139e631431ba6a44225d73da53a
+          name: images
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\20231121＿074417.jpg
+        - id: pair_7a86bff820d847f6987573fe8a7c7ed1
+          name: images
+          value: 4213860f--4035-a6a0-369296e71c5f
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\40L0108.png
+        - id: pair_ad01a79a14324e9d9bd30e72debfb921
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\40L0109.png
+        - id: pair_f5af5d7f2b1a41aeb4a871967a620499
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\40L0110.png
+        - id: pair_f47e53bb76684eec81ca150e7bc7c660
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple101aa.png
+        - id: pair_d16e6b22e60d409484f553dfb713b58e
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple104.png
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0YzA2ZDhjZS0wZjU2LTRhMTgtODZlMi01YmQwN2VjYWMxZGIiLCJhY2NvdW50SWQiOiI3ZTAxMTU4Yi03OGUyLTQwODctYjYxZi01OTExMzRhNDhiYjIiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ5MjA0MjAxLCJleHAiOjE3NDkyMDc4MDF9.7UEEa4uM6y9Z7h0sbCBZ1TUg3pV3gq6PFgNp6ToaUwo
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products/b89b9fe9-08c8-4353-a8ca-d6a92a2107c7/logs/cd0661ed-4d11-4f24-8dc5-1c2f59a0dd05
+    name: admin상품로그수정
+    meta:
+      id: req_1b7b9a55d90b4072a6a5d66644f7ac7c
+      created: 1748173874229
+      modified: 1748368439744
+      isPrivate: false
+      description: ""
+      sortKey: -1722616554282.2695
+    method: PATCH
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_5e2e37f9225e47fa81a6e7e971fef441
+          name: type
+          value: ETC
+          description: ""
+          disabled: false
+        - id: pair_7113fb2411a94e48aad68f9af8d80355
+          name: notes
+          value: 설명입니다111131212
+          description: ""
+          disabled: false
+        - id: pair_8533fbd2631a438d9477c77b6c3b841f
+          name: completedrentalId
+          value: ""
+          description: ""
+          disabled: false
+        - id: pair_f5e6d139e631431ba6a44225d73da53a
+          name: images
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\20231121＿074417.jpg
+        - id: pair_7a86bff820d847f6987573fe8a7c7ed1
+          name: images
+          value: 4213860f-c37f-4035-a6a0-369296e71c5f
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple104.png
+        - id: pair_53d00f1ca1184517ae84571ab85e2375
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple104.png
+        - id: pair_9049e2d79d5348adac59b388026bb55a
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple93.png
+        - id: pair_a9ea06cc266c4d27a0ce42e8b75bcdc6
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple102.png
+        - id: pair_b3ebc89178e7414cbd98dab8b5482840
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple101.png
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MzY4MjU4LCJleHAiOjE3NDgzNzE4NTh9.OC-zFML2yo0Z_LMscgzrG4o4wN1MFSZ5RI3Z2tFNi-g
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products/logs/cd0661ed-4d11-4f24-8dc5-1c2f59a0dd0
+    name: admin상품로그삭제
+    meta:
+      id: req_49e3512891884ab38b6395055cd8fbeb
+      created: 1748174415099
+      modified: 1748368469464
+      isPrivate: false
+      description: ""
+      sortKey: -1722616508242.9521
+    method: DELETE
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_5e2e37f9225e47fa81a6e7e971fef441
+          name: type
+          value: PRE_RENTAL
+          description: ""
+          disabled: false
+        - id: pair_7113fb2411a94e48aad68f9af8d80355
+          name: notes
+          value: 설명입니다1111312
+          description: ""
+          disabled: false
+        - id: pair_8533fbd2631a438d9477c77b6c3b841f
+          name: completedrentalId
+          value: ""
+          description: ""
+          disabled: false
+        - id: pair_f5e6d139e631431ba6a44225d73da53a
+          name: images
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\20231121＿074417.jpg
+        - id: pair_7a86bff820d847f6987573fe8a7c7ed1
+          name: categoryId
+          value: 4213860f-c37f-4035-a6a0-369296e71c5f
+          description: ""
+          disabled: true
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MzY4MjU4LCJleHAiOjE3NDgzNzE4NTh9.OC-zFML2yo0Z_LMscgzrG4o4wN1MFSZ5RI3Z2tFNi-g
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products/b89b9fe9-08c8-4353-a8ca-d6a92a2107c7/logs
+    name: 상품로그조회
+    meta:
+      id: req_1091e4f478404534a3bdd3b1a97ff630
+      created: 1748174497989
+      modified: 1748368282634
+      isPrivate: false
+      description: ""
+      sortKey: -1722616738489.5388
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MzY4MjU4LCJleHAiOjE3NDgzNzE4NTh9.OC-zFML2yo0Z_LMscgzrG4o4wN1MFSZ5RI3Z2tFNi-g
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/reviews
+    name: 리뷰작성
+    meta:
+      id: req_ded5b4e8726c4a2e80c59936b1227fb3
+      created: 1748251524287
+      modified: 1748706347280
+      isPrivate: false
+      description: ""
+      sortKey: -1722616508142.9521
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_5e2e37f9225e47fa81a6e7e971fef441
+          name: rating
+          value: "5"
+          description: ""
+          disabled: false
+        - id: pair_7113fb2411a94e48aad68f9af8d80355
+          name: completedRentalId
+          value: 253cfd4b-923f-454b-8569-0781d4e3bc81
+          description: ""
+          disabled: false
+        - id: pair_8533fbd2631a438d9477c77b6c3b841f
+          name: productId
+          value: 286ab8b8-a085-4a36-ac4a-239b00d2e960
+          description: ""
+          disabled: false
+        - id: pair_7a86bff820d847f6987573fe8a7c7ed1
+          name: comment
+          value: 코멘트입니다코멘트입니다코멘트입니다코멘트입니다코멘트입니다코멘트입니다
+          description: ""
+          disabled: false
+        - id: pair_f5e6d139e631431ba6a44225d73da53a
+          name: images
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\20231121＿074417.jpg
+        - id: pair_d372243db5d84117a7ffae882f6df7b9
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple104.png
+        - id: pair_7134fc2077ae4fbe9e14432a06d5fb29
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple93.png
+        - id: pair_65e9a052abb14b238ba1914e2bc4ead4
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\1557.png
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmZThlNzdlYy1kZjU1LTQ4MWMtYWRiNS04YjQ4ZDJkY2M0NGUiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc0ODcwNTc2NCwiZXhwIjoxNzQ4NzA5MzY0fQ.-xJmWlywFEGlN0983HO_zjjdWkizJQ2NikpAWalH-LE
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/reviews/product/0f1d5275-e0e0-4a4a-953c-e7318127f675
+    name: 상품별리뷰목록
+    meta:
+      id: req_79beeebd12ac4aa09d5c17b173c734ac
+      created: 1748252419361
+      modified: 1748723850487
+      isPrivate: false
+      description: ""
+      sortKey: -1722616439133.976
+    method: GET
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_5e2e37f9225e47fa81a6e7e971fef441
+          name: rating
+          value: "3"
+          description: ""
+          disabled: false
+        - id: pair_7113fb2411a94e48aad68f9af8d80355
+          name: completedRentalId
+          value: fe373771-c970-4a2e-82c2-170054f421da
+          description: ""
+          disabled: false
+        - id: pair_8533fbd2631a438d9477c77b6c3b841f
+          name: productId
+          value: 0f1d5275-e0e0-4a4a-953c-e7318127f675
+          description: ""
+          disabled: false
+        - id: pair_7a86bff820d847f6987573fe8a7c7ed1
+          name: comment
+          value: 예뻐용
+          description: ""
+          disabled: false
+        - id: pair_f5e6d139e631431ba6a44225d73da53a
+          name: images
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\20231121＿074417.jpg
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/reviews/320b0538-c9d5-4942-83b1-c085042d58bf
+    name: 리뷰상세보기
+    meta:
+      id: req_37ccebd718ae4f118fa3889a181325c1
+      created: 1748252468744
+      modified: 1748370499784
+      isPrivate: false
+      description: ""
+      sortKey: -1722616404629.488
+    method: GET
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_5e2e37f9225e47fa81a6e7e971fef441
+          name: rating
+          value: "3"
+          description: ""
+          disabled: false
+        - id: pair_7113fb2411a94e48aad68f9af8d80355
+          name: completedRentalId
+          value: fe373771-c970-4a2e-82c2-170054f421da
+          description: ""
+          disabled: false
+        - id: pair_8533fbd2631a438d9477c77b6c3b841f
+          name: productId
+          value: 0f1d5275-e0e0-4a4a-953c-e7318127f675
+          description: ""
+          disabled: false
+        - id: pair_7a86bff820d847f6987573fe8a7c7ed1
+          name: comment
+          value: 예뻐용
+          description: ""
+          disabled: false
+        - id: pair_f5e6d139e631431ba6a44225d73da53a
+          name: images
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\20231121＿074417.jpg
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/reviews/320b0538-c9d5-4942-83b1-c085042d58bf
+    name: 리뷰수정
+    meta:
+      id: req_772b876354f94b529b2ab0afdbfbba03
+      created: 1748252518366
+      modified: 1748370625980
+      isPrivate: false
+      description: ""
+      sortKey: -1722616387377.2441
+    method: PATCH
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_5e2e37f9225e47fa81a6e7e971fef441
+          name: rating
+          value: "2"
+          description: ""
+          disabled: false
+        - id: pair_7a86bff820d847f6987573fe8a7c7ed1
+          name: comment
+          value: 예뻐용ㅁㅇㄻㅁㄴㄻㄴㄹㄴㅁafsdㄴㅇㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㄴㅁㅇㅁㄴㅇㄴㅇㄴㅇㄴ
+          description: ""
+          disabled: false
+        - id: pair_f5e6d139e631431ba6a44225d73da53a
+          name: images
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\20231121＿074417.jpg
+        - id: pair_1e65ca87206e41e3863861c77609c378
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple 113ㅠ.png
+        - id: pair_2248b410e9644b2db8fa6caf1a14b9a7
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\apple104.png
+        - id: pair_629e20e896f84306956e860afdb684b7
+          name: images
+          value: ""
+          description: ""
+          disabled: true
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\테트리수\40line0110.png
+        - id: pair_8533fbd2631a438d9477c77b6c3b841f
+          name: productId
+          value: 0f1d5275-e0e0-4a4a-953c-e7318127f675
+          description: ""
+          disabled: false
+        - id: pair_7113fb2411a94e48aad68f9af8d80355
+          name: completedRentalId
+          value: c6e052dc-686d-4fbd-9f9b-bad014d10802
+          description: ""
+          disabled: false
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MzY5MjEzLCJleHAiOjE3NDgzNzI4MTN9.cXB-K-y84O5JMm_pig3NN5Ispj3hGAii9181q6G9hUg
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/reviews/320b0538-c9d5-4942-83b1-c085042d58bf
+    name: 리뷰삭제
+    meta:
+      id: req_d6509879ab384d4dae5fb9530b45c5dc
+      created: 1748252547698
+      modified: 1748370651808
+      isPrivate: false
+      description: ""
+      sortKey: -1722616378751.122
+    method: DELETE
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_5e2e37f9225e47fa81a6e7e971fef441
+          name: rating
+          value: "4"
+          description: ""
+          disabled: false
+        - id: pair_7113fb2411a94e48aad68f9af8d80355
+          name: completedRentalId
+          value: fe373771-c970-4a2e-82c2-170054f421da
+          description: ""
+          disabled: false
+        - id: pair_8533fbd2631a438d9477c77b6c3b841f
+          name: productId
+          value: 0f1d5275-e0e0-4a4a-953c-e7318127f675
+          description: ""
+          disabled: false
+        - id: pair_7a86bff820d847f6987573fe8a7c7ed1
+          name: comment
+          value: 예뻐용
+          description: ""
+          disabled: false
+        - id: pair_f5e6d139e631431ba6a44225d73da53a
+          name: images
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\20231121＿074417.jpg
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MzY5MjEzLCJleHAiOjE3NDgzNzI4MTN9.cXB-K-y84O5JMm_pig3NN5Ispj3hGAii9181q6G9hUg
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/categories/afce0caa-0f0b-4ca0-a475-c34094bdd4b1
+    name: 카테고리상세조회
+    meta:
+      id: req_607e11d3a7e246a090800bf188972418
+      created: 1748285213603
+      modified: 1748285233532
+      isPrivate: false
+      description: ""
+      sortKey: -1722710698196.9492
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/rejoin/request
+    name: 재가입요청
+    meta:
+      id: req_c3d352d5a6da4d5cb4e971b3f8e9c367
+      created: 1748452369263
+      modified: 1748454607210
+      isPrivate: false
+      description: ""
+      sortKey: -1732049192319.9219
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "email": "yooseungyub@naver.com"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_0452f16794504351aa2f30983ba9386c
+      - name: User-Agent
+        value: insomnia/11.1.0
+        id: pair_8c1258fa011540ae88e109b6e587cb3b
+      - id: pair_1eb3bca531dd49009758c196a34b2d90
+        name: ""
+        value: ""
+        description: ""
+        disabled: false
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkZmEzZTE2Yy03NjM0LTQ4YjUtYjVjMy0yOTcxZTU0MGJiYWYiLCJuYW1lIjoi7J2867CY7Jyg7KCANSIsImlhdCI6MTc0ODA4OTc4MiwiZXhwIjoxNzQ4Njk0NTgyfQ.47gRD50mBUGJ4mGmCMqERUO5emitVyXiwYeqglb08CM
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/rejoin/verify
+    name: 재가입인증
+    meta:
+      id: req_fb711c85cb004201abfd9ccdaa62418a
+      created: 1748452375810
+      modified: 1748520181972
+      isPrivate: false
+      description: ""
+      sortKey: -1731860535876.0234
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "email": "yooseungyub@naver.com",
+          "code": "581729",
+          "password": "1233213"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_0452f16794504351aa2f30983ba9386c
+      - name: User-Agent
+        value: insomnia/11.1.0
+        id: pair_8c1258fa011540ae88e109b6e587cb3b
+      - id: pair_1eb3bca531dd49009758c196a34b2d90
+        name: ""
+        value: ""
+        description: ""
+        disabled: false
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkZmEzZTE2Yy03NjM0LTQ4YjUtYjVjMy0yOTcxZTU0MGJiYWYiLCJuYW1lIjoi7J2867CY7Jyg7KCANSIsImlhdCI6MTc0ODA4OTc4MiwiZXhwIjoxNzQ4Njk0NTgyfQ.47gRD50mBUGJ4mGmCMqERUO5emitVyXiwYeqglb08CM
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/kakao
+    name: kakao로그인
+    meta:
+      id: req_ce174e77c8314aa48f97e9881df89671
+      created: 1748514602423
+      modified: 1748514627942
+      isPrivate: false
+      description: ""
+      sortKey: -1733935756758.9062
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ3OTc1MzY5LCJleHAiOjE3NDc5Nzg5Njl9.sQRxRXs_Tha928v6-xJyMOmwmgQvv131XxK_H8hgYY8
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/google
+    name: google로그인
+    meta:
+      id: req_bd492c3784b541deb779d90f3c2a8a18
+      created: 1748519511861
+      modified: 1749489460086
+      isPrivate: false
+      description: ""
+      sortKey: -1733558443871.1094
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ3OTc1MzY5LCJleHAiOjE3NDc5Nzg5Njl9.sQRxRXs_Tha928v6-xJyMOmwmgQvv131XxK_H8hgYY8
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/naver
+    name: naver로그인
+    meta:
+      id: req_91f608096a97498daae2ed883c46df88
+      created: 1748521640689
+      modified: 1748521782657
+      isPrivate: false
+      description: ""
+      sortKey: -1733369787427.211
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ3OTc1MzY5LCJleHAiOjE3NDc5Nzg5Njl9.sQRxRXs_Tha928v6-xJyMOmwmgQvv131XxK_H8hgYY8
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/messages/send
+    name: 메세지전송
+    meta:
+      id: req_2ec2c3ee7cec4f40976f492e46685fe7
+      created: 1748582704959
+      modified: 1748706648454
+      isPrivate: false
+      description: ""
+      sortKey: -1722616378651.122
+    method: POST
+    body:
+      mimeType: application/json
+      text: |2-
+           {
+              "receiverId": "3c283e3b-84a9-4ac5-af5a-ed5e0d6696bc",
+              "content": "asdasdasdasdasdasddas"
+            }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0YzA2ZDhjZS0wZjU2LTRhMTgtODZlMi01YmQwN2VjYWMxZGIiLCJhY2NvdW50SWQiOiI3ZTAxMTU4Yi03OGUyLTQwODctYjYxZi01OTExMzRhNDhiYjIiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4NzA2NTI5LCJleHAiOjE3NDg3MTAxMjl9.JET8n7wzEvxslXyselgbRtbACMSrwWZBOfVc4d4Uwhk
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/messages/received
+    name: 받은메시지 목록조회
+    meta:
+      id: req_f586d77a1e104e34b0332cab78a8fa9b
+      created: 1748582887226
+      modified: 1748583185208
+      isPrivate: false
+      description: ""
+      sortKey: -1722616374388.061
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0YzA2ZDhjZS0wZjU2LTRhMTgtODZlMi01YmQwN2VjYWMxZGIiLCJhY2NvdW50SWQiOiI3ZTAxMTU4Yi03OGUyLTQwODctYjYxZi01OTExMzRhNDhiYjIiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4NTgzMTcyLCJleHAiOjE3NDg1ODY3NzJ9.U3dcyJb3RRwLJezT4SOahQI1G_tS5rjj2FQYuqkbRhc
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/messages/sent
+    name: 보낸메시지 목록조회
+    meta:
+      id: req_f3d555903ac8487984746ea12caa96d1
+      created: 1748582922428
+      modified: 1748584028833
+      isPrivate: false
+      description: ""
+      sortKey: -1722616372256.5305
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkMDA0OTBlZi0wZGI3LTQxMDQtYWFjYi1jZWY4NGQ0MGUwZDYiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc0ODU4Mjc2OCwiZXhwIjoxNzQ4NTg2MzY4fQ.eQw5HY2O2qykpsHfLsm9PCDmPR0MnE7-F3RkvQnvTfQ
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/messages/b756c5b2-6a29-4106-a20f-c6ed69878781/read
+    name: 메시지 단건 읽음 처리
+    meta:
+      id: req_3f95c8f5042346e4bc0779252cc6c1ef
+      created: 1748582971771
+      modified: 1748583229583
+      isPrivate: false
+      description: ""
+      sortKey: -1722616371190.7651
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0YzA2ZDhjZS0wZjU2LTRhMTgtODZlMi01YmQwN2VjYWMxZGIiLCJhY2NvdW50SWQiOiI3ZTAxMTU4Yi03OGUyLTQwODctYjYxZi01OTExMzRhNDhiYjIiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4NTgzMTcyLCJleHAiOjE3NDg1ODY3NzJ9.U3dcyJb3RRwLJezT4SOahQI1G_tS5rjj2FQYuqkbRhc
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/messages/read-all
+    name: 메시지 다읽음처리
+    meta:
+      id: req_8a45810af7b24cffbd00272222dd00ad
+      created: 1748583024576
+      modified: 1748583273828
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370657.8826
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0YzA2ZDhjZS0wZjU2LTRhMTgtODZlMi01YmQwN2VjYWMxZGIiLCJhY2NvdW50SWQiOiI3ZTAxMTU4Yi03OGUyLTQwODctYjYxZi01OTExMzRhNDhiYjIiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4NTgzMTcyLCJleHAiOjE3NDg1ODY3NzJ9.U3dcyJb3RRwLJezT4SOahQI1G_tS5rjj2FQYuqkbRhc
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/messages/b756c5b2-6a29-4106-a20f-c6ed69878781
+    name: 메시지삭제
+    meta:
+      id: req_ec05376f69e14487a250b89be5324ffa
+      created: 1748583056953
+      modified: 1748583514803
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370391.4414
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ZjcxMmM5NS1mYzQzLTQxOWYtYTZmOS0zNTEwNWZjOTI5NmUiLCJhY2NvdW50SWQiOiIwZGMwZDhhOC01OWE4LTQzZWQtYWZmMC04OTIyYjUzZDhkZTAiLCJlbWFpbCI6InRlc3QwMkBleGFtcGxlLmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzQ4NTgzNDg5LCJleHAiOjE3NDg1ODcwODl9.tPEiwXbHjkoNDgJr_S0tpFyf454OAFAGLvG-YP05coQ
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/notifications/test
+    name: 알림생성
+    meta:
+      id: req_9e161a0b96ed4a9e862fb906d003f878
+      created: 1748589225903
+      modified: 1749470727043
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370291.4414
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "userId": "3c283e3b-84a9-4ac5-af5a-ed5e0d6696bc",
+          "type": "APPROVAL",
+          "message": "🎉 상품 등록이 승인되었습니다!",
+          "url": "/products/abc123"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmZThlNzdlYy1kZjU1LTQ4MWMtYWRiNS04YjQ4ZDJkY2M0NGUiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc0ODcwMjEzNCwiZXhwIjoxNzQ4NzA1NzM0fQ.kEuwcQzQTekIX5SonqA3MktkmELOlYwrs1SiYGlFTVw
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/notifications
+    name: 알림목록조회
+    meta:
+      id: req_bf7625bb58654052892412e4b4ed49ed
+      created: 1748695567242
+      modified: 1749239130546
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370208.2207
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NDkyMzkxMjAsImV4cCI6MTc0OTI0MjcyMH0.0Hx0Zs3rofR50JDjeXc4Dr-hz5zSuo9FxV-4Dgm0mTE
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/notifications/0f7a376c-cf73-4c6c-be14-27340c4eb7bb/read
+    name: 알림읽음처리
+    meta:
+      id: req_ff8e2575da954751be494a0866e6daef
+      created: 1748695600929
+      modified: 1749239207269
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370166.6104
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NDkyMzkxMjAsImV4cCI6MTc0OTI0MjcyMH0.0Hx0Zs3rofR50JDjeXc4Dr-hz5zSuo9FxV-4Dgm0mTE
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/ai/price-estimation/0f1d5275-e0e0-4a4a-953c-e7318127f675
+    name: AI가격평가
+    meta:
+      id: req_38591bcde69f423a97a76c0f9d15e331
+      created: 1748766626795
+      modified: 1749404301581
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370066.6104
+    method: POST
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0YzA2ZDhjZS0wZjU2LTRhMTgtODZlMi01YmQwN2VjYWMxZGIiLCJhY2NvdW50SWQiOiI3ZTAxMTU4Yi03OGUyLTQwODctYjYxZi01OTExMzRhNDhiYjIiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ5NDA0MjA3LCJleHAiOjE3NDk0MDc4MDd9.PV2QVhK2aiZfuB1GV9s3D-1w6YgANAoTbOV7LsorzUQ
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/ai/summary/0f1d5275-e0e0-4a4a-953c-e7318127f675
+    name: AI리뷰요약
+    meta:
+      id: req_ab111438aeb1459a858f5db73b16ec7f
+      created: 1748777436996
+      modified: 1748777947049
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370045.8052
+    method: POST
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0YzA2ZDhjZS0wZjU2LTRhMTgtODZlMi01YmQwN2VjYWMxZGIiLCJhY2NvdW50SWQiOiI3ZTAxMTU4Yi03OGUyLTQwODctYjYxZi01OTExMzRhNDhiYjIiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4Nzc3NTA3LCJleHAiOjE3NDg3ODExMDd9.2qwHf_VfFU04eZP7n1KrkVA6Nd_H4gknlEj3xqvj3E
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/ai/recommend
+    name: AI상품추천
+    meta:
+      id: req_174f31755882492f9029fea111848ca7
+      created: 1748778692951
+      modified: 1748779508324
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370035.4026
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "prompt": "캠핑 추천"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0YzA2ZDhjZS0wZjU2LTRhMTgtODZlMi01YmQwN2VjYWMxZGIiLCJhY2NvdW50SWQiOiI3ZTAxMTU4Yi03OGUyLTQwODctYjYxZi01OTExMzRhNDhiYjIiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4Nzc3NTA3LCJleHAiOjE3NDg3ODExMDd9.2qwHf_VfFU04eZP7n1KrkVA6Nd_H4gknlEj3xqvj3E
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/phone/request
+    name: 인증번호요청
+    meta:
+      id: req_509a2596a4b3469991d56ff7397ba275
+      created: 1748952243614
+      modified: 1748978447722
+      isPrivate: false
+      description: ""
+      sortKey: -1734313069646.7031
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "phone": "01026678832"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ3OTc1MzY5LCJleHAiOjE3NDc5Nzg5Njl9.sQRxRXs_Tha928v6-xJyMOmwmgQvv131XxK_H8hgYY8
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/phone/verify
+    name: 인증번호검증
+    meta:
+      id: req_76f01f4ad66a4fedbd168d02eb126fe2
+      created: 1748952585822
+      modified: 1749989810297
+      isPrivate: false
+      description: ""
+      sortKey: -1734124413202.8047
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "phone": "01026678832",
+          "code": "143649"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ3OTc1MzY5LCJleHAiOjE3NDc5Nzg5Njl9.sQRxRXs_Tha928v6-xJyMOmwmgQvv131XxK_H8hgYY8
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/payments/charge
+    name: 잔고충전
+    meta:
+      id: req_e9e832aa64f34f599b15a0b989d72105
+      created: 1749297639017
+      modified: 1749297805463
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370030.2012
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+            "amount": 100000000
+          }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NDkyOTc2ODcsImV4cCI6MTc0OTMwMTI4N30.gR4D_r3rSTIBxrqdSC369vjJ7BxhVreq5P4h7Dd25eA
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/payments/use
+    name: 잔고차감
+    meta:
+      id: req_639cd52a6b514b97a768728a3150013a
+      created: 1749297644436
+      modified: 1749297828978
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370027.6006
+    method: POST
+    body:
+      mimeType: application/json
+      text: |2-
+         {
+            "amount": 500000000000000000000
+          }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NDkyOTc2ODcsImV4cCI6MTc0OTMwMTI4N30.gR4D_r3rSTIBxrqdSC369vjJ7BxhVreq5P4h7Dd25eA
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/payments/logs
+    name: 유저잔액로그조회
+    meta:
+      id: req_5c4dd01aeb734a868c5d4c67f919a6d4
+      created: 1749645595142
+      modified: 1749659162412
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370026.3003
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NDk2NTkxNTEsImV4cCI6MTc0OTY2Mjc1MX0.rK8rv6E1X5sHsf-pI5sZ9anMVI3HjtKSUqFTdU8yng8
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/admin/platform/balance
+    name: 플랫폼잔고조회
+    meta:
+      id: req_dfdc2ef9c82e4f249faab2d90058e75e
+      created: 1749712482899
+      modified: 1750595827904
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370025.6501
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUwNTk1ODEwLCJleHAiOjE3NTA1OTk0MTB9.DWqWCIs3JN3BiJDlf39gW4zf_E0BGsvpzecCmoyPd8Q
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/admin/platform/summary
+    name: 플랫폼자금요약조회
+    meta:
+      id: req_4758e819f3cf4ff1896660b20e52151d
+      created: 1749713125406
+      modified: 1750595835621
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370025.3252
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUwNTk1ODEwLCJleHAiOjE3NTA1OTk0MTB9.DWqWCIs3JN3BiJDlf39gW4zf_E0BGsvpzecCmoyPd8Q
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/admin/platform/logs
+    name: 플랫폼전체자금로그조회
+    meta:
+      id: req_8608776e34ca4d4ba9d7a05ee3e162c3
+      created: 1749713564117
+      modified: 1750595819199
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370025.1626
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUwNTk1ODEwLCJleHAiOjE3NTA1OTk0MTB9.DWqWCIs3JN3BiJDlf39gW4zf_E0BGsvpzecCmoyPd8Q
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/admin/platform/deposit
+    name: 플랫폼입금
+    meta:
+      id: req_06365fecedef4eb49bbda740b1dc5d83
+      created: 1749714346610
+      modified: 1749714645977
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370025.0813
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"amount" : 100000000,
+        	"memo" :"입금"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0YzA2ZDhjZS0wZjU2LTRhMTgtODZlMi01YmQwN2VjYWMxZGIiLCJhY2NvdW50SWQiOiI3ZTAxMTU4Yi03OGUyLTQwODctYjYxZi01OTExMzRhNDhiYjIiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ5NzEyODExLCJleHAiOjE3NDk3MTY0MTF9.lj1T84mnCPTnaJo5k0ya595SnZa6vZG7fJLG2K3kTNk
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products/733e3250-4a67-49e7-8f09-6cdff4c01098/purchase
+    name: 상품구매
+    meta:
+      id: req_ccd52918bbd740d6a98cd8fdd57f02c8
+      created: 1750187951692
+      modified: 1750395949485
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370025.0405
+    method: POST
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkMmExMjRiZC0wNGMyLTQ4ZjUtYTZjYi0xODE2ZjZiMzE4MjciLCJhY2NvdW50SWQiOiIzN2FmZDA3Zi0xZGM1LTRlYzMtODhiZS00MzFmNTYzZmM4ZGQiLCJlbWFpbCI6Inlvb3NldW5neXViMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc1MDM5NTkzOCwiZXhwIjoxNzUwMzk5NTM4fQ.e6yb83XM3JsZAcMsIdMinXAnrrFpNj2iJ5qpo6pbkbs
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products/733e3250-4a67-49e7-8f09-6cdff4c01098/purchase/cancel
+    name: 상품구매취소
+    meta:
+      id: req_7d925ad0b03f4237842f5cbf777b2c0c
+      created: 1750321601572
+      modified: 1750395961619
+      isPrivate: false
+      description: ""
+      sortKey: -1722616370025.0203
+    method: POST
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkMmExMjRiZC0wNGMyLTQ4ZjUtYTZjYi0xODE2ZjZiMzE4MjciLCJhY2NvdW50SWQiOiIzN2FmZDA3Zi0xZGM1LTRlYzMtODhiZS00MzFmNTYzZmM4ZGQiLCJlbWFpbCI6Inlvb3NldW5neXViMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc1MDM5NTkzOCwiZXhwIjoxNzUwMzk5NTM4fQ.e6yb83XM3JsZAcMsIdMinXAnrrFpNj2iJ5qpo6pbkbs
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products/admin/storage-fee?days=50
+    name: 보관료부과대상조회
+    meta:
+      id: req_c6532fac02b44f779411cbfe5d9bbf37
+      created: 1750590823621
+      modified: 1750590934524
+      isPrivate: false
+      description: ""
+      sortKey: -1722616369925.0203
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUwNTkwODg0LCJleHAiOjE3NTA1OTQ0ODR9.s8WXjL4mKntS0YmtC2y-d60pfaWhmYyQPMOSX_B1kwg
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/products/admin/trigger-storage-fee
+    name: 보관료부과테스트
+    meta:
+      id: req_eccd231841174cd4a9d921c3c9b5d143
+      created: 1750611799055
+      modified: 1750611838936
+      isPrivate: false
+      description: ""
+      sortKey: -1722616369925.0103
+    method: POST
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUwNjExODMxLCJleHAiOjE3NTA2MTU0MzF9.9RYLcpVoZbUhUfCAFvPSMSpy9Om4yO1slqenTdDICKs
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/influencer-promos
+    name: 인플루언서홍보등록
+    meta:
+      id: req_ae89d0808d494c189b1909a5e4c09b57
+      created: 1750766503155
+      modified: 1751284817986
+      isPrivate: false
+      description: ""
+      sortKey: -1722616369925.0051
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_54c4762888d24c24921779f38fb336a5
+          name: title
+          value: 타이틀입니다1
+          description: ""
+          disabled: false
+        - id: pair_b31b0a6514da4723b91801a64b836e49
+          name: videoUrl
+          value: asfdsadfdsa
+          description: ""
+          disabled: false
+        - id: pair_9893128467704ee59b678b69596177da
+          name: productId
+          value: 733e3250-4a67-49e7-8f09-6cdff4c01098
+          description: ""
+          disabled: false
+        - id: pair_55070072abb44b69b3a17270b5ea3f92
+          name: userId
+          value: 31144476-dae8-43b4-a754-f628f88c4fc0
+          description: ""
+          disabled: false
+        - id: pair_f60f5f581f5e4123afe716b79865e4a5
+          name: description
+          value: 설명이네요
+          description: ""
+          disabled: false
+        - id: pair_092d4f7948c845e894b8eddf6f13b92d
+          name: images
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\FOF이미지\안되면포기하자.png
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMTE0NDQ3Ni1kYWU4LTQzYjQtYTc1NC1mNjI4Zjg4YzRmYzAiLCJhY2NvdW50SWQiOiJmZGRkZmM3YS04YzdlLTRkYTMtYWQ2Ni1jNGRiM2YzYWE1NjYiLCJlbWFpbCI6ImluZmx1ZW5jZXJAZml0cHVsbC5jb20iLCJyb2xlIjoiSU5GTFVFTkNFUiIsImlhdCI6MTc1MDg1Mjk1MiwiZXhwIjoxNzUwODU2NTUyfQ.CfHwllZ0h3WRLYAtJiHBKBGeM8eDjNdxG86GxSGats4
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/influencer-promos/04463a8a-1f11-4e26-9f53-170ae7e2148f
+    name: 인플루언서홍보상세조회
+    meta:
+      id: req_2cfc43fcb631418fbe8bd196285e7535
+      created: 1750831454561
+      modified: 1750855487261
+      isPrivate: false
+      description: ""
+      sortKey: -1722616369925.0024
+    method: GET
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_54c4762888d24c24921779f38fb336a5
+          name: title
+          value: 타이틀입니다
+          description: ""
+          disabled: false
+        - id: pair_b31b0a6514da4723b91801a64b836e49
+          name: videoUrl
+          value: asfdsadfdsa
+          description: ""
+          disabled: false
+        - id: pair_9893128467704ee59b678b69596177da
+          name: productId
+          value: 733e3250-4a67-49e7-8f09-6cdff4c01098
+          description: ""
+          disabled: false
+        - id: pair_55070072abb44b69b3a17270b5ea3f92
+          name: userId
+          value: 31144476-dae8-43b4-a754-f628f88c4fc0
+          description: ""
+          disabled: false
+        - id: pair_f60f5f581f5e4123afe716b79865e4a5
+          name: description
+          value: 설명이네요
+          description: ""
+          disabled: false
+        - id: pair_092d4f7948c845e894b8eddf6f13b92d
+          name: images
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\FOF이미지\안되면포기하자.png
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMTE0NDQ3Ni1kYWU4LTQzYjQtYTc1NC1mNjI4Zjg4YzRmYzAiLCJhY2NvdW50SWQiOiJmZGRkZmM3YS04YzdlLTRkYTMtYWQ2Ni1jNGRiM2YzYWE1NjYiLCJlbWFpbCI6ImluZmx1ZW5jZXJAZml0cHVsbC5jb20iLCJyb2xlIjoiSU5GTFVFTkNFUiIsImlhdCI6MTc1MDc3NTA4NiwiZXhwIjoxNzUwNzc4Njg2fQ.A9PQwu_iq7f-CE_XzHC99PkU3DgLeM1MyPz42so1GTE
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/influencer-promos
+    name: 인플루언서홍보전체조회
+    meta:
+      id: req_666ae7a15726491bb68eef1eafa7a133
+      created: 1750831461863
+      modified: 1750854571637
+      isPrivate: false
+      description: ""
+      sortKey: -1722616369925.0012
+    method: GET
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_54c4762888d24c24921779f38fb336a5
+          name: title
+          value: 타이틀입니다
+          description: ""
+          disabled: false
+        - id: pair_b31b0a6514da4723b91801a64b836e49
+          name: videoUrl
+          value: asfdsadfdsa
+          description: ""
+          disabled: false
+        - id: pair_9893128467704ee59b678b69596177da
+          name: productId
+          value: 733e3250-4a67-49e7-8f09-6cdff4c01098
+          description: ""
+          disabled: false
+        - id: pair_55070072abb44b69b3a17270b5ea3f92
+          name: userId
+          value: 31144476-dae8-43b4-a754-f628f88c4fc0
+          description: ""
+          disabled: false
+        - id: pair_f60f5f581f5e4123afe716b79865e4a5
+          name: description
+          value: 설명이네요
+          description: ""
+          disabled: false
+        - id: pair_092d4f7948c845e894b8eddf6f13b92d
+          name: images
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\FOF이미지\안되면포기하자.png
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMTE0NDQ3Ni1kYWU4LTQzYjQtYTc1NC1mNjI4Zjg4YzRmYzAiLCJhY2NvdW50SWQiOiJmZGRkZmM3YS04YzdlLTRkYTMtYWQ2Ni1jNGRiM2YzYWE1NjYiLCJlbWFpbCI6ImluZmx1ZW5jZXJAZml0cHVsbC5jb20iLCJyb2xlIjoiSU5GTFVFTkNFUiIsImlhdCI6MTc1MDc3NTA4NiwiZXhwIjoxNzUwNzc4Njg2fQ.A9PQwu_iq7f-CE_XzHC99PkU3DgLeM1MyPz42so1GTE
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/influencer-promos/04463a8a-1f11-4e26-9f53-170ae7e2148f
+    name: 인플루언서홍보수정
+    meta:
+      id: req_1a2dd21f990542b48f091d5c79afbb50
+      created: 1750852888949
+      modified: 1750854062485
+      isPrivate: false
+      description: ""
+      sortKey: -1722616369925.004
+    method: PATCH
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_54c4762888d24c24921779f38fb336a5
+          name: title
+          value: 타이틀입니다1111
+          description: ""
+          disabled: false
+        - id: pair_b31b0a6514da4723b91801a64b836e49
+          name: videoUrl
+          value: asfdsadfdsa
+          description: ""
+          disabled: false
+        - id: pair_9893128467704ee59b678b69596177da
+          name: productId
+          value: 733e3250-4a67-49e7-8f09-6cdff4c01098
+          description: ""
+          disabled: false
+        - id: pair_55070072abb44b69b3a17270b5ea3f92
+          name: userId
+          value: 31144476-dae8-43b4-a754-f628f88c4fc0
+          description: ""
+          disabled: true
+        - id: pair_f60f5f581f5e4123afe716b79865e4a5
+          name: description
+          value: 설명이네요111
+          description: ""
+          disabled: false
+        - id: pair_092d4f7948c845e894b8eddf6f13b92d
+          name: images
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\FOF이미지\안되면포기하자.png
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMTE0NDQ3Ni1kYWU4LTQzYjQtYTc1NC1mNjI4Zjg4YzRmYzAiLCJhY2NvdW50SWQiOiJmZGRkZmM3YS04YzdlLTRkYTMtYWQ2Ni1jNGRiM2YzYWE1NjYiLCJlbWFpbCI6ImluZmx1ZW5jZXJAZml0cHVsbC5jb20iLCJyb2xlIjoiSU5GTFVFTkNFUiIsImlhdCI6MTc1MDg1Mjk1MiwiZXhwIjoxNzUwODU2NTUyfQ.CfHwllZ0h3WRLYAtJiHBKBGeM8eDjNdxG86GxSGats4
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/influencer-promos/04463a8a-1f11-4e26-9f53-170ae7e2148f
+    name: 인플루언서홍보삭제
+    meta:
+      id: req_ced15eb2444247aca8649ac8eef8d57a
+      created: 1750852895364
+      modified: 1750854354913
+      isPrivate: false
+      description: ""
+      sortKey: -1722616369925.0032
+    method: DELETE
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_54c4762888d24c24921779f38fb336a5
+          name: title
+          value: 타이틀입니다
+          description: ""
+          disabled: false
+        - id: pair_b31b0a6514da4723b91801a64b836e49
+          name: videoUrl
+          value: asfdsadfdsa
+          description: ""
+          disabled: false
+        - id: pair_9893128467704ee59b678b69596177da
+          name: productId
+          value: 733e3250-4a67-49e7-8f09-6cdff4c01098
+          description: ""
+          disabled: false
+        - id: pair_55070072abb44b69b3a17270b5ea3f92
+          name: userId
+          value: 31144476-dae8-43b4-a754-f628f88c4fc0
+          description: ""
+          disabled: false
+        - id: pair_f60f5f581f5e4123afe716b79865e4a5
+          name: description
+          value: 설명이네요
+          description: ""
+          disabled: false
+        - id: pair_092d4f7948c845e894b8eddf6f13b92d
+          name: images
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\FOF이미지\안되면포기하자.png
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMTE0NDQ3Ni1kYWU4LTQzYjQtYTc1NC1mNjI4Zjg4YzRmYzAiLCJhY2NvdW50SWQiOiJmZGRkZmM3YS04YzdlLTRkYTMtYWQ2Ni1jNGRiM2YzYWE1NjYiLCJlbWFpbCI6ImluZmx1ZW5jZXJAZml0cHVsbC5jb20iLCJyb2xlIjoiSU5GTFVFTkNFUiIsImlhdCI6MTc1MDg1NDI0MCwiZXhwIjoxNzUwODU3ODQwfQ.18nV6-KfpnQ0HkYAqPlVf1U-S2kvrjuruKT-h10zcFA
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/influencer-promos/featured-home
+    name: 인플루언서홈화면홍보물조회
+    meta:
+      id: req_b9d1a6a09cef4aa4b1de60b5e784269b
+      created: 1750854389821
+      modified: 1750855750954
+      isPrivate: false
+      description: ""
+      sortKey: -1722616369925.0005
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUwODU1MTkxLCJleHAiOjE3NTA4NTg3OTF9.k6cl4xXhHVYpE0gOi_ZuE_O3-d4Aoh2C56pDLmJShSQ
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/influencer-promos/3da5bfb6-6cf7-4fdc-b365-16b981b2ffb3/featured-home
+    name: 인플루언서홈화면홍보물지정
+    meta:
+      id: req_eddffac5730049c28b7a1b575a286aad
+      created: 1750855733856
+      modified: 1750855881962
+      isPrivate: false
+      description: ""
+      sortKey: -1722616369925.0034
+    method: PATCH
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_54c4762888d24c24921779f38fb336a5
+          name: title
+          value: 타이틀입니다1111
+          description: ""
+          disabled: false
+        - id: pair_b31b0a6514da4723b91801a64b836e49
+          name: videoUrl
+          value: asfdsadfdsa
+          description: ""
+          disabled: false
+        - id: pair_9893128467704ee59b678b69596177da
+          name: productId
+          value: 733e3250-4a67-49e7-8f09-6cdff4c01098
+          description: ""
+          disabled: false
+        - id: pair_55070072abb44b69b3a17270b5ea3f92
+          name: userId
+          value: 31144476-dae8-43b4-a754-f628f88c4fc0
+          description: ""
+          disabled: true
+        - id: pair_f60f5f581f5e4123afe716b79865e4a5
+          name: description
+          value: 설명이네요111
+          description: ""
+          disabled: false
+        - id: pair_092d4f7948c845e894b8eddf6f13b92d
+          name: images
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\yoose\OneDrive\바탕 화면\FOF이미지\안되면포기하자.png
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUwODU1MTkxLCJleHAiOjE3NTA4NTg3OTF9.k6cl4xXhHVYpE0gOi_ZuE_O3-d4Aoh2C56pDLmJShSQ
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/password/reset/request
+    name: 비번재설정코드요청
+    meta:
+      id: req_c12d30a8d6da47628232fa04922ee998
+      created: 1750872872237
+      modified: 1750873084686
+      isPrivate: false
+      description: ""
+      sortKey: -1734030084980.8555
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "email": "yooseungyub1@gmail.com"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ3OTc1MzY5LCJleHAiOjE3NDc5Nzg5Njl9.sQRxRXs_Tha928v6-xJyMOmwmgQvv131XxK_H8hgYY8
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/password/reset/verify
+    name: 비번재설정코드검증
+    meta:
+      id: req_1c2ddb471fb14a0583afc1140174cbcd
+      created: 1750873855755
+      modified: 1750874542620
+      isPrivate: false
+      description: ""
+      sortKey: -1733982920869.8809
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "email": "yooseungyub1@gmail.com",
+        	"code" : "599537",
+        	"newPassword": "qwer1234",
+        	"newPasswordCheck" : "qwer1234"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ3OTc1MzY5LCJleHAiOjE3NDc5Nzg5Njl9.sQRxRXs_Tha928v6-xJyMOmwmgQvv131XxK_H8hgYY8
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/id/find/request
+    name: 휴대폰번호ID찾기코드요청
+    meta:
+      id: req_79360f6af7dc48ccbcb56d678beb4b6d
+      created: 1750931836854
+      modified: 1750932242178
+      isPrivate: false
+      description: ""
+      sortKey: -1733959338814.3936
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "phone":"01026678832" 
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ3OTc1MzY5LCJleHAiOjE3NDc5Nzg5Njl9.sQRxRXs_Tha928v6-xJyMOmwmgQvv131XxK_H8hgYY8
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/id/find/verify
+    name: 휴대폰번호ID찾기코드인증
+    meta:
+      id: req_5f610b75382840f79e741c5758fdb6c6
+      created: 1750939045836
+      modified: 1750939496535
+      isPrivate: false
+      description: ""
+      sortKey: -1733947547786.65
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "phone":"01026678832" ,
+        	"code" : "966165"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYzI4M2UzYi04NGE5LTRhYzUtYWY1YS1lZDVlMGQ2Njk2YmMiLCJhY2NvdW50SWQiOiJhNGM5YTU0Yi02ZDU3LTRhYmMtOGVkNi1hODA0NDcwM2M3NzkiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ3OTc1MzY5LCJleHAiOjE3NDc5Nzg5Njl9.sQRxRXs_Tha928v6-xJyMOmwmgQvv131XxK_H8hgYY8
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/packages
+    name: 패키지생성
+    meta:
+      id: req_108c783a061c484d9a5c20d2306f5002
+      created: 1751284824920
+      modified: 1751604187615
+      isPrivate: false
+      description: ""
+      sortKey: -1722616369825.0005
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "title": "여름 캠핑 패키지",
+          "description": "텐트, 의자, 테이블 등 여름 캠핑에 필요한 모든 상품을 한 번에!",
+          "productIds": [
+            "4c5ad732-1f98-4c3b-91bb-06eb1e13ab89",
+        		"733e3250-4a67-49e7-8f09-6cdff4c01098"
+          ],
+          "isFeatured": true
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUxNjA0MTc3LCJleHAiOjE3NTE2MDc3Nzd9.XfBtznCxCnpeM6U1CiTWlYh8laB48f5ZeuYIk_amJhI
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/packages/cc4afa71-a3bf-4791-81dd-9c6dcf8ee53d
+    name: 패키지단건조회
+    meta:
+      id: req_c02f1521938141758adf0b18e3e6ed1f
+      created: 1751286230359
+      modified: 1751466467760
+      isPrivate: false
+      description: ""
+      sortKey: -1722599979202.2502
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/packages
+    name: 모든패키지조회
+    meta:
+      id: req_14ad541829394c0688473429644fae47
+      created: 1751286256454
+      modified: 1751286361903
+      isPrivate: false
+      description: ""
+      sortKey: -1722591783890.875
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUxMjg0ODc3LCJleHAiOjE3NTEyODg0Nzd9.3r3juFAQat-dZhH0MLB6j7z8Pmph3sUDoBL9Mctn8NQ
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/packages/cc4afa71-a3bf-4791-81dd-9c6dcf8ee53d
+    name: 패키지수정
+    meta:
+      id: req_470ab9718f15428db4776d1a498af475
+      created: 1751358056341
+      modified: 1751466546307
+      isPrivate: false
+      description: ""
+      sortKey: -1722587686235.1875
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "title": "여름 캠핑 패키지das",
+          "description": "텐트, 의자, 테이블 등",
+          "productIds": [
+            "4c5ad732-1f98-4c3b-91bb-06eb1e13ab89",
+        		"733e3250-4a67-49e7-8f09-6cdff4c01098"
+          ],
+          "isFeatured": true
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUxNDY2NDg1LCJleHAiOjE3NTE0NzAwODV9.GswqudY59PELxEdNv6jLDZfWmQYramRaHoRKn5gW0JA
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/packages/cc4afa71-a3bf-4791-81dd-9c6dcf8ee53d
+    name: 패키지삭제
+    meta:
+      id: req_ae9533c3bd224b82924bf0936466f17d
+      created: 1751358549335
+      modified: 1751466768603
+      isPrivate: false
+      description: ""
+      sortKey: -1722585637407.3438
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUxNDY2NDg1LCJleHAiOjE3NTE0NzAwODV9.GswqudY59PELxEdNv6jLDZfWmQYramRaHoRKn5gW0JA
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/package-rental-requests
+    name: 패키지대여생성
+    meta:
+      id: req_13a9ef9e5adf4916a39593d2cd9e4a53
+      created: 1751603797172
+      modified: 1751606374843
+      isPrivate: false
+      description: ""
+      sortKey: -1722585637307.3438
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "packageId": "5eedc56f-1b76-4d0b-ab3e-00739329244a",
+          "startDate": "2025-07-21",
+          "endDate": "2025-07-22",
+          "howToReceive": "DELIVERY", 
+          "memo": "요청사항 등 메모"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUxNjAzODU3LCJleHAiOjE3NTE2MDc0NTd9.ugBQQLdvHG7BnPQGA9FQtK0tzVKbldyuAEqkm8hZV40
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/package-rental-requests/1a819f17-6cdd-45dc-82ec-51d4d083fb4a/cancel
+    name: 패키지대여취소
+    meta:
+      id: req_5838655ea22141e38f8d16dc46aac68f
+      created: 1751608343400
+      modified: 1751977631168
+      isPrivate: false
+      description: ""
+      sortKey: -1722584612943.4219
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUxOTc3NTkzLCJleHAiOjE3NTE5ODExOTN9.s6Cx-ShLNF9JJ1VTGekcWQm_WQO7AB9P9qut2LXPjI4
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/package-rental-requests/d62da1fd-7275-41aa-966c-a43e120ef7b9/approve
+    name: admin패키지대여승인
+    meta:
+      id: req_22fe327d1b31402787da4ed0ed1ac578
+      created: 1751726351620
+      modified: 1752387893136
+      isPrivate: false
+      description: ""
+      sortKey: -1722584100761.461
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUyMzg3NzQ2LCJleHAiOjE3NTIzOTEzNDZ9.FnLSt_lOx1F7KxLcHnCDrDdnv8H3UJyttAgZUO-bRcE
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/package-rental-requests/1a819f17-6cdd-45dc-82ec-51d4d083fb4a/reject
+    name: admin패키지대여거절
+    meta:
+      id: req_7bc37a2e0a884b2e9326089347a1023a
+      created: 1751778958702
+      modified: 1751778987787
+      isPrivate: false
+      description: ""
+      sortKey: -1722583844670.4805
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUxNzc4OTc3LCJleHAiOjE3NTE3ODI1Nzd9.mRuXCWwF-eEiuHwC678942OoHYyfyT7PBClSj13j3vA
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/total-rental-requests/my
+    name: 나의통합대여요청조회
+    meta:
+      id: req_3855a62acd614a2b90f808bf35467462
+      created: 1752149066859
+      modified: 1752149145391
+      isPrivate: false
+      description: ""
+      sortKey: -1722583844570.4805
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUyMTQ5MTI4LCJleHAiOjE3NTIxNTI3Mjh9.CF7R6QetFyFZyzaCrC8Lr9Su7y8ZpW1aUDohBb6Cn1U
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/total-rental-requests
+    name: 어드민통합대여요청조회
+    meta:
+      id: req_d40a0b0cd6b34997ba11b296347c1935
+      created: 1752209741790
+      modified: 1752210417116
+      isPrivate: false
+      description: ""
+      sortKey: -1722583716574.9902
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUyMjA5NzY2LCJleHAiOjE3NTIyMTMzNjZ9.LqX4TWaN3A6sNDqRAs2bMmlFwyfnbWShi1NdHK31C6M
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/package-completed-rentals/d62da1fd-7275-41aa-966c-a43e120ef7b9
+    name: admin 패키지 대여 완료 처리
+    meta:
+      id: req_ff28b7f8577c414897bf419ff92f27a0
+      created: 1752332094332
+      modified: 1752387770427
+      isPrivate: false
+      description: ""
+      sortKey: -1722583716474.9902
+    method: POST
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUyMzg3NzQ2LCJleHAiOjE3NTIzOTEzNDZ9.FnLSt_lOx1F7KxLcHnCDrDdnv8H3UJyttAgZUO-bRcE
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/package-completed-rentals
+    name: admin 패키지 대여 전체조회
+    meta:
+      id: req_5d1e70740b66431483ecd3f88585d7d2
+      created: 1752504304973
+      modified: 1752504334144
+      isPrivate: false
+      description: ""
+      sortKey: -1722583652527.245
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUyNTA0MzE4LCJleHAiOjE3NTI1MDc5MTh9.K7_Ez-0jsB0BoOv9chetzkQNXgzvRKWegakfLOCuw8U
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/package-completed-rentals/my
+    name: 나의 패키지 대여 완료조회
+    meta:
+      id: req_40e48ea9b9b84c29a005f43f6fcf555e
+      created: 1752504354825
+      modified: 1752504368763
+      isPrivate: false
+      description: ""
+      sortKey: -1722583620553.3726
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUyNTA0MzE4LCJleHAiOjE3NTI1MDc5MTh9.K7_Ez-0jsB0BoOv9chetzkQNXgzvRKWegakfLOCuw8U
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_2d6fa4097351db83fe6da8cece6ed02bbcce873b
+    created: 1746764381408
+    modified: 1752504318601
+  cookies:
+    - key: refreshToken
+      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjA1MmZkYy1lODJhLTRiZWQtODIyMC03NDJjNGU3Mzc5YjMiLCJhY2NvdW50SWQiOiJmNWExYzk1OC1lNDMzLTQ1ZWUtYWEyOS04NmRhNjg4ZDkwMDgiLCJlbWFpbCI6ImFkbWluQGZpdHB1bGwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzUyNTA0MzE4LCJleHAiOjE3NTMxMDkxMTh9.6__Wn5VivSmzzyi7HHSb2tKu1BkL7Z07A06D4yUtJMQ
+      maxAge: 604800
+      domain: localhost
+      path: /
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-05-24T12:26:39.060Z
+      lastAccessed: 2025-07-14T14:45:18.600Z
+      id: 5cf19925-b20d-46f0-82c8-b0ca72792c66
+    - key: __Host-GAPS
+      value: 1:1mNT4oazFv76GhC9WS4cKpqJrv-ipw:02wvqMpyO8QiKwwC
+      domain: localhost
+      path: /
+      secure: true
+      httpOnly: true
+      extensions:
+        - Priority=HIGH
+      hostOnly: true
+      creation: 2025-05-29T11:52:27.880Z
+      lastAccessed: 2025-06-08T19:23:27.066Z
+      id: 4b8d1e04-c001-4e16-a2e6-27dd1c96ab1a
+environments:
+  name: Base Environment
+  meta:
+    id: env_2d6fa4097351db83fe6da8cece6ed02bbcce873b
+    created: 1746764381407
+    modified: 1746764381407
+    isPrivate: false
