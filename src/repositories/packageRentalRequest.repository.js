@@ -9,7 +9,7 @@ export const createPackageRentalRequestRepo = async (data) => {
 
 export const findMyPackageRentalRequestsRepo = async (userId) => {
   return await prisma.packageRentalRequest.findMany({
-    where: { userId },
+    where: { userId, deletedAt: null },
     include: {
       package: true,
       user: true,
@@ -20,7 +20,7 @@ export const findMyPackageRentalRequestsRepo = async (userId) => {
 
 export const findPendingPackageRentalRequestsRepo = async () => {
   return await prisma.packageRentalRequest.findMany({
-    where: { status: 'PENDING' },
+    where: { status: 'PENDING', deletedAt: null },
     include: {
       package: true,
       user: true,
@@ -32,28 +32,28 @@ export const findPendingPackageRentalRequestsRepo = async () => {
 export const cancelPackageRentalRequestRepo = async (id) => {
   return await prisma.packageRentalRequest.update({
     where: { id },
-    data: { status: 'CANCELED' },
+    data: { status: 'CANCELED', deletedAt: new Date() },
   });
 };
 
 export const approvePackageRentalRequestRepo = async (id) => {
   return await prisma.packageRentalRequest.update({
     where: { id },
-    data: { status: 'APPROVED' },
+    data: { status: 'APPROVED', deletedAt: null },
   });
 };
 
 export const rejectPackageRentalRequestRepo = async (id) => {
   return await prisma.packageRentalRequest.update({
     where: { id },
-    data: { status: 'REJECTED' },
+    data: { status: 'REJECTED', deletedAt: new Date() },
   });
 };
 
 // 패키지 대여요청 상세 조회 (items, package, user 포함)
 export const getPackageRentalRequestById = async (id) => {
   return await prisma.packageRentalRequest.findUnique({
-    where: { id },
+    where: { id, deletedAt: null },
     include: {
       items: true,
       package: true,
