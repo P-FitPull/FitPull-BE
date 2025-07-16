@@ -175,6 +175,7 @@ export const createPackageRentalRequest = async ({
         status: { in: ['PENDING', 'APPROVED'] },
         startDate: { lte: new Date(endDate) },
         endDate: { gte: new Date(startDate) },
+        deletedAt: null,
       },
     });
     if (exists) {
@@ -202,6 +203,7 @@ export const createPackageRentalRequest = async ({
         totalPrice,
         memo,
         status: 'PENDING',
+        deletedAt: null,
         items: {
           create: items,
         },
@@ -261,8 +263,9 @@ export const approvePackageRentalRequest = async (id) => {
     where: {
       id,
       status: 'PENDING',
+      deletedAt: null,
     },
-    data: { status: 'APPROVED' },
+    data: { status: 'APPROVED', deletedAt: null },
   });
   if (updated.count === 0) {
     throw new CustomError(
@@ -274,7 +277,7 @@ export const approvePackageRentalRequest = async (id) => {
 
   // 상세 정보 조회 (패키지, 대여자, 상품, 소유주)
   const request = await prisma.packageRentalRequest.findUnique({
-    where: { id },
+    where: { id, deletedAt: null },
     include: {
       user: true,
       package: true,
@@ -371,7 +374,7 @@ export const cancelPackageRentalRequest = async (
 ) => {
   // 패키지 대여 요청 조회
   const packageRentalRequest = await prisma.packageRentalRequest.findUnique({
-    where: { id: packageRentalRequestId },
+    where: { id: packageRentalRequestId, deletedAt: null },
     include: {
       user: true,
       package: true,
@@ -417,8 +420,9 @@ export const cancelPackageRentalRequest = async (
       where: {
         id: packageRentalRequestId,
         status: { in: ['PENDING', 'APPROVED'] },
+        deletedAt: null,
       },
-      data: { status: 'CANCELED' },
+      data: { status: 'CANCELED', deletedAt: new Date() },
     });
     if (updated.count === 0) {
       throw new CustomError(
@@ -533,7 +537,7 @@ export const rejectPackageRentalRequestByAdmin = async (
 ) => {
   // 패키지 대여 요청 조회
   const packageRentalRequest = await prisma.packageRentalRequest.findUnique({
-    where: { id: packageRentalRequestId },
+    where: { id: packageRentalRequestId, deletedAt: null },
     include: {
       user: true,
       package: true,
@@ -562,8 +566,9 @@ export const rejectPackageRentalRequestByAdmin = async (
       where: {
         id: packageRentalRequestId,
         status: { in: ['PENDING', 'APPROVED'] },
+        deletedAt: null,
       },
-      data: { status: 'REJECTED' },
+      data: { status: 'REJECTED', deletedAt: new Date() },
     });
     if (updated.count === 0) {
       throw new CustomError(
