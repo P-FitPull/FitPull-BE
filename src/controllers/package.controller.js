@@ -12,12 +12,12 @@ export const createPackageController = async (req, res, next) => {
   try {
     const { title, description, productIds, isFeatured, discountRate } =
       req.body;
-    const createdBy = req.user.id;
+    const userId = req.user.id;
     const result = await createPackage({
       title,
       description,
       productIds,
-      createdBy,
+      userId,
       isFeatured,
       discountRate,
       userRole: req.user.role,

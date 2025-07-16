@@ -318,8 +318,8 @@ model Package {
   id                     String                   @id @default(uuid())
   title                  String
   description            String?                  @db.Text
-  createdBy              String
-  creator                User                     @relation(fields: [createdBy], references: [id])
+  userId                 String
+  user                   User                     @relation(fields: [userId], references: [id])
   isFeatured             Boolean                  @default(false)
   createdAt              DateTime                 @default(now()) @map("created_at")
   updatedAt              DateTime                 @updatedAt @map("updated_at")

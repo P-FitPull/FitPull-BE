@@ -47,5 +47,7 @@ export const getProductsByIdsRepo = async (ids) => {
 };
 
 export const deletePackageItemsByPackageIdRepo = async (packageId) => {
-  return await prisma.packageItem.deleteMany({ where: { packageId } });
+  return await prisma.packageItem.deleteMany({
+    where: { packageId },
+  });
 };
