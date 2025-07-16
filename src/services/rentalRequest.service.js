@@ -158,6 +158,7 @@ export const createRentalRequestWithPayment = async (
           status: { in: ['PENDING', 'APPROVED'] },
           startDate: { lte: new Date(endDate) },
           endDate: { gte: new Date(startDate) },
+          deletedAt: null,
         },
       });
       if (exists) {
@@ -186,6 +187,7 @@ export const createRentalRequestWithPayment = async (
           memo,
           totalPrice,
           status: 'PENDING',
+          deletedAt: null,
         },
       });
 
@@ -386,8 +388,9 @@ export const cancelRentalRequest = async (
       where: {
         id: rentalRequestId,
         status: { in: ['PENDING', 'APPROVED'] },
+        deletedAt: null,
       },
-      data: { status: 'CANCELED' },
+      data: { status: 'CANCELED', deletedAt: new Date() },
     });
     if (updated.count === 0) {
       throw new CustomError(
@@ -507,8 +510,9 @@ export const rejectRentalRequestByAdmin = async (
       where: {
         id: rentalRequestId,
         status: { in: ['PENDING', 'APPROVED'] },
+        deletedAt: null,
       },
-      data: { status: 'REJECTED' },
+      data: { status: 'REJECTED', deletedAt: new Date() },
     });
     if (updated.count === 0) {
       throw new CustomError(
