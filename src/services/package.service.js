@@ -14,7 +14,7 @@ export const createPackage = async ({
   title,
   description,
   productIds,
-  createdBy,
+  userId,
   isFeatured = false,
   userRole,
 }) => {
@@ -83,7 +83,7 @@ export const createPackage = async ({
       data: {
         title,
         description,
-        createdBy,
+        userId,
         isFeatured,
       },
     });
@@ -144,7 +144,7 @@ export const updatePackage = async (id, data, userId, userRole) => {
   }
 
   // 등록자만 수정 가능
-  if (existing.createdBy !== userId) {
+  if (existing.userId !== userId) {
     throw new CustomError(403, 'NO_PERMISSION', PACKAGE_MESSAGES.NO_PERMISSION);
   }
 
