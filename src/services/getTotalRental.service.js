@@ -1,7 +1,7 @@
 import {
   getTotalRentalRequestsByUserRepo,
   getTotalRentalRequestsForAdminRepo,
-} from '../repositories/getTotalRentalRequest.repository.js';
+} from '../repositories/getTotalRental.repository.js';
 import { RENTAL_REQUEST_MESSAGES } from '../constants/messages.js';
 import CustomError from '../utils/customError.js';
 

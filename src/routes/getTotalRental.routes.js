@@ -2,7 +2,7 @@ import express from 'express';
 import {
   getTotalRentalRequestsByUserController,
   getTotalRentalRequestsForAdminController,
-} from '../controllers/getTotalRentalRequest.controller.js';
+} from '../controllers/getTotalRental.controller.js';
 import { authenticate } from '../middlewares/auth.js';
 import { adminOnly } from '../middlewares/adminOnly.js';
 

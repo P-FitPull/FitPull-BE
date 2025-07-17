@@ -1,7 +1,7 @@
 import {
   getTotalRentalRequestsByUser,
   getTotalRentalRequestsForAdmin,
-} from '../services/getTotalRentalRequest.service.js';
+} from '../services/getTotalRental.service.js';
 import { success } from '../utils/responseHandler.js';
 import { RENTAL_REQUEST_MESSAGES } from '../constants/messages.js';
 

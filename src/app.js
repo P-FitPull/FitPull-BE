@@ -19,7 +19,7 @@ import purchaseRouter from './routes/purchase.routes.js';
 import influencerPromoRouter from './routes/influencerPromo.routes.js';
 import packageRouter from './routes/package.routes.js';
 import packageRentalRequestRouter from './routes/packageRentalRequest.routes.js';
-import getTotalRentalRequestRouter from './routes/getTotalRentalRequest.routes.js';
+import getTotalRentalRouter from './routes/getTotalRental.routes.js';
 import packageCompletedRentalRouter from './routes/packageCompletedRental.routes.js';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './docs/swagger.js';
@@ -72,7 +72,7 @@ app.use('/api', purchaseRouter);
 app.use('/api/influencer-promos', influencerPromoRouter);
 app.use('/api/packages', packageRouter);
 app.use('/api/package-rental-requests', packageRentalRequestRouter);
-app.use('/api/total-rental-requests', getTotalRentalRequestRouter);
+app.use('/api/total-rental-requests', getTotalRentalRouter);
 app.use('/api/package-completed-rentals', packageCompletedRentalRouter);
 
 // 기본 라우트
