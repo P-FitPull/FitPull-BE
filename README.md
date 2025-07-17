@@ -63,6 +63,7 @@ FitPull Overflow는 "자신에게 꼭 맞는 모든 것을 대여한다"는 컨�
  ┃ ┣ 📜auth.controller.js
  ┃ ┣ 📜category.controller.js
  ┃ ┣ 📜completedRental.controller.js
+ ┃ ┣ 📜getTotalRental.controller.js
  ┃ ┣ 📜influencerPromo.controller.js
  ┃ ┣ 📜message.controller.js
  ┃ ┣ 📜notification.controller.js
@@ -91,6 +92,7 @@ FitPull Overflow는 "자신에게 꼭 맞는 모든 것을 대여한다"는 컨�
  ┃ ┣ 📜auth.repository.js
  ┃ ┣ 📜category.repository.js
  ┃ ┣ 📜completedRental.repository.js
+ ┃ ┣ 📜getTotalRental.repository.js
  ┃ ┣ 📜influencerPromo.repository.js
  ┃ ┣ 📜message.repository.js
  ┃ ┣ 📜notification.repository.js
@@ -109,6 +111,7 @@ FitPull Overflow는 "자신에게 꼭 맞는 모든 것을 대여한다"는 컨�
  ┃ ┣ 📜auth.routes.js
  ┃ ┣ 📜category.routes.js
  ┃ ┣ 📜completedRental.routes.js
+ ┃ ┣ 📜getTotalRental.routes.js
  ┃ ┣ 📜influencerPromo.routes.js
  ┃ ┣ 📜message.routes.js
  ┃ ┣ 📜notification.routes.js
@@ -127,6 +130,7 @@ FitPull Overflow는 "자신에게 꼭 맞는 모든 것을 대여한다"는 컨�
  ┃ ┣ 📜auth.service.js
  ┃ ┣ 📜category.service.js
  ┃ ┣ 📜completedRental.service.js
+ ┃ ┣ 📜getTotalRental.service.js
  ┃ ┣ 📜influencerPromo.service.js
  ┃ ┣ 📜message.service.js
  ┃ ┣ 📜notification.service.js
