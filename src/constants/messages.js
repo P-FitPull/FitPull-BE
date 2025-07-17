@@ -309,4 +309,6 @@ export const PACKAGE_MESSAGES = {
   PACKAGE_RENTAL_COMPLETED: '패키지 대여가 완료되었습니다.',
   PACKAGE_RENTAL_COMPLETED_LISTED: '패키지 대여 완료 목록 조회 성공',
   ALL_PACKAGE_RENTAL_COMPLETED_LISTED: '전체 패키지 대여 완료 목록 조회 성공',
+  INVALID_RECEIVE_METHOD:
+    '수령 방법이 올바르지 않습니다. (DIRECT 또는 PARCEL만 허용)',
 };

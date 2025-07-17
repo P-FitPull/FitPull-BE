@@ -29,6 +29,16 @@ export const createPackageRentalRequest = async ({
   howToReceive,
   memo,
 }) => {
+  // howToReceive 값 검증
+  const validMethods = ['DIRECT', 'PARCEL'];
+  if (!validMethods.includes(howToReceive)) {
+    throw new CustomError(
+      400,
+      'INVALID_RECEIVE_METHOD',
+      PACKAGE_MESSAGES.INVALID_RECEIVE_METHOD,
+    );
+  }
+
   //패키지, 유저, 상품 정보 검증
   const pkg = await getPackageByIdRepo(packageId);
   if (!pkg)
@@ -204,6 +214,7 @@ export const createPackageRentalRequest = async ({
         memo,
         status: 'PENDING',
         deletedAt: null,
+        howToReceive,
         items: {
           create: items,
         },
