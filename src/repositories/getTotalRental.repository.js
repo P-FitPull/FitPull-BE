@@ -40,3 +40,40 @@ export const getTotalRentalRequestsForAdminRepo = async (status) => {
 
   return { rentalRequests, packageRentalRequests };
 };
+
+// 유저의 단건/패키지 완료 대여를 모두 조회
+export const getTotalCompletedRentalsByUserRepo = async (userId) => {
+  // 단건 완료 대여
+  const completedRentals = await prisma.completedRental.findMany({
+    where: { userId, deletedAt: null },
+    include: { product: true },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  // 패키지 완료 대여
+  const packageCompletedRentals = await prisma.packageCompletedRental.findMany({
+    where: { userId },
+    include: { package: true },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  return { completedRentals, packageCompletedRentals };
+};
+
+// 어드민용: 전체 단건/패키지 완료 대여 쿼리로 조회
+export const getTotalCompletedRentalsForAdminRepo = async () => {
+  // 단건 완료 대여
+  const completedRentals = await prisma.completedRental.findMany({
+    where: { deletedAt: null },
+    include: { product: true, user: true },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  // 패키지 완료 대여
+  const packageCompletedRentals = await prisma.packageCompletedRental.findMany({
+    include: { package: true, user: true },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  return { completedRentals, packageCompletedRentals };
+};

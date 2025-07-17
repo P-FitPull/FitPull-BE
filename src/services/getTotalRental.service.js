@@ -1,7 +1,9 @@
 import {
   getTotalRentalRequestsByUserRepo,
   getTotalRentalRequestsForAdminRepo,
-} from '../repositories/getTotalRentalRequest.repository.js';
+  getTotalCompletedRentalsByUserRepo,
+  getTotalCompletedRentalsForAdminRepo,
+} from '../repositories/getTotalRental.repository.js';
 import { RENTAL_REQUEST_MESSAGES } from '../constants/messages.js';
 import CustomError from '../utils/customError.js';
 
@@ -95,5 +97,74 @@ export const getTotalRentalRequestsForAdmin = async (status) => {
   const totalList = [...rentalList, ...packageList].sort(
     (a, b) => b.createdAt - a.createdAt,
   );
+  return totalList;
+};
+
+// 유저의 모든 완료 대여(단건+패키지) 통합 조회
+export const getTotalCompletedRentalsByUser = async (userId) => {
+  const { completedRentals, packageCompletedRentals } =
+    await getTotalCompletedRentalsByUserRepo(userId);
+
+  const singleList = completedRentals.map((rental) => ({
+    id: rental.id,
+    type: 'SINGLE',
+    rentalRequestId: rental.rentalRequestId,
+    title: rental.product?.title ?? '',
+    rentalPeriod: `${rental.startDate.toISOString().slice(0, 10)} ~ ${rental.endDate.toISOString().slice(0, 10)}`,
+    totalPrice: Number(rental.totalPrice),
+    createdAt: rental.createdAt,
+  }));
+
+  const packageList = packageCompletedRentals.map((rental) => ({
+    id: rental.id,
+    type: 'PACKAGE',
+    packageRentalRequestId: rental.packageRentalRequestId,
+    title: rental.package?.title ?? '',
+    rentalPeriod: `${rental.startDate.toISOString().slice(0, 10)} ~ ${rental.endDate.toISOString().slice(0, 10)}`,
+    totalPrice: Number(rental.totalPrice),
+    createdAt: rental.createdAt,
+  }));
+
+  // 통합 후 createdAt 기준 내림차순 정렬
+  const totalList = [...singleList, ...packageList].sort(
+    (a, b) => b.createdAt - a.createdAt,
+  );
+
+  return totalList;
+};
+
+// 어드민 전체 완료 대여(단건+패키지) 통합 조회
+export const getTotalCompletedRentalsForAdmin = async () => {
+  const { completedRentals, packageCompletedRentals } =
+    await getTotalCompletedRentalsForAdminRepo();
+
+  const singleList = completedRentals.map((rental) => ({
+    id: rental.id,
+    type: 'SINGLE',
+    rentalRequestId: rental.rentalRequestId,
+    title: rental.product?.title ?? '',
+    userName: rental.user?.name ?? '',
+    userPhone: rental.user?.phone ?? '',
+    rentalPeriod: `${rental.startDate.toISOString().slice(0, 10)} ~ ${rental.endDate.toISOString().slice(0, 10)}`,
+    totalPrice: Number(rental.totalPrice),
+    createdAt: rental.createdAt,
+  }));
+
+  const packageList = packageCompletedRentals.map((rental) => ({
+    id: rental.id,
+    type: 'PACKAGE',
+    packageRentalRequestId: rental.packageRentalRequestId,
+    title: rental.package?.title ?? '',
+    userName: rental.user?.name ?? '',
+    userPhone: rental.user?.phone ?? '',
+    rentalPeriod: `${rental.startDate.toISOString().slice(0, 10)} ~ ${rental.endDate.toISOString().slice(0, 10)}`,
+    totalPrice: Number(rental.totalPrice),
+    createdAt: rental.createdAt,
+  }));
+
+  const totalList = [...singleList, ...packageList].sort(
+    (a, b) => b.createdAt - a.createdAt,
+  );
+
   return totalList;
 };
