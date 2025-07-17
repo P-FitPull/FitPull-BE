@@ -72,7 +72,7 @@ app.use('/api', purchaseRouter);
 app.use('/api/influencer-promos', influencerPromoRouter);
 app.use('/api/packages', packageRouter);
 app.use('/api/package-rental-requests', packageRentalRequestRouter);
-app.use('/api/total-rental-requests', getTotalRentalRouter);
+app.use('/api/total-rentals', getTotalRentalRouter);
 app.use('/api/package-completed-rentals', packageCompletedRentalRouter);
 
 // 기본 라우트

@@ -2,6 +2,8 @@ import express from 'express';
 import {
   getTotalRentalRequestsByUserController,
   getTotalRentalRequestsForAdminController,
+  getTotalCompletedRentalsByUserController,
+  getTotalCompletedRentalsForAdminController,
 } from '../controllers/getTotalRental.controller.js';
 import { authenticate } from '../middlewares/auth.js';
 import { adminOnly } from '../middlewares/adminOnly.js';
@@ -131,6 +133,21 @@ router.get(
   authenticate,
   adminOnly,
   getTotalRentalRequestsForAdminController,
+);
+
+// 유저의 통합 완료 대여(단건+패키지) 조회
+router.get(
+  '/completed/my',
+  authenticate,
+  getTotalCompletedRentalsByUserController,
+);
+
+// 어드민 전체 완료 대여(단건+패키지) 조회
+router.get(
+  '/completed',
+  authenticate,
+  adminOnly,
+  getTotalCompletedRentalsForAdminController,
 );
 
 export default router;

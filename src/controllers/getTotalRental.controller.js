@@ -1,9 +1,14 @@
 import {
   getTotalRentalRequestsByUser,
   getTotalRentalRequestsForAdmin,
+  getTotalCompletedRentalsByUser,
+  getTotalCompletedRentalsForAdmin,
 } from '../services/getTotalRental.service.js';
 import { success } from '../utils/responseHandler.js';
-import { RENTAL_REQUEST_MESSAGES } from '../constants/messages.js';
+import {
+  RENTAL_REQUEST_MESSAGES,
+  COMPLETED_RENTAL_MESSAGES,
+} from '../constants/messages.js';
 
 // 유저의 통합 대여 요청 조회
 export const getTotalRentalRequestsByUserController = async (
@@ -37,6 +42,43 @@ export const getTotalRentalRequestsForAdminController = async (
     return success(res, message, {
       rentalRequests: result,
     });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// 유저의 통합 완료 대여(단건+패키지) 조회
+export const getTotalCompletedRentalsByUserController = async (
+  req,
+  res,
+  next,
+) => {
+  try {
+    const userId = req.user.id;
+    const result = await getTotalCompletedRentalsByUser(userId);
+    return success(res, COMPLETED_RENTAL_MESSAGES.MY_COMPLETED_RENTALS_LISTED, {
+      completedRentals: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// 어드민 전체 완료 대여(단건+패키지) 조회
+export const getTotalCompletedRentalsForAdminController = async (
+  _req,
+  res,
+  next,
+) => {
+  try {
+    const result = await getTotalCompletedRentalsForAdmin();
+    return success(
+      res,
+      COMPLETED_RENTAL_MESSAGES.ALL_COMPLETED_RENTALS_LISTED,
+      {
+        completedRentals: result,
+      },
+    );
   } catch (err) {
     next(err);
   }
