@@ -265,6 +265,7 @@ export const PRODUCT_MESSAGES = {
   ALREADY_CANCELED_OR_INVALID: '이미 취소되었거나 구매 예약 상태가 아닙니다.',
   INVALID_DAYS: '유효한 날짜를 입력해주세요.',
   PRODUCT_STORAGE_FEE_LISTED: '보관료 부과 대상 상품 조회 성공',
+  INVALID_ALLOW_PURCHASE: 'allowPurchase는 boolean 값이어야 합니다.',
 };
 
 export const CATEGORY_MESSAGES = {
