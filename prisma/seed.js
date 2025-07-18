@@ -67,7 +67,10 @@ async function main() {
 
   // 인플루언서 계정 seeding
   const influencerUser = await prisma.user.findFirst({
-    where: { phone: INFLUENCER_PHONE },
+    where: {
+      phone: INFLUENCER_PHONE,
+      role: 'INFLUENCER',
+    },
   });
 
   if (!influencerUser) {
