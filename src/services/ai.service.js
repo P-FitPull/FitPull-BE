@@ -19,7 +19,23 @@ const openai = new OpenAI({
 //이미지 인식용 테스트용 프롬프트
 // - 그리고 이미지에 보이는 특징(색상, 브랜드, 상태 등)을 한 문장으로 reason에 포함해줘
 
-export const estimatePriceFromAI = async (product) => {
+export const requestAiPriceEstimation = async ({ productId, adminUser }) => {
+  const product = await findProductByIdRepo(productId);
+  if (!product) {
+    throw new CustomError(
+      404,
+      'PRODUCT_NOT_FOUND',
+      AI_MESSAGES.PRODUCT_NOT_FOUND,
+    );
+  }
+  if (product.status !== 'PENDING') {
+    throw new CustomError(
+      400,
+      'INVALID_PRODUCT_STATUS',
+      AI_MESSAGES.INVALID_PRODUCT_STATUS,
+    );
+  }
+
   const { title, description, price, imageUrls } = product;
   const prompt = `
 너는 대여 가격 전문가야.
@@ -90,27 +106,8 @@ export const estimatePriceFromAI = async (product) => {
       `AI 응답을 파싱하는 데 실패했습니다. 실제 응답: ${contentRaw}`,
     );
   }
-  return parsed;
-};
 
-export const requestAiPriceEstimation = async ({ productId, adminUser }) => {
-  const product = await findProductByIdRepo(productId);
-  if (!product) {
-    throw new CustomError(
-      404,
-      'PRODUCT_NOT_FOUND',
-      AI_MESSAGES.PRODUCT_NOT_FOUND,
-    );
-  }
-  if (product.status !== 'PENDING') {
-    throw new CustomError(
-      400,
-      'INVALID_PRODUCT_STATUS',
-      AI_MESSAGES.INVALID_PRODUCT_STATUS,
-    );
-  }
-  const result = await estimatePriceFromAI(product);
-  const { dailyRentalPrice, sources, isValid, reason, ...rest } = result;
+  const { dailyRentalPrice, sources, isValid, reason, ...rest } = parsed;
   await saveAiPriceEstimation({
     ...rest,
     estimatedDailyRentalPrice: dailyRentalPrice,
@@ -121,7 +118,7 @@ export const requestAiPriceEstimation = async ({ productId, adminUser }) => {
     productId,
     userId: adminUser.id,
   });
-  return result;
+  return parsed;
 };
 
 export const summarizeReviews = async (productId) => {
