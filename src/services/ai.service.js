@@ -19,6 +19,158 @@ const openai = new OpenAI({
 //이미지 인식용 테스트용 프롬프트
 // - 그리고 이미지에 보이는 특징(색상, 브랜드, 상태 등)을 한 문장으로 reason에 포함해줘
 
+// 백그라운드에서 AI 가격 추정을 처리하는 함수
+const processAiPriceEstimation = async ({ productId, adminUser }) => {
+  try {
+    const product = await findProductByIdRepo(productId);
+    if (!product) {
+      console.error(`Product not found: ${productId}`);
+      return;
+    }
+    if (product.status !== 'PENDING') {
+      console.error(`Invalid product status: ${product.status}`);
+      return;
+    }
+
+    const { title, description, price, imageUrls } = product;
+
+    // 이미지 URL 검증
+    const validImageUrl =
+      imageUrls?.length > 0 && imageUrls[0]?.startsWith('http')
+        ? imageUrls[0]
+        : null;
+
+    const prompt = `
+당신은 대여 가격 전문가입니다. 주어진 상품 정보를 바탕으로 적정한 대여 가격을 추정해주세요.
+
+상품 정보:
+- 상품명: ${title}
+- 설명: ${description ?? '설명 없음'}
+- 유저가 입력한 1일 대여 가격: ${price ?? '입력 없음'}
+${validImageUrl ? '- 이미지가 첨부되어 있습니다. 이미지도 참고하여 분석해주세요.' : '- 이미지가 없으므로 상품명과 설명만으로 분석해주세요.'}
+
+다음 기준에 따라 분석해주세요:
+1. 쿠팡, 당근마켓, 중고나라의 중고 판매 가격을 각각 추정
+2. 세 플랫폼의 평균 가격을 기준으로 1일 대여 적정가 계산 (일반적으로 1~5% 수준)
+3. 제품의 파손 위험, 시장 수요, 대체재 여부 등을 고려하여 유연하게 판단
+4. 유저가 제시한 가격이 적정가 대비 20% 이상 차이날 경우 부적절하다고 판단
+
+반드시 아래 JSON 형식으로만 응답해주세요:
+
+{
+  "dailyRentalPrice": 정수,
+  "sources": {
+    "쿠팡": 정수,
+    "당근마켓": 정수,
+    "중고나라": 정수
+  },
+  "isValid": true/false,
+  "reason": "유저 가격의 적정성에 대한 한 문장 설명"
+}
+    `;
+
+    // 멀티모달 메시지 구성
+    const messages = [
+      {
+        role: 'user',
+        content: [
+          { type: 'text', text: prompt },
+          ...(validImageUrl
+            ? [{ type: 'image_url', image_url: { url: validImageUrl } }]
+            : []),
+        ],
+      },
+    ];
+
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages,
+      temperature: 0.3,
+      max_tokens: 1000,
+    });
+
+    const contentRaw = completion.choices[0].message.content;
+
+    // AI가 거부하는 경우 처리
+    if (
+      contentRaw.includes("I'm sorry") ||
+      contentRaw.includes("can't assist") ||
+      contentRaw.includes('I cannot')
+    ) {
+      console.error('AI rejected request for product:', productId);
+      return;
+    }
+
+    let content = contentRaw;
+
+    // JSON 블록 추출 (```json ... ``` 또는 ``` ... ```)
+    const jsonMatch = content.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+    if (jsonMatch) {
+      content = jsonMatch[1].trim();
+    } else {
+      // JSON 블록이 없으면 전체 내용에서 JSON 부분만 추출
+      const jsonStart = content.indexOf('{');
+      const jsonEnd = content.lastIndexOf('}');
+      if (jsonStart !== -1 && jsonEnd !== -1 && jsonEnd > jsonStart) {
+        content = content.substring(jsonStart, jsonEnd + 1);
+      }
+    }
+
+    let parsed;
+    try {
+      parsed = JSON.parse(content);
+    } catch (parseErr) {
+      console.error(
+        'AI parse error for product:',
+        productId,
+        'Response:',
+        contentRaw,
+      );
+      return;
+    }
+
+    // 필수 필드 검증
+    if (
+      !parsed.dailyRentalPrice ||
+      !parsed.sources ||
+      typeof parsed.isValid !== 'boolean' ||
+      !parsed.reason
+    ) {
+      console.error(
+        'AI invalid response for product:',
+        productId,
+        'Response:',
+        contentRaw,
+      );
+      return;
+    }
+
+    // AI 응답에서 필요한 필드만 추출
+    const { dailyRentalPrice, sources, isValid, reason } = parsed;
+
+    // 필요한 필드만 명시적으로 전달
+    const estimationData = {
+      estimatedDailyRentalPrice: dailyRentalPrice,
+      estimatedPrice: dailyRentalPrice,
+      sources: sources || {},
+      isValid: isValid || false,
+      reason: reason || '',
+      productId,
+      userId: adminUser.id,
+    };
+
+    await saveAiPriceEstimation(estimationData);
+    console.log('AI price estimation completed for product:', productId);
+  } catch (error) {
+    console.error(
+      'AI price estimation failed for product:',
+      productId,
+      'Error:',
+      error.message,
+    );
+  }
+};
+
 export const requestAiPriceEstimation = async ({ productId, adminUser }) => {
   const product = await findProductByIdRepo(productId);
   if (!product) {
@@ -36,89 +188,16 @@ export const requestAiPriceEstimation = async ({ productId, adminUser }) => {
     );
   }
 
-  const { title, description, price, imageUrls } = product;
-  const prompt = `
-너는 대여 가격 전문가야.
-
-다음 상품의 이름, 설명, 유저가 입력한 1일 대여 가격, 그리고 이미지를 기반으로
-1) 중고가 기준 1일 대여 적정가를 추정하고,
-2) 유저가 입력한 가격이 적정한지 true/false로 판단하고,
-3) 이유를 한 문장으로 설명해줘.
-
-다음 기준을 따르도록 해:
-- 쿠팡, 당근마켓, 중고나라의 중고 판매 가격을 각기 추정해줘 , 이걸 기반으로 너가 판단하는 적정가는 얼마인지도 적어줘
-- 이 세 개의 평균 가격을 기준으로 1일 대여가는 일반적으로 1~5% 수준이 적정하다고 생각해
-- 단, 제품의 파손 위험, 시장 수요, 대체재 여부 등을 고려해 적정가를 유연하게 판단해도 돼
-- 유저가 제시한 가격이 적정가 대비 20% 이상 차이 날 경우 부적절하다고 판단해
-- 최종적으로 왜 true/false 인지 이유도 간결하게 말해줘
-
-응답은 반드시 아래 형식의 JSON으로만 해줘:
-
-{
-  "dailyRentalPrice": 정수,
-  "sources": {
-    "쿠팡": 정수,
-    "당근마켓": 정수,
-    "중고나라": 정수
-  },
-  "isValid": true/false,
-  "reason": "유저 가격의 적정성에 대한 한 문장 설명"
-}
-
-상품명: ${title}
-설명: ${description ?? '설명 없음'}
-유저가 입력한 1일 대여 가격: ${price ?? '입력 없음'}
-  `;
-
-  // 멀티모달 메시지 구성
-  const messages = [
-    {
-      role: 'user',
-      content: [
-        { type: 'text', text: prompt },
-        ...(imageUrls?.length
-          ? [{ type: 'image_url', image_url: { url: imageUrls[0] } }]
-          : []),
-      ],
-    },
-  ];
-
-  const completion = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    messages,
-    temperature: 0.3,
+  // 백그라운드에서 AI 가격 추정 시작
+  processAiPriceEstimation({ productId, adminUser }).catch((error) => {
+    console.error('Background AI processing error:', error);
   });
-  const contentRaw = completion.choices[0].message.content;
-  let content = contentRaw;
-  if (content.startsWith('```')) {
-    content = content
-      .replace(/```[a-zA-Z]*\n?/, '')
-      .replace(/```/, '')
-      .trim();
-  }
-  let parsed;
-  try {
-    parsed = JSON.parse(content);
-  } catch (err) {
-    throw new CustomError(
-      500,
-      'AI_PARSE_ERROR',
-      `AI 응답을 파싱하는 데 실패했습니다. 실제 응답: ${contentRaw}`,
-    );
-  }
 
-  const { dailyRentalPrice, sources, isValid, reason, ...rest } = parsed;
-  await saveAiPriceEstimation({
-    ...rest,
-    estimatedDailyRentalPrice: dailyRentalPrice,
-    estimatedPrice: dailyRentalPrice,
-    sources,
-    isValid,
-    reason,
+  return {
+    message: AI_MESSAGES.PRICE_ESTIMATION_STARTED,
     productId,
-    userId: adminUser.id,
-  });
-  return parsed;
+    status: 'processing',
+  };
 };
 
 export const summarizeReviews = async (productId) => {

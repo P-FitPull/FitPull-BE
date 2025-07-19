@@ -47,6 +47,7 @@ export const AI_MESSAGES = {
   NO_PRODUCTS: '추천할 상품이 없습니다.',
   TOO_MANY_REQUESTS: '인증번호 요청은 잠시 후 다시 시도해주세요.',
   PRICE_ESTIMATION_SUCCESS: 'AI 적정가 분석 완료',
+  PRICE_ESTIMATION_STARTED: '상품 추정 가격 분석이 진행중입니다.',
   REVIEW_SUMMARY_SUCCESS: '리뷰 요약 완료',
   PRODUCT_RECOMMENDATION_SUCCESS: '상품 추천 완료',
   PRODUCT_NOT_FOUND: '상품을 찾을 수 없습니다.',

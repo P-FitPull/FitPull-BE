@@ -13,7 +13,7 @@ export const requestAiPriceEstimationController = async (req, res, next) => {
 
     const result = await requestAiPriceEstimation({ productId, adminUser });
 
-    return success(res, AI_MESSAGES.PRICE_ESTIMATION_SUCCESS, result);
+    return success(res, result.message, result);
   } catch (err) {
     next(err);
   }
