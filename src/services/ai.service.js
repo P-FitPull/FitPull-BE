@@ -42,32 +42,70 @@ const processAiPriceEstimation = async ({ productId, adminUser }) => {
         : null;
 
     const prompt = `
-당신은 대여 가격 전문가입니다. 주어진 상품 정보를 바탕으로 적정한 대여 가격을 추정해주세요.
+You are an expert rental price analyst specializing in the Korean market. Your task is to analyze product information and estimate appropriate daily rental prices based on current market conditions.
 
-상품 정보:
-- 상품명: ${title}
-- 설명: ${description ?? '설명 없음'}
-- 유저가 입력한 1일 대여 가격: ${price ?? '입력 없음'}
-${validImageUrl ? '- 이미지가 첨부되어 있습니다. 이미지도 참고하여 분석해주세요.' : '- 이미지가 없으므로 상품명과 설명만으로 분석해주세요.'}
+## Product Information
+- Product Name: ${title}
+- Description: ${description ?? 'No description'}
+- User's suggested daily rental price: ${price ?? 'Not provided'}
+${validImageUrl ? '- Image is attached. Please analyze considering the visual characteristics as well.' : '- No image available. Analyze based on product name and description only.'}
 
-다음 기준에 따라 분석해주세요:
-1. 쿠팡, 당근마켓, 중고나라의 중고 판매 가격을 각각 추정
-2. 세 플랫폼의 평균 가격을 기준으로 1일 대여 적정가 계산 (일반적으로 1~5% 수준)
-3. 제품의 파손 위험, 시장 수요, 대체재 여부 등을 고려하여 유연하게 판단
-4. 유저가 제시한 가격이 적정가 대비 20% 이상 차이날 경우 부적절하다고 판단
+## Analysis Guidelines
 
-반드시 아래 JSON 형식으로만 응답해주세요:
+### 1. Market Price Estimation
+- Research and estimate used market prices for each platform:
+  * Coupang (쿠팡): Major e-commerce platform, focus on used goods section
+  * Danggeun Market (당근마켓): Local marketplace, often lower prices
+  * Junggonara (중고나라): Traditional used goods platform
+- Consider product condition, age, and market demand
+- Use realistic price ranges based on current market trends
+
+### 2. Daily Rental Price Calculation
+- Base calculation: 1-5% of the average market price
+- Adjust based on factors:
+  * High-value items (>500,000 KRW): 0.5-2% of market price
+  * Mid-value items (100,000-500,000 KRW): 1-3% of market price
+  * Low-value items (<100,000 KRW): 2-5% of market price
+- Consider rental duration flexibility and demand patterns
+
+### 3. Risk Assessment Factors
+- Product fragility and damage potential
+- Market demand and seasonal trends
+- Availability of similar products
+- Brand reputation and reliability
+- Maintenance requirements
+
+### 4. Price Validation
+- Compare user's suggested price with calculated estimate
+- Mark as invalid if user's price is more than 50% higher than estimated price
+- Mark as valid if user's price is 70% or less of estimated price (good deal for renters)
+- Consider market volatility and acceptable price ranges
+
+### 5. Response Requirements
+- Provide specific, actionable reasoning
+- Include market context in explanation
+- Ensure all numerical values are integers
+- Maintain consistency in pricing logic
+
+## Output Format
+Respond ONLY in the following JSON format:
 
 {
-  "dailyRentalPrice": 정수,
+  "dailyRentalPrice": integer,
   "sources": {
-    "쿠팡": 정수,
-    "당근마켓": 정수,
-    "중고나라": 정수
+    "쿠팡": integer,
+    "당근마켓": integer,
+    "중고나라": integer
   },
   "isValid": true/false,
-  "reason": "유저 가격의 적정성에 대한 한 문장 설명"
+  "reason": "한국어로 유저 가격의 적정성에 대한 구체적이고 명확한 설명 (시장 상황, 가격 비교, 추천 근거 포함)"
 }
+
+## Important Notes
+- All prices should be in Korean Won (KRW)
+- Daily rental price should be reasonable for both owner and renter
+- Consider the competitive rental market in Korea
+- Provide detailed reasoning for price validation decisions
     `;
 
     // 멀티모달 메시지 구성
@@ -247,28 +285,65 @@ export const recommendProducts = async ({ prompt, userId }) => {
     })
     .join('\n');
   const gptPrompt = `
-당신은 상품 추천 도우미입니다.
+You are an expert product recommendation assistant specializing in rental services. Your task is to analyze user requests and recommend the most suitable products from the available inventory.
 
-아래는 대여 가능한 상품 목록입니다.
-각 상품은 ID, 제목, 설명으로 구성되어 있습니다.
-
---- 상품 목록 ---
+## Available Products
+Below is a comprehensive list of rental products available in our system:
 ${itemsText}
 
---- 사용자 요청 ---
-"${prompt}"
+## User Request Analysis
+Request: "${prompt}"
 
-위 요청에 맞게 적절한 상품 3개를 추천해 주세요.
-단, 정말로 적합한 상품이 없다면 빈 배열([])로만 응답하세요.
+## Recommendation Guidelines
 
-추천할 때는 상품의 ID를 기준으로 출력하고, 간단한 추천 이유도 함께 작성하세요.
+### 1. Relevance Assessment
+- Analyze the user's specific needs and preferences
+- Consider product category, features, and use cases
+- Match request keywords with product descriptions
+- Prioritize products that directly address the user's requirements
 
-출력 형식 (JSON만 반환):
+### 2. Quality and Reliability
+- Consider product condition and reliability
+- Factor in brand reputation and user reviews
+- Assess rental history and availability
+- Prioritize products with good track records
+
+### 3. Value Proposition
+- Consider price-to-value ratio
+- Assess competitive advantages of each product
+- Factor in rental duration flexibility
+- Consider seasonal demand and availability
+
+### 4. Selection Criteria
+- Maximum 3 recommendations to avoid choice paralysis
+- Ensure diversity in recommendations when possible
+- Consider different price points if applicable
+- Focus on products that best match the request
+
+### 5. Response Quality
+- Provide specific, actionable reasoning for each recommendation
+- Include relevant product features that match the request
+- Consider user's potential use case and requirements
+- Ensure recommendations are practical and realistic
+
+## Output Requirements
+- Return exactly 3 products or empty array if no suitable matches
+- Use exact product IDs from the provided list
+- Provide detailed reasoning in Korean language
+- Focus on user benefits and practical advantages
+
+## Output Format
+Respond ONLY in the following JSON format:
+
 [
-  { "id": "상품ID", "reason": "추천 이유" },
+  { 
+    "id": "exact_product_id", 
+    "reason": "한국어로 구체적이고 명확한 추천 이유 (제품 특징, 사용자 요청과의 연관성, 실용적 장점 포함)" 
+  },
   ...
 ]
-적합한 상품이 없으면 [] 만 반환
+
+If no suitable products match the request, return: []
 `;
   const completion = await openai.chat.completions.create({
     model: 'gpt-4o',
