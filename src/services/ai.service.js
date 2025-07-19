@@ -6,6 +6,7 @@ import {
 import {
   saveAiPriceEstimation,
   saveAiProductRecommendation,
+  getRecentAiPriceEstimations,
 } from '../repositories/ai.repository.js';
 import { getReviewsByProductIdRepo } from '../repositories/review.repository.js';
 import CustomError from '../utils/customError.js';
@@ -296,4 +297,42 @@ ${itemsText}
     userId: userId ?? null,
   });
   return { recommendedProductIds, reason };
+};
+
+export const getRecentPriceEstimations = async ({ take = 20, skip = 0 }) => {
+  const estimations = await getRecentAiPriceEstimations({ take, skip });
+
+  // 각 상품별로 최신 결과만 필터링
+  const productMap = new Map();
+
+  estimations.forEach((estimation) => {
+    const productId = estimation.productId;
+
+    // 이미 해당 상품의 결과가 있으면 더 최신 것만 유지
+    if (
+      !productMap.has(productId) ||
+      productMap.get(productId).createdAt < estimation.createdAt
+    ) {
+      productMap.set(productId, estimation);
+    }
+  });
+
+  // Map의 값들을 배열로 변환하고 시간순 정렬
+  const uniqueEstimations = Array.from(productMap.values())
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, take);
+
+  return {
+    estimations: uniqueEstimations.map((estimation) => ({
+      id: estimation.id,
+      productId: estimation.productId,
+      productTitle: estimation.product.title,
+      estimatedPrice: estimation.estimatedPrice,
+      estimatedDailyRentalPrice: estimation.estimatedDailyRentalPrice,
+      isValid: estimation.isValid,
+      reason: estimation.reason,
+      sources: estimation.sources,
+      createdAt: estimation.createdAt,
+    })),
+  };
 };

@@ -52,6 +52,8 @@ export const AI_MESSAGES = {
   PRODUCT_RECOMMENDATION_SUCCESS: '상품 추천 완료',
   PRODUCT_NOT_FOUND: '상품을 찾을 수 없습니다.',
   REVIEW_NOT_FOUND: '리뷰를 찾을 수 없습니다.',
+  RECENT_PRICE_ESTIMATION_LIST_FETCHED:
+    '최근 AI 가격 추정 목록을 조회했습니다.',
 };
 
 export const PAYMENT_MESSAGES = {

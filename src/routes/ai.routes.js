@@ -5,6 +5,7 @@ import {
   requestAiPriceEstimationController,
   summarizeReviewsController,
   recommendProductsController,
+  getRecentPriceEstimationsController,
 } from '../controllers/ai.controller.js';
 
 const router = express.Router();
@@ -156,5 +157,8 @@ router.post('/summary/:productId', summarizeReviewsController);
 
 // 상품 추천
 router.post('/recommend', recommendProductsController);
+
+// 최근 AI 가격 추정 목록 조회
+router.get('/price-estimation/history', getRecentPriceEstimationsController);
 
 export default router;
