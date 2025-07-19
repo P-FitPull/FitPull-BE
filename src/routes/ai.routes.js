@@ -33,7 +33,7 @@ const router = express.Router();
  *         description: 상품 ID
  *     responses:
  *       200:
- *         description: AI 적정가 분석 시작 응답
+ *         description: AI 적정가 분석 시작 응답 (백그라운드에서 분석 진행)
  *         content:
  *           application/json:
  *             schema:
@@ -59,6 +59,14 @@ const router = express.Router();
  *         description: 잘못된 요청(상품 상태 등)
  *       404:
  *         description: 상품 없음
+ *     x-codeSamples:
+ *       - lang: 'JavaScript'
+ *         source: |
+ *           // 분석 완료 후 결과는 GET /api/ai/price-estimation/history로 조회
+ *           // isValid 판단 기준:
+ *           // - 사용자 가격 ≤ 추정가의 70%: true (대여자에게 좋은 거래)
+ *           // - 사용자 가격 > 추정가의 150%: false (너무 비쌈)
+ *           // - 그 사이: AI가 종합적으로 판단
  */
 /**
  * @swagger
@@ -190,8 +198,14 @@ const router = express.Router();
  *                             type: integer
  *                           isValid:
  *                             type: boolean
+ *                             description: |
+ *                               가격 적정성 판단 (true/false)
+ *                               - 사용자 가격 ≤ 추정가의 70%: true (대여자에게 좋은 거래)
+ *                               - 사용자 가격 > 추정가의 150%: false (너무 비쌈)
+ *                               - 그 사이: AI가 종합적으로 판단
  *                           reason:
  *                             type: string
+ *                             description: 가격 적정성에 대한 구체적 설명 (시장 상황, 가격 비교, 추천 근거 포함)
  *                           sources:
  *                             type: object
  *                             properties:
