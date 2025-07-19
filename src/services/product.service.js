@@ -51,8 +51,24 @@ export const createProduct = async (productData, user) => {
     throw new CustomError(400, 'INVALID_PRICE', PRODUCT_MESSAGES.INVALID_PRICE);
   }
 
+  // allowPurchase 값 검증 및 변환
+  let allowPurchase = false;
+  if (productData.allowPurchase !== undefined) {
+    if (typeof productData.allowPurchase === 'string') {
+      allowPurchase = productData.allowPurchase === 'true';
+    } else if (typeof productData.allowPurchase === 'boolean') {
+      allowPurchase = productData.allowPurchase;
+    } else {
+      throw new CustomError(
+        400,
+        'INVALID_ALLOW_PURCHASE',
+        PRODUCT_MESSAGES.INVALID_ALLOW_PURCHASE,
+      );
+    }
+  }
+
   // allowPurchase가 true인 경우 purchasePrice 검증
-  if (productData.allowPurchase) {
+  if (allowPurchase) {
     if (!productData.purchasePrice) {
       throw new CustomError(
         400,
@@ -116,7 +132,7 @@ export const createProduct = async (productData, user) => {
         ? Number(productData.purchasePrice)
         : null,
       imageUrls: productData.imageUrls || [],
-      allowPurchase: productData.allowPurchase || false,
+      allowPurchase: allowPurchase,
       categoryId,
       status,
     },
