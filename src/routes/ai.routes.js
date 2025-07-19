@@ -150,14 +150,14 @@ const router = express.Router();
  *         name: take
  *         schema:
  *           type: integer
- *           default: 20
- *         description: 조회할 개수 (기본값: 20)
+ *         description: 조회할 개수
+ *         example: 20
  *       - in: query
  *         name: skip
  *         schema:
  *           type: integer
- *           default: 0
- *         description: 건너뛸 개수 (페이지네이션용)
+ *         description: 건너뛸 개수
+ *         example: 0
  *     responses:
  *       200:
  *         description: 최근 AI 가격 추정 목록 반환
@@ -170,7 +170,6 @@ const router = express.Router();
  *                   type: boolean
  *                 message:
  *                   type: string
- *                   example: "최근 AI 가격 추정 목록을 조회했습니다."
  *                 data:
  *                   type: object
  *                   properties:
