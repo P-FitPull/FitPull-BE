@@ -94,6 +94,8 @@ ${validImageUrl ? '- Image is attached. Please analyze considering the visual ch
 - Include market context in explanation
 - Ensure all numerical values are integers
 - Maintain consistency in pricing logic
+- **Always include the user's suggested price, the AI's estimated daily rental price, and the estimated used market price in your explanation. Clearly state whether the user's price is appropriate, too high, or too low compared to the AI's estimate.**
+- **Example: "유저가 제시한 가격 7,000원은 AI가 산출한 1일 대여 적정가 5,000원보다 40% 높아 적정가보다 비쌉니다."**
 
 ## Output Format
 Respond ONLY in the following JSON format:
@@ -418,6 +420,7 @@ export const getRecentPriceEstimations = async ({ take = 20, skip = 0 }) => {
       productTitle: estimation.product.title,
       estimatedPrice: estimation.estimatedPrice,
       estimatedDailyRentalPrice: estimation.estimatedDailyRentalPrice,
+      userPrice: estimation.product.price,
       isValid: estimation.isValid,
       reason: estimation.reason,
       sources: estimation.sources,
