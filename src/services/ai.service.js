@@ -238,7 +238,6 @@ export const requestAiPriceEstimation = async ({ productId, adminUser }) => {
   });
 
   return {
-    message: AI_MESSAGES.PRICE_ESTIMATION_STARTED,
     productId,
     status: 'processing',
   };
