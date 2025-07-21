@@ -48,7 +48,7 @@ const processAiPriceEstimation = async ({ productId, adminUser }) => {
         : null;
 
     const prompt = `
-You are an expert rental price analyst specializing in the Korean market. Your task is to analyze product information and estimate appropriate daily rental prices based on current market conditions.
+You are an expert rental price analyst specializing in the Korean market. Your task is to analyze product information and estimate both the average used market price and an appropriate daily rental price based on current market conditions.
 
 ## Product Information
 - Product Name: ${title}
@@ -65,14 +65,16 @@ ${validImageUrl ? '- Image is attached. Please analyze considering the visual ch
   * Junggonara (중고나라): Traditional used goods platform
 - Consider product condition, age, and market demand
 - Use realistic price ranges based on current market trends
+- Calculate and provide the average used market price as 'estimatedPrice'.
 
 ### 2. Daily Rental Price Calculation
-- Base calculation: 1-5% of the average market price
+- Base calculation: 1-5% of the average market price (estimatedPrice)
 - Adjust based on factors:
   * High-value items (>500,000 KRW): 0.5-2% of market price
   * Mid-value items (100,000-500,000 KRW): 1-3% of market price
   * Low-value items (<100,000 KRW): 2-5% of market price
 - Consider rental duration flexibility and demand patterns
+- Calculate and provide the daily rental price as 'estimatedDailyRentalPrice'.
 
 ### 3. Risk Assessment Factors
 - Product fragility and damage potential
@@ -83,8 +85,8 @@ ${validImageUrl ? '- Image is attached. Please analyze considering the visual ch
 
 ### 4. Price Validation
 - Compare user's suggested price with calculated estimate
-- Mark as invalid if user's price is more than 50% higher than estimated price
-- Mark as valid if user's price is 70% or less of estimated price (good deal for renters)
+- Mark as invalid if user's price is more than 50% higher than estimatedDailyRentalPrice
+- Mark as valid if user's price is 70% or less of estimatedDailyRentalPrice (good deal for renters)
 - Consider market volatility and acceptable price ranges
 
 ### 5. Response Requirements
@@ -97,7 +99,8 @@ ${validImageUrl ? '- Image is attached. Please analyze considering the visual ch
 Respond ONLY in the following JSON format:
 
 {
-  "dailyRentalPrice": integer,
+  "estimatedPrice": integer, // AI가 판단한 중고 시세(평균)
+  "estimatedDailyRentalPrice": integer, // 위 시세를 기반으로 계산한 1일 대여 적정가
   "sources": {
     "쿠팡": integer,
     "당근마켓": integer,
@@ -173,7 +176,8 @@ Respond ONLY in the following JSON format:
 
     // 필수 필드 검증
     if (
-      !parsed.dailyRentalPrice ||
+      !parsed.estimatedPrice ||
+      !parsed.estimatedDailyRentalPrice ||
       !parsed.sources ||
       typeof parsed.isValid !== 'boolean' ||
       !parsed.reason
@@ -186,12 +190,18 @@ Respond ONLY in the following JSON format:
     }
 
     // AI 응답에서 필요한 필드만 추출
-    const { dailyRentalPrice, sources, isValid, reason } = parsed;
+    const {
+      estimatedPrice,
+      estimatedDailyRentalPrice,
+      sources,
+      isValid,
+      reason,
+    } = parsed;
 
     // 필요한 필드만 명시적으로 전달
     const estimationData = {
-      estimatedDailyRentalPrice: dailyRentalPrice,
-      estimatedPrice: dailyRentalPrice,
+      estimatedDailyRentalPrice,
+      estimatedPrice,
       sources: sources || {},
       isValid: isValid || false,
       reason: reason || '',
