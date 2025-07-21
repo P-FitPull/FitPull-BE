@@ -153,6 +153,8 @@ const router = express.Router();
  *   get:
  *     summary: 최근 AI 가격 추정 목록 조회
  *     tags: [AI]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: take
@@ -234,6 +236,11 @@ router.post('/summary/:productId', summarizeReviewsController);
 router.post('/recommend', recommendProductsController);
 
 // 최근 AI 가격 추정 목록 조회
-router.get('/price-estimation/history', getRecentPriceEstimationsController);
+router.get(
+  '/price-estimation/history',
+  authenticate,
+  adminOnly,
+  getRecentPriceEstimationsController,
+);
 
 export default router;
