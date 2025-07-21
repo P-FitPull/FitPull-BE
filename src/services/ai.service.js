@@ -25,12 +25,18 @@ const processAiPriceEstimation = async ({ productId, adminUser }) => {
   try {
     const product = await findProductByIdRepo(productId);
     if (!product) {
-      console.error(`Product not found: ${productId}`);
-      return;
+      throw new CustomError(
+        404,
+        'PRODUCT_NOT_FOUND',
+        AI_MESSAGES.PRODUCT_NOT_FOUND,
+      );
     }
     if (product.status !== 'PENDING') {
-      console.error(`Invalid product status: ${product.status}`);
-      return;
+      throw new CustomError(
+        400,
+        'INVALID_PRODUCT_STATUS',
+        AI_MESSAGES.INVALID_PRODUCT_STATUS,
+      );
     }
 
     const { title, description, price, imageUrls } = product;
@@ -42,7 +48,7 @@ const processAiPriceEstimation = async ({ productId, adminUser }) => {
         : null;
 
     const prompt = `
-You are an expert rental price analyst specializing in the Korean market. Your task is to analyze product information and estimate appropriate daily rental prices based on current market conditions.
+You are an expert rental price analyst specializing in the Korean market. Your task is to analyze product information and estimate both the average used market price and an appropriate daily rental price based on current market conditions.
 
 ## Product Information
 - Product Name: ${title}
@@ -59,14 +65,16 @@ ${validImageUrl ? '- Image is attached. Please analyze considering the visual ch
   * Junggonara (중고나라): Traditional used goods platform
 - Consider product condition, age, and market demand
 - Use realistic price ranges based on current market trends
+- Calculate and provide the average used market price as 'estimatedPrice'.
 
 ### 2. Daily Rental Price Calculation
-- Base calculation: 1-5% of the average market price
+- Base calculation: 1-5% of the average market price (estimatedPrice)
 - Adjust based on factors:
   * High-value items (>500,000 KRW): 0.5-2% of market price
   * Mid-value items (100,000-500,000 KRW): 1-3% of market price
   * Low-value items (<100,000 KRW): 2-5% of market price
 - Consider rental duration flexibility and demand patterns
+- Calculate and provide the daily rental price as 'estimatedDailyRentalPrice'.
 
 ### 3. Risk Assessment Factors
 - Product fragility and damage potential
@@ -77,8 +85,8 @@ ${validImageUrl ? '- Image is attached. Please analyze considering the visual ch
 
 ### 4. Price Validation
 - Compare user's suggested price with calculated estimate
-- Mark as invalid if user's price is more than 50% higher than estimated price
-- Mark as valid if user's price is 70% or less of estimated price (good deal for renters)
+- Mark as invalid if user's price is more than 50% higher than estimatedDailyRentalPrice
+- Mark as valid if user's price is 70% or less of estimatedDailyRentalPrice (good deal for renters)
 - Consider market volatility and acceptable price ranges
 
 ### 5. Response Requirements
@@ -86,12 +94,15 @@ ${validImageUrl ? '- Image is attached. Please analyze considering the visual ch
 - Include market context in explanation
 - Ensure all numerical values are integers
 - Maintain consistency in pricing logic
+- **Always include the user's suggested price, the AI's estimated daily rental price, and the estimated used market price in your explanation. Clearly state whether the user's price is appropriate, too high, or too low compared to the AI's estimate.**
+- **Example: "유저가 제시한 가격 7,000원은 AI가 산출한 1일 대여 적정가 5,000원보다 40% 높아 적정가보다 비쌉니다."**
 
 ## Output Format
 Respond ONLY in the following JSON format:
 
 {
-  "dailyRentalPrice": integer,
+  "estimatedPrice": integer, // AI가 판단한 중고 시세(평균)
+  "estimatedDailyRentalPrice": integer, // 위 시세를 기반으로 계산한 1일 대여 적정가
   "sources": {
     "쿠팡": integer,
     "당근마켓": integer,
@@ -136,8 +147,7 @@ Respond ONLY in the following JSON format:
       contentRaw.includes("can't assist") ||
       contentRaw.includes('I cannot')
     ) {
-      console.error('AI rejected request for product:', productId);
-      return;
+      throw new CustomError(400, 'AI_REJECTED', AI_MESSAGES.AI_REJECTED);
     }
 
     let content = contentRaw;
@@ -159,38 +169,41 @@ Respond ONLY in the following JSON format:
     try {
       parsed = JSON.parse(content);
     } catch (parseErr) {
-      console.error(
-        'AI parse error for product:',
-        productId,
-        'Response:',
-        contentRaw,
+      throw new CustomError(
+        500,
+        'AI_JSON_BLOCK_NOT_FOUND',
+        AI_MESSAGES.AI_JSON_BLOCK_NOT_FOUND,
       );
-      return;
     }
 
     // 필수 필드 검증
     if (
-      !parsed.dailyRentalPrice ||
+      !parsed.estimatedPrice ||
+      !parsed.estimatedDailyRentalPrice ||
       !parsed.sources ||
       typeof parsed.isValid !== 'boolean' ||
       !parsed.reason
     ) {
-      console.error(
-        'AI invalid response for product:',
-        productId,
-        'Response:',
-        contentRaw,
+      throw new CustomError(
+        500,
+        'AI_INVALID_RESPONSE',
+        AI_MESSAGES.AI_INVALID_RESPONSE,
       );
-      return;
     }
 
     // AI 응답에서 필요한 필드만 추출
-    const { dailyRentalPrice, sources, isValid, reason } = parsed;
+    const {
+      estimatedPrice,
+      estimatedDailyRentalPrice,
+      sources,
+      isValid,
+      reason,
+    } = parsed;
 
     // 필요한 필드만 명시적으로 전달
     const estimationData = {
-      estimatedDailyRentalPrice: dailyRentalPrice,
-      estimatedPrice: dailyRentalPrice,
+      estimatedDailyRentalPrice,
+      estimatedPrice,
       sources: sources || {},
       isValid: isValid || false,
       reason: reason || '',
@@ -201,12 +214,16 @@ Respond ONLY in the following JSON format:
     await saveAiPriceEstimation(estimationData);
     console.log('AI price estimation completed for product:', productId);
   } catch (error) {
-    console.error(
-      'AI price estimation failed for product:',
-      productId,
-      'Error:',
-      error.message,
-    );
+    // CustomError가 아니면 래핑해서 throw
+    if (error instanceof CustomError) {
+      throw error;
+    } else {
+      throw new CustomError(
+        500,
+        'AI_PROCESSING_ERROR',
+        AI_MESSAGES.AI_PROCESSING_ERROR,
+      );
+    }
   }
 };
 
@@ -233,7 +250,6 @@ export const requestAiPriceEstimation = async ({ productId, adminUser }) => {
   });
 
   return {
-    message: AI_MESSAGES.PRICE_ESTIMATION_STARTED,
     productId,
     status: 'processing',
   };
@@ -404,6 +420,7 @@ export const getRecentPriceEstimations = async ({ take = 20, skip = 0 }) => {
       productTitle: estimation.product.title,
       estimatedPrice: estimation.estimatedPrice,
       estimatedDailyRentalPrice: estimation.estimatedDailyRentalPrice,
+      userPrice: estimation.product.price,
       isValid: estimation.isValid,
       reason: estimation.reason,
       sources: estimation.sources,

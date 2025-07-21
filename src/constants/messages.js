@@ -54,6 +54,10 @@ export const AI_MESSAGES = {
   REVIEW_NOT_FOUND: '리뷰를 찾을 수 없습니다.',
   RECENT_PRICE_ESTIMATION_LIST_FETCHED:
     '최근 AI 가격 추정 목록을 조회했습니다.',
+  AI_PROCESSING_ERROR: 'AI 가격 추정 처리 중 오류가 발생했습니다.',
+  AI_REJECTED: 'AI 가격 추정 요청이 거절되었습니다.',
+  AI_JSON_BLOCK_NOT_FOUND: 'AI 응답이 JSON 파싱에 실패하였습니다.',
+  AI_INVALID_RESPONSE: 'AI 응답에 필수 필드가 누락되었습니다.',
 };
 
 export const PAYMENT_MESSAGES = {
