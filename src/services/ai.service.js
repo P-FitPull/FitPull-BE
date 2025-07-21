@@ -25,12 +25,18 @@ const processAiPriceEstimation = async ({ productId, adminUser }) => {
   try {
     const product = await findProductByIdRepo(productId);
     if (!product) {
-      console.error(`Product not found: ${productId}`);
-      return;
+      throw new CustomError(
+        404,
+        'PRODUCT_NOT_FOUND',
+        AI_MESSAGES.PRODUCT_NOT_FOUND,
+      );
     }
     if (product.status !== 'PENDING') {
-      console.error(`Invalid product status: ${product.status}`);
-      return;
+      throw new CustomError(
+        400,
+        'INVALID_PRODUCT_STATUS',
+        AI_MESSAGES.INVALID_PRODUCT_STATUS,
+      );
     }
 
     const { title, description, price, imageUrls } = product;
@@ -136,8 +142,7 @@ Respond ONLY in the following JSON format:
       contentRaw.includes("can't assist") ||
       contentRaw.includes('I cannot')
     ) {
-      console.error('AI rejected request for product:', productId);
-      return;
+      throw new CustomError(400, 'AI_REJECTED', AI_MESSAGES.AI_REJECTED);
     }
 
     let content = contentRaw;
@@ -159,13 +164,11 @@ Respond ONLY in the following JSON format:
     try {
       parsed = JSON.parse(content);
     } catch (parseErr) {
-      console.error(
-        'AI parse error for product:',
-        productId,
-        'Response:',
-        contentRaw,
+      throw new CustomError(
+        500,
+        'AI_JSON_BLOCK_NOT_FOUND',
+        AI_MESSAGES.AI_JSON_BLOCK_NOT_FOUND,
       );
-      return;
     }
 
     // 필수 필드 검증
@@ -175,13 +178,11 @@ Respond ONLY in the following JSON format:
       typeof parsed.isValid !== 'boolean' ||
       !parsed.reason
     ) {
-      console.error(
-        'AI invalid response for product:',
-        productId,
-        'Response:',
-        contentRaw,
+      throw new CustomError(
+        500,
+        'AI_INVALID_RESPONSE',
+        AI_MESSAGES.AI_INVALID_RESPONSE,
       );
-      return;
     }
 
     // AI 응답에서 필요한 필드만 추출
@@ -201,12 +202,16 @@ Respond ONLY in the following JSON format:
     await saveAiPriceEstimation(estimationData);
     console.log('AI price estimation completed for product:', productId);
   } catch (error) {
-    console.error(
-      'AI price estimation failed for product:',
-      productId,
-      'Error:',
-      error.message,
-    );
+    // CustomError가 아니면 래핑해서 throw
+    if (error instanceof CustomError) {
+      throw error;
+    } else {
+      throw new CustomError(
+        500,
+        'AI_PROCESSING_ERROR',
+        AI_MESSAGES.AI_PROCESSING_ERROR,
+      );
+    }
   }
 };
 
