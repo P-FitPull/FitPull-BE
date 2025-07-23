@@ -196,8 +196,13 @@ const router = express.Router();
  *                             type: string
  *                           estimatedPrice:
  *                             type: integer
+ *                             description: AI가 평가한 중고 시세(평균)
  *                           estimatedDailyRentalPrice:
  *                             type: integer
+ *                             description: AI가 평가한 1일 대여 적정가
+ *                           userPrice:
+ *                             type: integer
+ *                             description: 상품 등록자가 입력한 가격
  *                           isValid:
  *                             type: boolean
  *                             description: |
